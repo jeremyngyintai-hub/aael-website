@@ -296,6 +296,136 @@
     section{padding:66px 0}
     .wordmark small{display:none}
   }
+
+  /* ---------- inquiry assistant ---------- */
+  .chat-fab{
+    position:fixed;right:22px;bottom:22px;z-index:90;
+    width:58px;height:58px;border-radius:50%;border:none;cursor:pointer;
+    background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:var(--btn-txt);
+    font-size:1.45rem;display:grid;place-items:center;
+    box-shadow:0 8px 30px var(--glow),0 4px 14px rgba(0,0,0,.25);
+    transition:transform .2s,box-shadow .25s;
+  }
+  .chat-fab:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 10px 38px var(--glow)}
+  .chat-panel{
+    position:fixed;right:22px;bottom:92px;z-index:91;
+    width:370px;max-width:calc(100vw - 32px);height:520px;max-height:calc(100vh - 120px);
+    display:none;flex-direction:column;overflow:hidden;
+    border:1px solid var(--line);border-radius:18px;background:var(--bg-2);
+    box-shadow:0 24px 70px rgba(0,0,0,.35);
+  }
+  .chat-panel.open{display:flex}
+  .chat-head{
+    display:flex;align-items:center;gap:11px;padding:15px 18px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:var(--btn-txt);
+  }
+  .chat-head .dot{width:9px;height:9px;border-radius:50%;background:#7CE38B;box-shadow:0 0 8px #7CE38B}
+  .chat-head .t{font-family:var(--display);font-weight:700;font-size:.98rem;line-height:1.2}
+  .chat-head .s{font-size:.7rem;opacity:.85}
+  .chat-head .x{margin-left:auto;background:none;border:none;color:var(--btn-txt);font-size:1.15rem;cursor:pointer;opacity:.85}
+  .chat-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
+  .msg{max-width:84%;padding:10px 14px;border-radius:14px;font-size:.88rem;line-height:1.55;white-space:pre-line}
+  .msg.bot{align-self:flex-start;background:var(--panel-2);border:1px solid var(--line-soft);color:var(--txt);border-bottom-left-radius:4px}
+  .msg.me{align-self:flex-end;background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:var(--btn-txt);border-bottom-right-radius:4px}
+  .msg.bot a{color:var(--accent-hi);font-weight:600;text-decoration:underline}
+  .typing{align-self:flex-start;padding:12px 16px;border-radius:14px;background:var(--panel-2);border:1px solid var(--line-soft);display:flex;gap:5px}
+  .typing i{width:6px;height:6px;border-radius:50%;background:var(--dim);animation:tp 1s infinite}
+  .typing i:nth-child(2){animation-delay:.18s}.typing i:nth-child(3){animation-delay:.36s}
+  @keyframes tp{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;padding:0 16px 10px;background:var(--bg)}
+  .chipq{
+    font-size:.74rem;font-weight:600;color:var(--accent-hi);background:var(--glow);
+    border:1px solid var(--line);border-radius:100px;padding:6px 12px;cursor:pointer;transition:all .2s;
+  }
+  .chipq:hover{border-color:var(--accent)}
+  .chat-in{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line-soft);background:var(--bg-2)}
+  .chat-in input{
+    flex:1;border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:.88rem;
+    background:var(--bg);color:var(--txt);font-family:var(--body);outline:none;
+  }
+  .chat-in input:focus{border-color:var(--accent)}
+  .chat-in button{
+    border:none;border-radius:10px;padding:0 16px;cursor:pointer;font-size:1.05rem;
+    background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:var(--btn-txt);
+  }
+  @media (max-width:480px){
+    .chat-panel{right:16px;left:16px;width:auto;bottom:86px;height:64vh}
+    .chat-fab{right:16px;bottom:16px}
+  }
+
+
+  /* ---------- process steps ---------- */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;counter-reset:st}
+  .step{
+    position:relative;border:1px solid var(--line);border-radius:var(--r);padding:30px 26px;
+    background:var(--panel);box-shadow:var(--shadow);transition:border-color .3s,transform .25s;
+  }
+  .step:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .step .n{
+    font-family:var(--display);font-weight:800;font-size:2.1rem;line-height:1;
+    background:linear-gradient(120deg,var(--accent-hi),var(--accent));
+    -webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:14px;
+  }
+  .step:not(:last-child)::after{
+    content:"→";position:absolute;top:34px;right:-16px;color:var(--accent);font-size:1.1rem;z-index:2;
+  }
+  .step h3{font-family:var(--display);font-weight:700;font-size:1.08rem;margin-bottom:6px}
+  .step .tb{
+    display:inline-block;font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;color:var(--accent);
+    border:1px solid var(--line);background:var(--glow);border-radius:100px;padding:4px 10px;margin-bottom:12px;
+  }
+  .step p{color:var(--dim);font-size:.88rem}
+  .steps-note{margin-top:22px;font-size:.78rem;color:var(--dim);opacity:.85}
+
+  /* ---------- testimonials ---------- */
+  .quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .quote{
+    border:1px solid var(--line);border-radius:var(--r);padding:32px 28px;background:var(--panel);
+    box-shadow:var(--shadow);position:relative;transition:border-color .3s,transform .25s;
+  }
+  .quote:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .quote .qm{
+    font-family:var(--display);font-size:2.6rem;line-height:0;color:var(--accent);opacity:.9;display:block;margin:14px 0 8px;
+  }
+  .quote p{font-size:.95rem;line-height:1.7;color:var(--txt)}
+  .quote .who{
+    margin-top:18px;padding-top:14px;border-top:1px solid var(--line-soft);
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);
+  }
+
+  /* ---------- inquiry form ---------- */
+  .form-card{
+    border:1px solid var(--line);border-radius:var(--r);padding:30px 28px;background:var(--panel);box-shadow:var(--shadow);
+  }
+  .form-card label{display:block;font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin:16px 0 7px}
+  .form-card label:first-of-type{margin-top:0}
+  .form-card input,.form-card textarea{
+    width:100%;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:.92rem;
+    background:var(--bg);color:var(--txt);font-family:var(--body);outline:none;transition:border-color .2s;
+  }
+  .form-card input:focus,.form-card textarea:focus{border-color:var(--accent)}
+  .form-card textarea{resize:vertical;min-height:110px}
+  .form-card .req{color:var(--accent)}
+  .form-send{width:100%;margin-top:22px;border:none;cursor:pointer;font-family:var(--body)}
+  .form-send[disabled]{opacity:.6;cursor:wait}
+  .form-ok{
+    text-align:center;padding:36px 10px;
+  }
+  .form-ok .big{font-size:2rem;margin-bottom:12px}
+  .form-ok h3{font-family:var(--display);font-weight:700;font-size:1.2rem;margin-bottom:8px}
+  .form-ok p{color:var(--dim);font-size:.92rem}
+  .form-err{display:none;margin-top:14px;font-size:.84rem;color:var(--dim);border:1px dashed var(--accent);border-radius:10px;padding:12px 14px;background:var(--glow)}
+  .form-err a{color:var(--accent-hi);font-weight:600;text-decoration:underline}
+
+  @media (max-width:940px){
+    .steps{grid-template-columns:repeat(2,1fr)}
+    .step:not(:last-child)::after{display:none}
+    .quotes{grid-template-columns:1fr}
+  }
+  @media (max-width:560px){
+    .steps{grid-template-columns:1fr}
+  }
+
 </style>
 </head>
 <body>
@@ -309,6 +439,7 @@
     <div class="nav-right">
       <nav class="nav-links">
         <a href="#services"><span class="en">Services</span><span class="zh">服務範疇</span></a>
+        <a href="#process"><span class="en">Process</span><span class="zh">服務流程</span></a>
         <a href="#experience"><span class="en">Experience</span><span class="zh">項目往績</span></a>
         <a href="#team"><span class="en">Team</span><span class="zh">專業團隊</span></a>
         <a href="#contact" class="cta"><span class="en">Get a fee proposal</span><span class="zh">索取收費建議</span></a>
@@ -421,6 +552,45 @@
   </div>
 </section>
 
+
+<!-- ============ PROCESS ============ -->
+<section id="process">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2><span class="en">How we work</span><span class="zh">服務流程</span></h2>
+      <span class="sec-note"><span class="en">Four steps</span><span class="zh">四個步驟</span></span>
+    </div>
+    <p class="sec-intro rv"><span class="en">No mystery, no runaround. Here's what engaging us actually looks like:</span><span class="zh">沒有懸念，不兜圈子。委託我們的實際流程如下：</span></p>
+    <div class="steps rv">
+      <div class="step">
+        <div class="n">1</div>
+        <h3><span class="en">Site visit</span><span class="zh">實地視察</span></h3>
+        <span class="tb"><span class="en">Typically within one week</span><span class="zh">一般一星期內</span></span>
+        <p><span class="en">We walk the building with you, understand the issue first-hand and gather what we need. No obligation at this stage.</span><span class="zh">我們與您親身視察樓宇，第一手了解問題並掌握所需資料。此階段絕無任何約束。</span></p>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <h3><span class="en">Fee proposal</span><span class="zh">收費建議</span></h3>
+        <span class="tb"><span class="en">Within 2 working days of the visit</span><span class="zh">視察後兩個工作天內</span></span>
+        <p><span class="en">A written scope, fee and programme in plain language — no padding. You decide with full information in hand.</span><span class="zh">白紙黑字列明服務範圍、收費及時間表——直截了當，絕無灌水。您可在資訊充足下作決定。</span></p>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <h3><span class="en">Submission &amp; works</span><span class="zh">入則及工程</span></h3>
+        <span class="tb"><span class="en">Programme agreed up front</span><span class="zh">時間表預先議定</span></span>
+        <p><span class="en">We prepare, submit and chase the Buildings Department so you don't have to, and supervise works where appointed. Statutory processing typically runs around two months per submission.</span><span class="zh">由預備文件、入則到跟進屋宇署審批，全部由我們負責；獲委任時亦會監督工程。法定審批一般每次入則約需兩個月。</span></p>
+      </div>
+      <div class="step">
+        <div class="n">4</div>
+        <h3><span class="en">Sign-off</span><span class="zh">簽核完工</span></h3>
+        <span class="tb"><span class="en">On completion</span><span class="zh">工程完成後</span></span>
+        <p><span class="en">Completion certification, final documentation and a tidy handover — nothing left open, nothing left for you to chase.</span><span class="zh">完工核證、最終文件及妥善交收——不留尾巴，無需您再追進度。</span></p>
+      </div>
+    </div>
+    <p class="steps-note rv"><span class="en">Timeframes shown are typical and depend on project scope and Buildings Department processing.</span><span class="zh">上述時間僅屬一般情況，實際視乎項目範圍及屋宇署審批進度而定。</span></p>
+  </div>
+</section>
+
 <!-- ============ EXPERIENCE ============ -->
 <section id="experience">
   <div class="wrap">
@@ -463,6 +633,37 @@
     <div class="confid rv">
       <span class="ic">🔒</span>
       <p><span class="en"><strong>A word on confidentiality.</strong> We don't publish client names or contract details — the owners we work for expect that, and frankly, so should yours. References for specific project types are available on request, with our clients' consent.</span><span class="zh"><strong>關於保密。</strong>我們不公開客戶名稱及合約詳情——我們服務的業主有此期望，您的顧問也理應如此。如有需要，可在客戶同意下按項目類別提供參考資料。</span></p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ TESTIMONIALS ============ -->
+<!-- IMPORTANT: The three quotes below are PLACEHOLDERS to show the design.
+     Replace each with a REAL client quote (with the client's consent) before
+     treating this section as final. Keep attributions role-based, not named. -->
+<section id="voices">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2><span class="en">What clients say</span><span class="zh">客戶評價</span></h2>
+      <span class="sec-note"><span class="en">In their words</span><span class="zh">客戶之言</span></span>
+    </div>
+    <div class="quotes rv">
+      <div class="quote"><!-- PLACEHOLDER: replace with real client quote -->
+        <span class="qm">"</span>
+        <p><span class="en">They altered our property while we stayed fully open — most guests never knew works were underway.</span><span class="zh">工程期間我們照常營業，大部分住客根本不察覺有工程進行。</span></p>
+        <div class="who"><span class="en">Executive · Luxury hotel group</span><span class="zh">豪華酒店集團 · 管理層</span></div>
+      </div>
+      <div class="quote"><!-- PLACEHOLDER: replace with real client quote -->
+        <span class="qm">"</span>
+        <p><span class="en">The survey report told us exactly what to fix first. For the first time we could budget with confidence.</span><span class="zh">勘察報告清楚指出應先修葺甚麼。我們首次能夠有信心地編定維修預算。</span></p>
+        <div class="who"><span class="en">Property manager · Residential estate</span><span class="zh">住宅屋苑 · 物業經理</span></div>
+      </div>
+      <div class="quote"><!-- PLACEHOLDER: replace with real client quote -->
+        <span class="qm">"</span>
+        <p><span class="en">Submissions were handled start to finish — we never had to chase once.</span><span class="zh">入則由頭到尾一手包辦，我們一次也不用追進度。</span></p>
+        <div class="who"><span class="en">Facilities lead · Industrial operator</span><span class="zh">工業設施 · 營運負責人</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -537,23 +738,44 @@
       <div class="eyebrow"><span class="en">Get in touch</span><span class="zh">聯絡我們</span></div>
       <h2><span class="en">Tell us about your building.</span><span class="zh">告訴我們您的樓宇需要。</span></h2>
       <p class="lead"><span class="en">Send us the address and what's on your mind. You'll get a straight answer within two working days — scope, fee and timeline, no runaround.</span><span class="zh">告訴我們樓宇地址及您的疑問，兩個工作天內必有清晰回覆——服務範圍、收費及時間表，絕不轉彎抹角。</span></p>
-      <a href="mailto:aaelhk.info@gmail.com" class="btn btn-primary"><span class="en">Email the practice</span><span class="zh">電郵聯絡我們</span></a>
+      <div class="c-list">
+        <div class="c-item">
+          <span class="k"><span class="en">Email</span><span class="zh">電郵</span></span>
+          <span class="v"><a href="mailto:aaelhk.info@gmail.com">aaelhk.info@gmail.com</a></span>
+        </div>
+        <div class="c-item">
+          <span class="k">Instagram</span>
+          <span class="v"><a href="https://www.instagram.com/ascendarchitecture_engineering/" target="_blank" rel="noopener">@ascendarchitecture_engineering</a></span>
+        </div>
+        <div class="c-item">
+          <span class="k"><span class="en">Office</span><span class="zh">辦公室</span></span>
+          <span class="v addr">
+            <span class="en">Room 709, 7/F, Wing On Plaza,<br>62 Mody Road, Tsim Sha Tsui East,<br>Kowloon, Hong Kong</span>
+            <span class="zh">香港九龍尖沙咀東部<br>麼地道62號永安廣場<br>7樓709室</span>
+          </span>
+        </div>
+      </div>
     </div>
-    <div class="c-list rv">
-      <div class="c-item">
-        <span class="k"><span class="en">Email</span><span class="zh">電郵</span></span>
-        <span class="v"><a href="mailto:aaelhk.info@gmail.com">aaelhk.info@gmail.com</a></span>
-      </div>
-      <div class="c-item">
-        <span class="k">Instagram</span>
-        <span class="v"><a href="https://www.instagram.com/ascendarchitecture_engineering/" target="_blank" rel="noopener">@ascendarchitecture_engineering</a></span>
-      </div>
-      <div class="c-item">
-        <span class="k"><span class="en">Office</span><span class="zh">辦公室</span></span>
-        <span class="v addr">
-          <span class="en">Room 709, 7/F, Wing On Plaza,<br>62 Mody Road, Tsim Sha Tsui East,<br>Kowloon, Hong Kong</span>
-          <span class="zh">香港九龍尖沙咀東部<br>麼地道62號永安廣場<br>7樓709室</span>
-        </span>
+    <div class="rv">
+      <form class="form-card" id="inq-form" novalidate>
+        <label><span class="en">Your name <i class="req">*</i></span><span class="zh">姓名 <i class="req">*</i></span></label>
+        <input type="text" id="f-name" required>
+        <label><span class="en">Email or phone <i class="req">*</i></span><span class="zh">電郵或電話 <i class="req">*</i></span></label>
+        <input type="text" id="f-contact" required>
+        <label><span class="en">Building address</span><span class="zh">樓宇地址</span></label>
+        <input type="text" id="f-address">
+        <label><span class="en">What do you need? <i class="req">*</i></span><span class="zh">您的需要 <i class="req">*</i></span></label>
+        <textarea id="f-msg" required></textarea>
+        <input type="text" id="f-hp" style="display:none" tabindex="-1" autocomplete="off">
+        <button type="submit" class="btn btn-primary form-send" id="f-send"><span class="en">Send inquiry</span><span class="zh">送出查詢</span></button>
+        <div class="form-err" id="f-err">
+          <span class="en">Hmm, that didn't go through. Please email us directly instead: </span><span class="zh">未能成功送出，請直接電郵至：</span><a href="mailto:aaelhk.info@gmail.com" id="f-mailto">aaelhk.info@gmail.com</a>
+        </div>
+      </form>
+      <div class="form-card form-ok" id="inq-ok" style="display:none">
+        <div class="big">✓</div>
+        <h3><span class="en">Inquiry received</span><span class="zh">已收到您的查詢</span></h3>
+        <p><span class="en">Thanks — we'll come back to you within two working days with a straight answer.</span><span class="zh">多謝查詢——我們將於兩個工作天內給您清晰回覆。</span></p>
       </div>
     </div>
   </div>
@@ -590,12 +812,10 @@
     try{localStorage.setItem('aae-theme', themeOverride);}catch(e){}
   }
   (function init(){
-    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    /* default is always light mode; visitors can toggle to dark,
+       and their choice is remembered on return visits */
     try{themeOverride = localStorage.getItem('aae-theme');}catch(e){}
-    applyTheme(themeOverride || (mq.matches ? 'dark' : 'light'));
-    mq.addEventListener('change', function(e){
-      if(!themeOverride) applyTheme(e.matches ? 'dark' : 'light');
-    });
+    applyTheme(themeOverride === 'dark' ? 'dark' : 'light');
     var savedLang = null;
     try{savedLang = localStorage.getItem('aae-lang');}catch(e){}
     if(savedLang) setLang(savedLang);
@@ -609,5 +829,187 @@
     document.querySelector('.nav-links').classList.remove('open');
   })});
 </script>
+
+<!-- ============ INQUIRY ASSISTANT ============ -->
+<button class="chat-fab" id="chat-fab" aria-label="Open inquiry assistant" onclick="chatToggle()">💬</button>
+<div class="chat-panel" id="chat-panel" role="dialog" aria-label="Inquiry assistant">
+  <div class="chat-head">
+    <span class="dot"></span>
+    <div>
+      <div class="t"><span class="en">AAE Assistant</span><span class="zh">AAE 智能助理</span></div>
+      <div class="s"><span class="en">General inquiries · replies instantly</span><span class="zh">一般查詢 · 即時回覆</span></div>
+    </div>
+    <button class="x" aria-label="Close" onclick="chatToggle()">✕</button>
+  </div>
+  <div class="chat-body" id="chat-body"></div>
+  <div class="chips" id="chat-chips"></div>
+  <div class="chat-in">
+    <input id="chat-input" type="text" autocomplete="off">
+    <button onclick="chatSend()" aria-label="Send">➤</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var EMAIL='aaelhk.info@gmail.com';
+  var MAILTO='<a href="mailto:'+EMAIL+'">'+EMAIL+'</a>';
+  var IG='<a href="https://www.instagram.com/ascendarchitecture_engineering/" target="_blank" rel="noopener">@ascendarchitecture_engineering</a>';
+  function isZH(){return document.body.classList.contains('lang-zh');}
+
+  var INTENTS=[
+    {k:['fee','quote','cost','price','charge','how much','proposal','收費','報價','費用','幾錢','價錢'],
+     en:'Every building is different, so we don\u2019t do standard price lists \u2014 but quotes are free and fast. Email us the building address and what you need at '+EMAIL+' and you\u2019ll get a clear scope, fee and timeline within two working days.',
+     zh:'每幢樓宇情況不同，我們不設劃一收費 \u2014 但報價費用全免、回覆迅速。請將樓宇地址及需求電郵至 '+EMAIL+'，兩個工作天內必有清晰的服務範圍、收費及時間表。'},
+    {k:['mbis','mandatory','inspection scheme','驗樓','強制驗樓','驗窗'],
+     en:'Yes \u2014 Mandatory Building Inspection Scheme (MBIS) consultancy is one of our core services. Our Registered Professional Surveyors handle the inspection, reporting and any follow-up repair consultancy. Received a statutory notice? Email it to us and we\u2019ll advise your next steps.',
+     zh:'有的 \u2014 強制驗樓計劃（MBIS）顧問是我們核心服務之一。註冊建築測量師會處理檢驗、報告及後續修葺顧問。如已收到法定通知，歡迎電郵給我們，我們會建議下一步安排。'},
+    {k:['survey','condition','defect','leak','crack','diagnos','勘察','缺陷','滲漏','裂'],
+     en:'Our Registered Professional Surveyors carry out full condition surveys and defect diagnostics \u2014 from single premises to multi-block estates. You\u2019ll get a report that tells you what can wait and what can\u2019t. Email '+EMAIL+' with the building address to get started.',
+     zh:'我們的註冊建築測量師提供全面樓宇狀況勘察及缺陷診斷 \u2014 由單一處所到多座屋苑均可。報告會清楚指出哪些問題可以等、哪些不能等。請電郵樓宇地址至 '+EMAIL+' 開始安排。'},
+    {k:['a&a','alteration','addition','renovat','hotel','fit out','fitout','改建','加建','翻新','裝修','酒店'],
+     en:'We provide full A&A (alterations & additions) consultancy \u2014 design, statutory submissions and project management. We\u2019ve upgraded a five-star hotel without costing it a single room-night, so live premises don\u2019t scare us. Tell us about your plans at '+EMAIL+'.',
+     zh:'我們提供全面改建及加建（A&A）顧問服務 \u2014 包括設計、法定入則及項目管理。我們曾在五星級酒店照常營業下完成提升工程，營運中的處所絕對難不倒我們。歡迎電郵 '+EMAIL+' 商談。'},
+    {k:['structural','structure','rse','calculation','engineer','結構','計算'],
+     en:'Our in-house Registered Structural Engineer team handles structural calculations, inspections, assessments and technical reports for statutory approval \u2014 built to pass checking the first time.',
+     zh:'我們的駐司註冊結構工程師團隊負責結構計算、檢測、評估及法定審批技術報告 \u2014 以一次過通過審查為標準。'},
+    {k:['ap ','authorized person','authorised','submission','buildings department','bd ','statutory','入則','認可人士','屋宇署','法定'],
+     en:'We have an Authorized Person (AP) in-house, registered with the Buildings Department. We handle statutory submissions, independent checking, certification and repair supervision \u2014 and we carry the statutory responsibility ourselves.',
+     zh:'我們的認可人士（AP）為屋宇署註冊，可處理法定入則、獨立審查、核證及修葺工程監督 \u2014 法定責任由我們一力承擔。'},
+    {k:['service','what do you do','help','can you','服務','範疇','做咩','做什麼'],
+     en:'Four things, all under one roof:\n1. Authorized Person (AP) statutory services\n2. Condition surveys & diagnostics (incl. MBIS)\n3. Structural engineering (RSE)\n4. A&A design & project management\n\nWhich one is closest to what you need?',
+     zh:'四大服務，同屬一司：\n1. 認可人士（AP）法定服務\n2. 樓宇狀況勘察及診斷（包括強制驗樓）\n3. 結構工程（RSE）\n4. 改建加建設計及項目管理\n\n哪一項最接近您的需要？'},
+    {k:['address','office','location','where','find you','地址','地點','邊度','喺邊','辦公室'],
+     en:'Our office:\nRoom 709, 7/F, Wing On Plaza,\n62 Mody Road, Tsim Sha Tsui East,\nKowloon, Hong Kong\n\nVisits by appointment \u2014 drop us a line first at '+EMAIL+'.',
+     zh:'辦公室地址：\n香港九龍尖沙咀東部\n麼地道62號永安廣場7樓709室\n\n到訪請先預約 \u2014 歡迎電郵 '+EMAIL+'。'},
+    {k:['contact','email','reach','instagram','whatsapp','phone','call','聯絡','電郵','電話','ig'],
+     en:'The fastest way to reach us is email: '+MAILTO+'\nWe reply within two working days.\n\nYou can also follow our work on Instagram: '+IG,
+     zh:'最快的聯絡方法是電郵：'+MAILTO+'\n我們會於兩個工作天內回覆。\n\n亦歡迎於 Instagram 關注我們的項目：'+IG},
+    {k:['team','qualification','who','registered','surveyor','資格','團隊','邊個','測量師'],
+     en:'Three professional registrations under one roof: an Authorized Person (AP), a Registered Structural Engineer (RSE) \u2014 both Buildings Department registered \u2014 plus Registered Professional Surveyors. Every project is led directly by our registered professionals.',
+     zh:'三項專業註冊資格同屬一司：屋宇署註冊的認可人士（AP）及註冊結構工程師（RSE），以及註冊建築測量師。每個項目均由註冊專業人士親自主理。'},
+    {k:['hello','hi ','hey','你好','哈囉','早晨'],
+     en:'Hello! I can answer general questions about our services, fees, MBIS, surveys and how to reach us. What would you like to know?',
+     zh:'您好！我可以解答有關服務、收費、強制驗樓、勘察及聯絡方法的一般查詢。請問想了解甚麼？'},
+    {k:['thank','thanks','唔該','多謝','謝謝'],
+     en:'You\u2019re welcome! If anything else comes up, I\u2019m here \u2014 or email us directly at '+EMAIL+'.',
+     zh:'不客氣！如有其他問題歡迎隨時再問 \u2014 亦可直接電郵 '+EMAIL+'。'}
+  ];
+  var FALLBACK={
+    en:'Good question \u2014 that one deserves a proper answer from the team rather than a canned reply. Email us at '+MAILTO+' and you\u2019ll hear back within two working days. Or try asking me about services, fees, surveys, MBIS or our address.',
+    zh:'好問題 \u2014 這個值得由團隊親自回覆，而不是罐頭答案。請電郵至 '+MAILTO+'，兩個工作天內必有回音。您也可以問我服務、收費、勘察、強制驗樓或地址等問題。'};
+  var CHIPS=[
+    {en:'What do you do?',zh:'你們提供甚麼服務？'},
+    {en:'How much does it cost?',zh:'收費如何？'},
+    {en:'MBIS notice received',zh:'收到強制驗樓通知'},
+    {en:'Where are you?',zh:'辦公室在哪裡？'}
+  ];
+
+  var opened=false, greeted=false;
+  window.chatToggle=function(){
+    opened=!opened;
+    document.getElementById('chat-panel').classList.toggle('open',opened);
+    if(opened&&!greeted){greeted=true;botSay(isZH()
+      ?'您好！歡迎查詢 AAE 躍昇建築事務顧問。我可以解答服務、收費及聯絡等一般問題。'
+      :'Hi! Welcome to AAE. Ask me anything general \u2014 services, fees, MBIS, or how to reach the team.');}
+    if(opened)renderChips();
+    if(opened)document.getElementById('chat-input').focus();
+  };
+  function el(t,c,h){var e=document.createElement(t);e.className=c;e.innerHTML=h;return e;}
+  function scroll(){var b=document.getElementById('chat-body');b.scrollTop=b.scrollHeight;}
+  function botSay(html){
+    var b=document.getElementById('chat-body');
+    var tp=el('div','typing','<i></i><i></i><i></i>');
+    b.appendChild(tp);scroll();
+    setTimeout(function(){tp.remove();b.appendChild(el('div','msg bot',html));scroll();},520);
+  }
+  function meSay(t){var b=document.getElementById('chat-body');var d=el('div','msg me','');d.textContent=t;b.appendChild(d);scroll();}
+  function answer(q){
+    var s=(' '+q+' ').toLowerCase();
+    for(var i=0;i<INTENTS.length;i++){
+      for(var j=0;j<INTENTS[i].k.length;j++){
+        if(s.indexOf(INTENTS[i].k[j])>-1)return isZH()?INTENTS[i].zh:INTENTS[i].en;
+      }
+    }
+    return isZH()?FALLBACK.zh:FALLBACK.en;
+  }
+  window.chatSend=function(txt){
+    var inp=document.getElementById('chat-input');
+    var q=(typeof txt==='string')?txt:inp.value.trim();
+    if(!q)return;
+    if(typeof txt!=='string')inp.value='';
+    meSay(q);
+    setTimeout(function(){botSay(answer(q));},120);
+  };
+  function renderChips(){
+    var c=document.getElementById('chat-chips');c.innerHTML='';
+    CHIPS.forEach(function(ch){
+      var q=isZH()?ch.zh:ch.en;
+      var b=el('button','chipq','');b.textContent=q;
+      b.onclick=function(){chatSend(q);};
+      c.appendChild(b);
+    });
+    document.getElementById('chat-input').placeholder=isZH()?'輸入您的問題…':'Type your question\u2026';
+  }
+  document.getElementById('chat-input').addEventListener('keydown',function(e){if(e.key==='Enter')chatSend();});
+  var _setLang=window.setLang;
+  window.setLang=function(l){_setLang(l);renderChips();};
+  renderChips();
+})();
+</script>
+
+
+<script>
+(function(){
+  var form=document.getElementById('inq-form');
+  if(!form)return;
+  function zh(){return document.body.classList.contains('lang-zh');}
+  function ph(){
+    document.getElementById('f-name').placeholder=zh()?'例如：陳先生':'e.g. Mr. Chan';
+    document.getElementById('f-contact').placeholder=zh()?'方便我們回覆您':'So we can get back to you';
+    document.getElementById('f-address').placeholder=zh()?'選填，有助我們初步評估':'Optional, helps us assess early';
+    document.getElementById('f-msg').placeholder=zh()?'例如：收到強制驗樓通知／需要改建入則／樓宇滲漏勘察…':'e.g. MBIS notice received / A&A submission / leakage survey\u2026';
+  }
+  ph();
+  var _s=window.setLang;window.setLang=function(l){_s(l);ph();};
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=document.getElementById('f-name').value.trim();
+    var contact=document.getElementById('f-contact').value.trim();
+    var addr=document.getElementById('f-address').value.trim();
+    var msg=document.getElementById('f-msg').value.trim();
+    if(document.getElementById('f-hp').value)return; /* honeypot */
+    if(!name||!contact||!msg){
+      [['f-name',name],['f-contact',contact],['f-msg',msg]].forEach(function(p){
+        document.getElementById(p[0]).style.borderColor=p[1]?'':'var(--accent)';
+      });
+      return;
+    }
+    var btn=document.getElementById('f-send');
+    btn.disabled=true;btn.textContent=zh()?'送出中…':'Sending\u2026';
+    fetch('https://formsubmit.co/ajax/aaelhk.info@gmail.com',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({
+        _subject:'New inquiry via aael.online',
+        _template:'table',
+        Name:name,Contact:contact,'Building address':addr||'(not given)',Inquiry:msg
+      })
+    }).then(function(r){if(!r.ok)throw 0;return r.json();})
+    .then(function(){
+      form.style.display='none';
+      document.getElementById('inq-ok').style.display='block';
+    })
+    .catch(function(){
+      btn.disabled=false;
+      btn.innerHTML='<span class="en">Send inquiry</span><span class="zh">送出查詢</span>';
+      var mail=document.getElementById('f-mailto');
+      mail.href='mailto:aaelhk.info@gmail.com?subject='+encodeURIComponent('Inquiry via aael.online')
+        +'&body='+encodeURIComponent('Name: '+name+'\nContact: '+contact+'\nBuilding: '+addr+'\n\n'+msg);
+      document.getElementById('f-err').style.display='block';
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
