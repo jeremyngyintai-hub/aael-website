@@ -100,7 +100,7 @@
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{
-    font-family:var(--body);background:var(--bg);color:var(--txt);
+    font-family:var(--body);background:transparent;color:var(--txt);
     line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;
     transition:background .35s ease,color .35s ease;
   }
@@ -969,7 +969,7 @@
     </div>
     <div class="faq rv">
       <details>
-        <summary><span><span class="en">Why choose AAEL over a bigger firm?</span><span class="zh">為何選擇AAE，而非大型顧問公司？</span></span></summary>
+        <summary><span><span class="en">Why choose AAEL over a bigger firm?</span><span class="zh">為何選擇AAEL，而非大型顧問公司？</span></span></summary>
         <div class="ans">
           <span class="en"><strong>Because the people who sign are the people who show up.</strong> We keep an Authorized Person, a Registered Structural Engineer and Registered Professional Surveyors under one roof — and they personally run your project rather than delegating it down the line. You get delivery standards proven on a five-star heritage hotel, with the responsiveness and fees of a focused practice. And one accountable team means no finger-pointing between consultants when it matters.</span>
           <span class="zh"><strong>因為簽署的人，就是親身到場的人。</strong>認可人士（AP）、註冊結構工程師（RSE）及註冊建築測量師同屬一司，並親自主理您的項目，絕不層層下放。您以精簡團隊的收費與回應速度，享有經五星級歷史酒店驗證的執行標準。一個問責團隊，亦代表關鍵時刻絕無顧問之間互相推卸。</span>
@@ -979,7 +979,7 @@
         <summary><span><span class="en">What does an Authorized Person (AP) actually do — and do I need one?</span><span class="zh">認可人士（AP）究竟做甚麼？我需要嗎？</span></span></summary>
         <div class="ans">
           <span class="en">Under the Buildings Ordinance, most building works in Hong Kong must be prepared, submitted and supervised by an Authorized Person. The AP signs the statutory submissions, coordinates Buildings Department approval and carries the legal responsibility. In short: the BD requires a name on the drawings that takes responsibility — with us, that name is in-house, not borrowed.</span>
-          <span class="zh">根據《建築物條例》，香港大部分建築工程均須由認可人士草擬、入則及監督。AP須簽署法定文件、統籌屋宇署審批，並承擔法律責任。簡單而言：屋宇署要求圖則上有人承擔責任——在AAE，這位簽署人是駐司專業人士，並非外借掛名。</span>
+          <span class="zh">根據《建築物條例》，香港大部分建築工程均須由認可人士草擬、入則及監督。AP須簽署法定文件、統籌屋宇署審批，並承擔法律責任。簡單而言：屋宇署要求圖則上有人承擔責任——在AAEL，這位簽署人是駐司專業人士，並非外借掛名。</span>
         </div>
       </details>
       <details>
@@ -1118,7 +1118,7 @@
     document.getElementById('theme-btn').textContent = t==='dark' ? '☀' : '☾';
     /* pin the canvas so app webviews can't paint their own behind us */
     document.documentElement.style.backgroundColor = t==='dark' ? '#0A0C11' : '#F7F5F0';
-    document.body.style.backgroundColor = t==='dark' ? '#0A0C11' : '#F7F5F0';
+    document.body.style.backgroundColor = 'transparent';
     var meta = document.querySelector('meta[name="color-scheme"]');
     if(meta) meta.setAttribute('content', t==='dark' ? 'dark' : 'light');
   }
@@ -1442,7 +1442,7 @@
     var dark = document.body.classList.contains('dark');
     return dark
       ? {streak:'232,177,131', star:'206,143,90', maxA:.55, starA:.5}
-      : {streak:'146,73,26',  star:'146,73,26',  maxA:.30, starA:.28};
+      : {streak:'146,73,26',  star:'146,73,26',  maxA:.45, starA:.38};
   }
   var pal = palette();
   /* re-read palette when theme toggles */
