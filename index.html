@@ -700,6 +700,47 @@
   body.lang-cn{--display:'Noto Sans SC','Noto Sans TC','Archivo',sans-serif;--body:'Noto Sans SC','Noto Sans TC','Instrument Sans',sans-serif}
   .lang button{white-space:nowrap}
 
+
+  /* ---------- who we serve ---------- */
+  .aud-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .aud{border:1px solid var(--line);border-radius:var(--r);padding:22px 20px;background:var(--panel);box-shadow:var(--shadow);transition:border-color .25s,transform .25s}
+  .aud:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .aud .who{font-family:var(--display);font-weight:700;font-size:1rem;margin-bottom:6px}
+  .aud .need{font-size:.84rem;color:var(--dim);line-height:1.6}
+  /* ---------- verify badge ---------- */
+  .verify{
+    display:flex;gap:16px;align-items:flex-start;margin-top:30px;
+    border:1px solid var(--accent);border-radius:var(--r);padding:20px 24px;background:var(--glow);
+  }
+  .verify .vi{font-size:1.3rem;line-height:1.4}
+  .verify strong{display:block;font-family:var(--display);font-weight:700;margin-bottom:6px}
+  .verify p{font-size:.86rem;color:var(--dim);line-height:1.65}
+  .verify a{color:var(--accent-hi);font-weight:600;text-decoration:underline}
+  /* ---------- countdown ---------- */
+  .cd{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;
+    border:1px solid var(--accent);border-radius:var(--r);padding:18px 24px;background:var(--glow);margin-top:26px}
+  .cd .lbl{font-size:.86rem;color:var(--dim)}
+  .cd .num{font-family:var(--display);font-weight:800;font-size:1.9rem;line-height:1;
+    background:linear-gradient(120deg,var(--accent-hi),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .cd .unit{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;color:var(--accent);margin-left:6px}
+  /* ---------- self check ---------- */
+  .sc{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);box-shadow:var(--shadow);padding:30px 28px;margin-top:30px}
+  .sc h3{font-family:var(--display);font-weight:800;font-size:1.2rem;margin-bottom:6px}
+  .sc>p.i{font-size:.88rem;color:var(--dim);margin-bottom:20px}
+  .sc-q{border-top:1px solid var(--line-soft);padding:16px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+  .sc-q .qt{font-size:.94rem;font-weight:500;flex:1 1 260px}
+  .sc-btns{display:flex;gap:8px}
+  .sc-btns button{
+    border:1px solid var(--line);background:var(--bg2);color:var(--dim);border-radius:8px;
+    padding:8px 18px;font-size:.85rem;cursor:pointer;font-family:var(--body);transition:all .2s;
+  }
+  .sc-btns button.sel{background:var(--accent);border-color:var(--accent);color:var(--btn-txt);font-weight:600}
+  .sc-res{margin-top:20px;padding:20px 22px;border-radius:12px;border:1px solid var(--accent);background:var(--glow);display:none}
+  .sc-res.show{display:block}
+  .sc-res strong{display:block;font-family:var(--display);font-weight:700;font-size:1.05rem;margin-bottom:8px}
+  .sc-res p{font-size:.88rem;color:var(--dim);line-height:1.65}
+  .sc-res a{color:var(--accent-hi);font-weight:600;text-decoration:underline}
+
 </style>
 
 <script type="application/ld+json">
@@ -738,6 +779,7 @@
         <a href="#scope"><span class="en">Scope</span><span class="zh">服務範圍</span></a>
         <a href="#bhu"><span class="en">BHU</span><span class="zh">簡樸房</span></a>
         <a href="#process"><span class="en">Process</span><span class="zh">服務流程</span></a>
+        <a href="#audience"><span class="en">Who we serve</span><span class="zh">服務對象</span></a>
         <a href="#experience"><span class="en">Experience</span><span class="zh">項目往績</span></a>
         <a href="#team"><span class="en">Team</span><span class="zh">專業團隊</span></a>
         <a href="#knowledge"><span class="en">Guides</span><span class="zh">知識庫</span></a>
@@ -1017,12 +1059,55 @@
         <div class="tl-what"><strong><span class="en">Grace period ends</span><span class="zh">寬限期全面結束</span></strong><span class="d"><span class="en">From this date every let subdivided unit must hold a valid certification.</span><span class="zh">此日起，所有出租分間單位均須持有有效認證。</span></span></div>
       </div>
     </div>
+    <div class="cd rv" id="cd-box">
+      <div class="lbl"><span class="en">Time left to complete grace-period registration</span><span class="zh">距離寬限期登記截止</span></div>
+      <div><span class="num" id="cd-days">—</span><span class="unit"><span class="en">DAYS</span><span class="zh">日</span></span></div>
+      <div class="lbl"><span class="en">Deadline 28 Feb 2027</span><span class="zh">截止日期 2027年2月28日</span></div>
+    </div>
+
+    <div class="sc rv" id="selfcheck">
+      <h3><span class="en">Sixty-second self-check</span><span class="zh">六十秒自我檢測</span></h3>
+      <p class="i"><span class="en">Five questions, no personal details required. This is a guide, not a determination — but it tells you within a minute whether this concerns you at all.</span><span class="zh">五條問題，毋須留下任何個人資料。此為初步指引而非正式判斷，但一分鐘內即可知道此事是否與您有關。</span></p>
+      <div id="sc-list"></div>
+      <div class="sc-res" id="sc-res"></div>
+    </div>
+
     <div class="warn rv">
       <strong><span class="en">Why early matters more than it looks</span><span class="zh">為何宜早不宜遲</span></strong>
       <p>
         <span class="en">Unlawful letting under the Ordinance carries heavy penalties, including a substantial fine and imprisonment. Beyond the law, there is a practical squeeze: with over a hundred thousand units in the market and a limited pool of specified professionals and contractors, the closer to the deadline, the harder it becomes to secure assessment and works slots.</span>
         <span class="zh">根據條例，違法出租可招致嚴重罰則，包括高額罰款及監禁。除法律風險外，更實際的問題是資源擠塞：全港逾十萬個分間單位，而指明專業人士及承辦商數目有限，愈接近死線，愈難安排評估及工程檔期。</span>
       </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ AUDIENCE ============ -->
+<section id="audience">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2><span class="en">Who we work for</span><span class="zh">我們的服務對象</span></h2>
+      <span class="sec-note"><span class="en">Find yourself here</span><span class="zh">看看哪一項是您</span></span>
+    </div>
+    <p class="sec-intro rv"><span class="en">Different owners arrive with very different problems. Find the one that sounds like yours — the first email is the same either way.</span><span class="zh">不同身分的業主，帶著的問題也不一樣。看看哪一項最接近您的情況——無論哪一項，第一步同樣只是一封電郵。</span></p>
+    <div class="aud-grid rv">
+      <div class="aud"><div class="who"><span class="en">Individual owners</span><span class="zh">個人業主</span></div>
+        <div class="need"><span class="en">Leakage, spalling, a Buildings Department letter, or works you want done properly and legally the first time.</span><span class="zh">漏水、石屎剝落、收到屋宇署信件，或想一次過合法妥善完成裝修工程。</span></div></div>
+      <div class="aud"><div class="who"><span class="en">Subdivided-unit owners</span><span class="zh">分間單位業主</span></div>
+        <div class="need"><span class="en">Basic Housing Unit registration and certification, rectification works, and keeping the units lettable beyond 2030.</span><span class="zh">簡樸房登記及認證、改造工程，以及確保單位在2030年後仍可合法出租。</span></div></div>
+      <div class="aud"><div class="who"><span class="en">Owners' corporations</span><span class="zh">業主立案法團</span></div>
+        <div class="need"><span class="en">MBIS notices, major repair programmes, tender documents and independent supervision you can defend at a general meeting.</span><span class="zh">強制驗樓通知、大維修計劃、招標文件，以及在業主大會上站得住腳的獨立監督。</span></div></div>
+      <div class="aud"><div class="who"><span class="en">Property &amp; facility managers</span><span class="zh">物業及設施管理</span></div>
+        <div class="need"><span class="en">Condition surveys, statutory compliance across a portfolio, and a consultant who reports in a form your committee can read.</span><span class="zh">樓宇狀況勘察、整個物業組合的法定合規，以及一位懂得寫出委員會看得懂的報告的顧問。</span></div></div>
+      <div class="aud"><div class="who"><span class="en">Hotel &amp; commercial operators</span><span class="zh">酒店及商業營運者</span></div>
+        <div class="need"><span class="en">A&amp;A works on a live asset, phased so the business keeps trading, with the statutory side carried by the same team.</span><span class="zh">在營運中的資產進行改建加建，分階段施工令生意照常，法定部分由同一團隊承擔。</span></div></div>
+      <div class="aud"><div class="who"><span class="en">Restaurant &amp; shop operators</span><span class="zh">食肆及店舖經營者</span></div>
+        <div class="need"><span class="en">Whether the premises can actually be licensed — checked before you sign the lease, not after the fit-out.</span><span class="zh">處所究竟能否領牌——在簽租約之前查清楚，而不是裝修完才發現。</span></div></div>
+      <div class="aud"><div class="who"><span class="en">Interior designers &amp; contractors</span><span class="zh">室內設計師及裝修公司</span></div>
+        <div class="need"><span class="en">Statutory routes confirmed and submissions signed, so your project doesn't stall halfway through.</span><span class="zh">確認法定路線及簽署入則文件，令您的項目不會做到一半被叫停。</span></div></div>
+      <div class="aud"><div class="who"><span class="en">Overseas &amp; cross-border owners</span><span class="zh">海外及跨境業主</span></div>
+        <div class="need"><span class="en">Everything handled remotely — inspection here, review by video, documents through an authorised representative.</span><span class="zh">全程遙距辦理——現場由我們勘察，透過視像會議商討，文件經授權代表處理。</span></div></div>
     </div>
   </div>
 </section>
@@ -1175,6 +1260,19 @@
             <div class="p-reg"><span class="en">Registered with the Buildings Department</span><span class="zh">屋宇署註冊</span></div>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="verify rv">
+      <span class="vi">🔎</span>
+      <div>
+        <strong><span class="en">Check us yourself — the register is public</span><span class="zh">請自行查證——名冊是公開的</span></strong>
+        <p>
+          <span class="en">Anyone can verify an Authorized Person, Registered Structural Engineer or Registered Inspector on the Buildings Department's public register, and a Registered Professional Surveyor with the Surveyors Registration Board. We encourage it. Ask any consultant whose registrations sit <em>inside</em> the firm and whose are borrowed for the signature — the register answers that question, and it is the single most useful check an owner can make before appointing anyone.</span>
+          <span class="zh">任何人都可以在屋宇署的公開名冊查核認可人士、註冊結構工程師及註冊檢驗人員，亦可向測量師註冊管理局查核註冊專業測量師。我們鼓勵您這樣做。委聘任何顧問之前，值得問一句：他們的註冊資格是<em>公司內部</em>持有，還是借外部人士簽名？名冊會給您答案——這是業主在委聘前最值得做的一項查證。</span>
+        </p>
+        <p style="margin-top:8px">
+          <a href="https://www.bd.gov.hk/tc/resources/online-tools/registers-search/registrationsearch.html" target="_blank" rel="noopener"><span class="en">Buildings Department register search →</span><span class="zh">屋宇署註冊名冊查詢 →</span></a>
+        </p>
       </div>
     </div>
   </div>
@@ -1937,6 +2035,89 @@
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
+})();
+</script>
+
+
+<script>
+(function(){
+  /* ---- countdown to BHU registration deadline ---- */
+  function cdTick(){
+    var el=document.getElementById('cd-days'); if(!el) return;
+    var end=new Date('2027-02-28T23:59:59+08:00');
+    var d=Math.ceil((end-new Date())/86400000);
+    el.textContent = d>0 ? d.toLocaleString() : '0';
+    var box=document.getElementById('cd-box');
+    if(d<=0 && box) box.style.display='none';
+  }
+  cdTick(); setInterval(cdTick, 3600000);
+
+  /* ---- BHU self-check ---- */
+  var Q=[
+   {en:"The property is a private residential unit, or the residential part of a composite building.",
+    zh:"物業屬私人住宅單位，或綜合用途建築物的住用部分。"},
+   {en:"The flat has been partitioned into two or more separately let units.",
+    zh:"單位已分間為兩間或以上獨立出租的房間。"},
+   {en:"Those partitioned units are used, or intended to be used, for residential letting.",
+    zh:"該等分間單位現時或將會用作住宅出租。"},
+   {en:"The units are currently let, vacant awaiting letting, or being prepared for letting.",
+    zh:"單位現正出租、空置待租，或正準備分間出租。"},
+   {en:"You have not yet completed grace-period registration for these units.",
+    zh:"您尚未為這些單位完成寬限期登記。"}
+  ];
+  var ans=[];
+  function isCN(){return document.body.classList.contains('lang-cn');}
+  function T(s){return (isCN()&&window.aaeConv)?window.aaeConv(s):s;}
+  function render(){
+    var list=document.getElementById('sc-list'); if(!list) return;
+    list.innerHTML='';
+    Q.forEach(function(q,i){
+      var row=document.createElement('div'); row.className='sc-q';
+      var t=document.createElement('div'); t.className='qt';
+      t.innerHTML='<span class="en">'+q.en+'</span><span class="zh">'+q.zh+'</span>';
+      var bs=document.createElement('div'); bs.className='sc-btns';
+      [['y','Yes','是'],['n','No','否']].forEach(function(o){
+        var btn=document.createElement('button');
+        btn.innerHTML='<span class="en">'+o[1]+'</span><span class="zh">'+o[2]+'</span>';
+        if(ans[i]===o[0]) btn.className='sel';
+        btn.onclick=function(){ans[i]=o[0];render();result();};
+        bs.appendChild(btn);
+      });
+      row.appendChild(t); row.appendChild(bs); list.appendChild(row);
+    });
+    if(isCN()&&window.aaeConv){
+      list.querySelectorAll('.zh').forEach(function(el){el.textContent=window.aaeConv(el.textContent);});
+    }
+  }
+  function result(){
+    var box=document.getElementById('sc-res'); if(!box) return;
+    if(ans.filter(Boolean).length<5) return;
+    var yes=ans.filter(function(a){return a==='y';}).length;
+    var core = ans[0]==='y'&&ans[1]==='y'&&ans[2]==='y';
+    var en,zh;
+    if(core && ans[4]==='y'){
+      en="<strong>Your units very likely fall within the regime — and registration is still outstanding.</strong><p>On these answers the Ordinance most probably applies and grace-period registration has not been completed. That deadline does not extend. Send us the building address and the number of partitioned units and we will tell you what your specific units need, and in what order.</p>";
+      zh="<strong>您的單位很可能受條例規管，而登記尚未完成。</strong><p>按以上答案，條例極可能適用於您的單位，而寬限期登記仍未辦妥——該期限不設延展。請將樓宇地址及分間單位數目告知我們，我們會說明您的單位具體需要甚麼，以及應按甚麼次序處理。</p>";
+    } else if(core){
+      en="<strong>Your units likely fall within the regime.</strong><p>The Ordinance most probably applies. If registration is already done, the next step is assessing what rectification is needed before certification — and the earlier that is known, the more room you have to plan the works.</p>";
+      zh="<strong>您的單位很可能受條例規管。</strong><p>條例極可能適用。若登記已完成，下一步是評估認證前需要哪些改造——愈早掌握，工程安排的彈性愈大。</p>";
+    } else if(ans[0]==='n'){
+      en="<strong>Probably outside the regime — but worth confirming.</strong><p>Industrial and commercial buildings generally fall outside it. Building classification is not always obvious from use alone, so if there is any doubt, a quick check of the approved plans settles it.</p>";
+      zh="<strong>可能不受規管，但值得確認。</strong><p>工業及商業樓宇一般不在規管範圍。惟樓宇類別未必單憑用途即可判斷，如有疑問，查核批准圖則即可確定。</p>";
+    } else {
+      en="<strong>Likely outside the regime on these answers.</strong><p>A whole flat let without partitioning is generally not caught. If your circumstances change — or you are considering partitioning — the position changes with them, so take advice before any works begin.</p>";
+      zh="<strong>按以上答案，可能不受規管。</strong><p>整個單位不分間出租，一般不屬規管範圍。惟情況一旦改變——例如考慮分間——規管狀況亦隨之改變，動工前宜先諮詢意見。</p>";
+    }
+    box.innerHTML='<span class="en">'+en+'</span><span class="zh">'+zh+'</span>'+
+      '<p style="margin-top:12px"><a href="#contact"><span class="en">Tell us about your units →</span><span class="zh">告訴我們您的單位情況 →</span></a></p>';
+    box.classList.add('show');
+    if(isCN()&&window.aaeConv){
+      box.querySelectorAll('.zh').forEach(function(el){el.innerHTML=window.aaeConv(el.innerHTML);});
+    }
+  }
+  render();
+  var _sl=window.setLang;
+  window.setLang=function(l){_sl(l);render();result();};
 })();
 </script>
 
