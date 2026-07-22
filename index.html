@@ -6,8 +6,8 @@
 <meta name="google-site-verification" content="dAexv88F1tXooNazQlTM_QK3gQTPUZijVuwbvs0LMic">
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>躍昇建築事務顧問 AAEL | 驗樓・強制驗樓・屋宇署入則・牌照顧問 | Building Consultant Hong Kong — Ascend Architecture &amp; Engineering Ltd</title>
-<meta name="description" content="香港建築顧問公司：驗樓・強制驗樓MBIS・屋宇署入則・認可人士AP・結構工程・僭建處理・小型工程・食肆賓館牌照。兩個工作天內免費報價。Hong Kong building consultants — surveys, MBIS, BD submissions &amp; licensing. Free fee proposal in 2 working days.">
+<title>躍昇建築事務顧問 AAEL | 驗樓・漏水滲漏・簡樸房認證・屋宇署入則・牌照顧問 | Building Consultant Hong Kong — Ascend Architecture &amp; Engineering Ltd</title>
+<meta name="description" content="香港建築顧問公司：驗樓・強制驗樓MBIS・簡樸房認證核證・屋宇署入則・認可人士AP・結構工程・僭建處理・小型工程・食肆賓館牌照。兩個工作天內免費報價。Hong Kong building consultants — surveys, MBIS, BD submissions &amp; licensing. Free fee proposal in 2 working days.">
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="canonical" href="https://aael.online/">
@@ -44,7 +44,7 @@
     "addressCountry": "HK"
   },
   "areaServed": {"@type": "AdministrativeArea", "name": "Hong Kong"},
-  "serviceType": ["Building inspection 驗樓", "Mandatory Building Inspection Scheme (MBIS) 強制驗樓", "Buildings Department submissions 屋宇署入則", "Authorized Person (AP) services 認可人士", "Registered Structural Engineer (RSE) services 結構工程", "Registered Inspector (RI) services 註冊檢驗人員", "Condition surveys 樓宇狀況勘察", "Unauthorized building works rectification 僭建處理", "Minor works 小型工程", "Alterations and additions (A&A) 改建加建", "Restaurant licence consultancy 食肆牌照", "Guesthouse licence consultancy 賓館牌照"],
+  "serviceType": ["Building inspection 驗樓", "Mandatory Building Inspection Scheme (MBIS) 強制驗樓", "Buildings Department submissions 屋宇署入則", "Authorized Person (AP) services 認可人士", "Registered Structural Engineer (RSE) services 結構工程", "Registered Inspector (RI) services 註冊檢驗人員", "Condition surveys 樓宇狀況勘察", "Unauthorized building works rectification 僭建處理", "Basic Housing Unit certification 簡樸房認證", "Subdivided unit certification 分間單位核證", "Water seepage investigation 漏水滲漏勘察", "Concrete spalling inspection 石屎剝落檢驗", "Flat handover inspection 收樓驗樓", "Pre-purchase inspection 買樓前檢驗", "Minor works 小型工程", "Alterations and additions (A&A) 改建加建", "Restaurant licence consultancy 食肆牌照", "Guesthouse licence consultancy 賓館牌照"],
   "knowsLanguage": ["en", "zh-Hant"],
   "sameAs": ["https://www.instagram.com/ascendarchitecture_engineering/"]
 }
@@ -639,6 +639,19 @@
   }
   @media (prefers-reduced-motion:reduce){#meteors{display:none}}
 
+
+  /* ---------- BHU key dates banner ---------- */
+  .bhu-dates{
+    display:flex;flex-wrap:wrap;gap:14px;margin-top:26px;
+  }
+  .bhu-date{
+    flex:1 1 260px;border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:10px;padding:16px 20px;background:var(--panel);
+  }
+  .bhu-date .dt{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;color:var(--accent);margin-bottom:6px}
+  .bhu-date .tx{font-size:.9rem;color:var(--txt);font-weight:600}
+  .bhu-note{margin-top:18px;font-size:.8rem;color:var(--dim)}
+
 </style>
 
 <script type="application/ld+json">
@@ -675,6 +688,7 @@
       <nav class="nav-links">
         <a href="#services"><span class="en">Services</span><span class="zh">服務範疇</span></a>
         <a href="#scope"><span class="en">Scope</span><span class="zh">服務範圍</span></a>
+        <a href="#bhu"><span class="en">BHU</span><span class="zh">簡樸房</span></a>
         <a href="#process"><span class="en">Process</span><span class="zh">服務流程</span></a>
         <a href="#experience"><span class="en">Experience</span><span class="zh">項目往績</span></a>
         <a href="#team"><span class="en">Team</span><span class="zh">專業團隊</span></a>
@@ -811,7 +825,8 @@
         <ul>
           <li><span class="en">Buildings Department (BD) submissions</span><span class="zh">屋宇署入則</span></li>
           <li><span class="en">Alterations &amp; additions (A&amp;A) works</span><span class="zh">改建及加建（A&amp;A）工程</span></li>
-          <li><span class="en">Minor works (MW)</span><span class="zh">小型工程（MW）</span></li>
+          <li><span class="en">Minor works submissions (Class I / II / III)</span><span class="zh">小型工程申報（第I／II／III級）</span></li>
+          <li><span class="en">Buildings Department order &amp; notice support</span><span class="zh">屋宇署命令及通知書支援</span></li>
           <li><span class="en">Authorized Person (AP) services</span><span class="zh">認可人士（AP）服務</span></li>
           <li><span class="en">Registered Structural Engineer (RSE) services</span><span class="zh">註冊結構工程師（RSE）服務</span></li>
           <li><span class="en">Mandatory Building / Window Inspection (MBIS / MWIS)</span><span class="zh">強制驗樓／強制驗窗（MBIS／MWIS）</span></li>
@@ -834,6 +849,71 @@
           <li><span class="en">Associated BD / FSD submissions &amp; follow-up</span><span class="zh">相關屋宇署／消防處入則及跟進</span></li>
         </ul>
         <p style="margin-top:16px"><span class="en">Premises licensing lives or dies on building compliance — which is exactly our home ground. We check the premises can be licensed before you sign the lease, not after.</span><span class="zh">處所牌照的成敗，關鍵在於樓宇合規——而這正是我們的主場。我們在您簽租約之前，先確認處所可以領牌，而非事後補救。</span></p>
+      </div>
+      <div class="svc rv">
+        <span class="tag"><span class="en">Inspection &amp; diagnostics</span><span class="zh">檢驗及驗收</span></span>
+        <h3><span class="en">Inspections for owners and buyers</span><span class="zh">業主及買家檢驗服務</span></h3>
+        <ul>
+          <li><span class="en">Water seepage &amp; leakage investigation</span><span class="zh">漏水及滲漏勘察診斷</span></li>
+          <li><span class="en">Concrete spalling inspection &amp; repair advice</span><span class="zh">石屎剝落檢驗及修葺建議</span></li>
+          <li><span class="en">New flat handover inspection</span><span class="zh">新樓收樓驗樓</span></li>
+          <li><span class="en">Pre-purchase inspection for second-hand flats</span><span class="zh">二手樓買樓前檢驗</span></li>
+          <li><span class="en">Renovation completion inspection</span><span class="zh">裝修完工驗收</span></li>
+          <li><span class="en">Structural risk assessment &amp; technical reports</span><span class="zh">結構風險評估及技術報告</span></li>
+        </ul>
+        <p style="margin-top:16px"><span class="en">A leak or a crack is rarely just a leak or a crack. Because our Authorized Person and Registered Structural Engineer sit in the same office as our surveyors, a small inspection can escalate straight into diagnosis, design and statutory submission — without you appointing anyone else.</span><span class="zh">漏水或裂縫，往往不只是漏水或裂縫。由於認可人士及註冊結構工程師與我們的測量師同處一室，一次小型檢驗可即時延伸至診斷、設計及法定入則——業主毋須另行委聘他人。</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ BHU 簡樸房 ============ -->
+<section id="bhu">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2><span class="en">Basic Housing Unit certification</span><span class="zh">簡樸房認證核證</span></h2>
+      <span class="sec-note"><span class="en">New 2026 regime</span><span class="zh">2026新制</span></span>
+    </div>
+    <p class="sec-intro rv">
+      <span class="en">The Basic Housing Unit (Regulation) Ordinance took effect on 1 March 2026. Every regulated subdivided unit must be certified by a "specified professional" as meeting the minimum living-environment standards before it can be lawfully let. Our in-house Registered Professional Surveyor (Building Surveying) is one of those specified professionals — so assessment, certification and any rectification works stay with one team.</span>
+      <span class="zh">《簡樸房條例》已於2026年3月1日生效。所有受規管的分間單位，必須經「指明專業人士」核證符合居住環境最低標準，方可合法出租。本公司駐司的註冊專業測量師（建築測量組別）正是條例指明的核證專業人士——由評估、核證以至改造工程，全程由同一團隊處理。</span>
+    </p>
+    <div class="svc-grid">
+      <div class="svc rv">
+        <span class="idx">BHU</span>
+        <span class="tag"><span class="en">Certification</span><span class="zh">核證服務</span></span>
+        <h3><span class="en">What we handle</span><span class="zh">我們的服務</span></h3>
+        <ul>
+          <li><span class="en">Minimum living-environment standard assessment</span><span class="zh">分間單位居住環境最低標準評估</span></li>
+          <li><span class="en">Specified professional certification report (Form BHU-01)</span><span class="zh">指明專業人士核證報告（表格BHU-01）</span></li>
+          <li><span class="en">Grace-period registration assistance (Form REG-01)</span><span class="zh">寬限期登記協助（表格REG-01）</span></li>
+          <li><span class="en">Rectification design &amp; Buildings Department submissions</span><span class="zh">改造工程設計及屋宇署入則</span></li>
+          <li><span class="en">Five-year recertification on renewal</span><span class="zh">五年期認證續期核證</span></li>
+        </ul>
+      </div>
+      <div class="svc rv">
+        <span class="idx">⏱</span>
+        <span class="tag"><span class="en">Key dates</span><span class="zh">關鍵日期</span></span>
+        <h3><span class="en">Don't miss the window</span><span class="zh">切勿錯過期限</span></h3>
+        <div class="bhu-dates">
+          <div class="bhu-date">
+            <div class="dt">2026 · 03 · 01</div>
+            <div class="tx"><span class="en">Ordinance in force; applications open</span><span class="zh">條例生效，開始接受申請</span></div>
+          </div>
+          <div class="bhu-date">
+            <div class="dt">2027 · 02 · 28</div>
+            <div class="tx"><span class="en">Deadline for grace-period registration</span><span class="zh">寬限期登記截止</span></div>
+          </div>
+          <div class="bhu-date">
+            <div class="dt">2027 · 03 &rarr; 2030 · 02</div>
+            <div class="tx"><span class="en">36-month window for works &amp; certification</span><span class="zh">36個月改造及認證寬限期</span></div>
+          </div>
+        </div>
+        <p class="bhu-note">
+          <span class="en">Owners of existing subdivided units should register early — enforcement against unregistered, uncertified units follows the registration period. Send us the address and we'll advise what your unit needs.</span>
+          <span class="zh">現存分間單位業主宜及早登記——登記期結束後，當局將就未登記及未獲認證的單位採取執法行動。將樓宇地址傳送給我們，我們會告知您的單位具體所需。</span>
+        </p>
       </div>
     </div>
   </div>
@@ -1082,6 +1162,13 @@
         </div>
       </details>
       <details>
+        <summary><span><span class="en">I own a subdivided unit — what does the new Basic Housing Unit regime require?</span><span class="zh">我持有分間單位（劏房），簡樸房新例下應如何處理？</span></span></summary>
+        <div class="ans">
+          <span class="en">The Basic Housing Unit (Regulation) Ordinance took effect on 1 March 2026. Owners of existing subdivided units should complete grace-period registration (Form REG-01) before 28 February 2027, after which a 36-month window applies for carrying out works and obtaining certification. Certification requires a report from a specified professional — our Registered Professional Surveyor can assess the unit, issue the certification report and handle the whole application, including any rectification works and submissions.</span>
+          <span class="zh">《簡樸房條例》已於2026年3月1日生效。現存分間單位業主應於2027年2月28日前完成寬限期登記（表格REG-01），其後有36個月時間進行改造工程及申請簡樸房認證。認證必須附有指明專業人士的核證報告——本公司的註冊專業測量師可為您評估單位、簽發核證報告，並全程處理申請，包括所需的改造工程及入則。</span>
+        </div>
+      </details>
+      <details>
         <summary><span><span class="en">What do I need to prepare to get started?</span><span class="zh">開始前需要準備甚麼文件？</span></span></summary>
         <div class="ans">
           <span class="en">Just the building address and a description of your concern — that's enough for us to begin. If you have existing plans, previous reports, or any Buildings Department correspondence, those help; if not, we can obtain record plans on your behalf. The first step is genuinely just one email.</span>
@@ -1145,8 +1232,8 @@
 <footer>
   <div class="wrap" style="padding-bottom:6px">
     <p style="max-width:820px;margin:0 auto 30px;text-align:center;font-size:.78rem;line-height:1.7;color:var(--dim)">
-      <span class="en">AAEL (Ascend Architecture &amp; Engineering Ltd) is a Hong Kong building consultancy providing building inspection and condition surveys, Mandatory Building &amp; Window Inspection (MBIS / MWIS), Buildings Department submissions, Authorized Person (AP) and Registered Structural Engineer (RSE) services, unauthorized building works (UBW) rectification, minor works, alterations &amp; additions, and licensing consultancy for restaurants, guesthouses, clubs and schools — serving Hong Kong Island, Kowloon and the New Territories.</span>
-      <span class="zh">躍昇建築事務顧問有限公司（AAEL）為香港建築顧問公司，提供驗樓及樓宇狀況勘察、強制驗樓／強制驗窗（MBIS／MWIS）、屋宇署入則、認可人士（AP）及註冊結構工程師（RSE）服務、僭建（違例建築工程）處理、小型工程、改建加建，以及食肆、賓館、會社及學校牌照顧問——服務範圍覆蓋港島、九龍及新界。</span>
+      <span class="en">AAEL (Ascend Architecture &amp; Engineering Ltd) is a Hong Kong building consultancy providing building inspection and condition surveys, Mandatory Building &amp; Window Inspection (MBIS / MWIS), Buildings Department submissions, Authorized Person (AP) and Registered Structural Engineer (RSE) services, Basic Housing Unit (BHU) certification for subdivided units, water seepage and leakage investigation, concrete spalling inspection, handover and pre-purchase flat inspections, unauthorized building works (UBW) rectification, minor works, alterations &amp; additions, and licensing consultancy for restaurants, guesthouses, clubs and schools — serving Hong Kong Island, Kowloon and the New Territories.</span>
+      <span class="zh">躍昇建築事務顧問有限公司（AAEL）為香港建築顧問公司，提供驗樓及樓宇狀況勘察、強制驗樓／強制驗窗（MBIS／MWIS）、屋宇署入則、認可人士（AP）及註冊結構工程師（RSE）服務、簡樸房認證核證（分間單位）、漏水滲漏勘察、石屎剝落檢驗、收樓驗樓及買樓前檢驗、僭建（違例建築工程）處理、小型工程、改建加建，以及食肆、賓館、會社及學校牌照顧問——服務範圍覆蓋港島、九龍及新界。</span>
     </p>
   </div>
   <div class="wrap">
@@ -1235,6 +1322,9 @@
     {k:['mbis','mandatory','inspection scheme','驗樓','強制驗樓','驗窗'],
      en:'Yes \u2014 Mandatory Building Inspection Scheme (MBIS) consultancy is one of our core services. Our Registered Professional Surveyors handle the inspection, reporting and any follow-up repair consultancy. Received a statutory notice? Email it to us and we\u2019ll advise your next steps.',
      zh:'有的 \u2014 強制驗樓計劃（MBIS）顧問是我們核心服務之一。註冊建築測量師會處理檢驗、報告及後續修葺顧問。如已收到法定通知，歡迎電郵給我們，我們會建議下一步安排。'},
+    {k:['seepage','spalling','handover','pre-purchase','snag','漏水','滲水','打針','石屎','剝落','收樓','驗樓收樓','二手樓','裝修驗收'],
+     en:'Yes \u2014 we investigate water seepage and leakage, concrete spalling, and carry out handover, pre-purchase and renovation completion inspections. The advantage of using us: our Authorized Person and Registered Structural Engineer are in the same office, so if the inspection uncovers something structural or statutory, we handle that too. Email '+EMAIL+' with the address.',
+     zh:'有的 \u2014 我們提供漏水滲漏勘察、石屎剝落檢驗，以及新樓收樓、買樓前檢驗及裝修完工驗收。選用我們的好處：認可人士及註冊結構工程師與測量師同處一司，若檢驗發現結構或法定問題，我們可即時接手處理。歡迎將樓宇地址電郵至 '+EMAIL+'。'},
     {k:['survey','condition','defect','leak','crack','diagnos','勘察','缺陷','滲漏','裂'],
      en:'Our Registered Professional Surveyors carry out full condition surveys and defect diagnostics \u2014 from single premises to multi-block estates. You\u2019ll get a report that tells you what can wait and what can\u2019t. Email '+EMAIL+' with the building address to get started.',
      zh:'我們的註冊建築測量師提供全面樓宇狀況勘察及缺陷診斷 \u2014 由單一處所到多座屋苑均可。報告會清楚指出哪些問題可以等、哪些不能等。請電郵樓宇地址至 '+EMAIL+' 開始安排。'},
