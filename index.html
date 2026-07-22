@@ -652,6 +652,46 @@
   .bhu-date .tx{font-size:.9rem;color:var(--txt);font-weight:600}
   .bhu-note{margin-top:18px;font-size:.8rem;color:var(--dim)}
 
+
+  /* ---------- BHU standards + timeline ---------- */
+  .std-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:26px}
+  .std{border:1px solid var(--line);border-radius:12px;padding:18px 16px;background:var(--panel);text-align:center}
+  .std .n{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:var(--accent);margin-bottom:8px}
+  .std .v{font-family:var(--display);font-weight:800;font-size:1.15rem;line-height:1.15;margin-bottom:6px}
+  .std .l{font-size:.78rem;color:var(--dim);line-height:1.45}
+  .tl{display:grid;gap:0;margin-top:26px;position:relative}
+  .tl-item{display:grid;grid-template-columns:130px 1fr;gap:18px;padding:16px 0;border-bottom:1px solid var(--line-soft);align-items:start}
+  .tl-item:last-child{border-bottom:none}
+  .tl-when{font-family:var(--mono);font-size:.8rem;color:var(--accent);font-weight:500;padding-top:2px}
+  .tl-what strong{display:block;font-family:var(--display);font-weight:700;font-size:1rem;margin-bottom:4px}
+  .tl-what span.d{font-size:.86rem;color:var(--dim)}
+  .tl-item.hot .tl-when{color:var(--accent-hi)}
+  .tl-item.hot .tl-what strong{color:var(--accent-hi)}
+  .warn{
+    margin-top:24px;border:1px solid var(--accent);border-radius:var(--r);
+    padding:18px 22px;background:var(--glow);
+  }
+  .warn strong{display:block;margin-bottom:6px;font-family:var(--display);font-weight:700}
+  .warn p{font-size:.86rem;color:var(--dim);line-height:1.6}
+  @media (max-width:820px){
+    .std-grid{grid-template-columns:repeat(2,1fr)}
+    .tl-item{grid-template-columns:1fr;gap:6px}
+  }
+
+
+  /* ---------- knowledge base ---------- */
+  .kb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+  .kb{
+    display:block;text-decoration:none;border:1px solid var(--line);border-radius:var(--r);
+    padding:26px 24px;background:var(--panel);box-shadow:var(--shadow);
+    transition:border-color .25s,transform .25s;
+  }
+  .kb:hover{border-color:var(--accent);transform:translateY(-3px)}
+  .kb .k{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:10px}
+  .kb h3{font-family:var(--display);font-weight:700;font-size:1.04rem;line-height:1.35;margin-bottom:8px}
+  .kb p{font-size:.86rem;color:var(--dim);line-height:1.6}
+  .kb .go{display:inline-block;margin-top:12px;font-size:.82rem;font-weight:600;color:var(--accent-hi)}
+
 </style>
 
 <script type="application/ld+json">
@@ -692,6 +732,7 @@
         <a href="#process"><span class="en">Process</span><span class="zh">服務流程</span></a>
         <a href="#experience"><span class="en">Experience</span><span class="zh">項目往績</span></a>
         <a href="#team"><span class="en">Team</span><span class="zh">專業團隊</span></a>
+        <a href="#knowledge"><span class="en">Guides</span><span class="zh">知識庫</span></a>
         <a href="#faq"><span class="en">FAQ</span><span class="zh">常見問題</span></a>
         <a href="#contact" class="cta"><span class="en">Get a fee proposal</span><span class="zh">索取收費建議</span></a>
       </nav>
@@ -890,7 +931,10 @@
           <li><span class="en">Grace-period registration assistance (Form REG-01)</span><span class="zh">寬限期登記協助（表格REG-01）</span></li>
           <li><span class="en">Rectification design &amp; Buildings Department submissions</span><span class="zh">改造工程設計及屋宇署入則</span></li>
           <li><span class="en">Five-year recertification on renewal</span><span class="zh">五年期認證續期核證</span></li>
+          <li><span class="en">Overseas &amp; cross-border owners handled remotely</span><span class="zh">跨境及海外業主可全程遙距委辦</span></li>
+          <li><span class="en">Multi-unit portfolios scheduled in one programme</span><span class="zh">多個單位可統一編排施工及申請</span></li>
         </ul>
+        <p style="margin-top:16px"><span class="en"><strong>The difference:</strong> many BHU agents coordinate the work but must appoint an outside professional to sign the certification. Our specified professional is in-house — the same firm assesses, certifies, designs the rectification works and submits them.</span><span class="zh"><strong>分別在於：</strong>不少簡樸房代辦僅負責統籌，核證仍須另聘外部專業人士簽署。我們的指明專業人士就在公司之內——評估、核證、改造設計以至入則，全由同一間公司完成。</span></p>
       </div>
       <div class="svc rv">
         <span class="idx">⏱</span>
@@ -915,6 +959,61 @@
           <span class="zh">現存分間單位業主宜及早登記——登記期結束後，當局將就未登記及未獲認證的單位採取執法行動。將樓宇地址傳送給我們，我們會告知您的單位具體所需。</span>
         </p>
       </div>
+    </div>
+
+    <h3 style="font-family:var(--display);font-weight:800;font-size:1.25rem;margin:56px 0 4px">
+      <span class="en">The minimum standards, at a glance</span><span class="zh">居住環境最低標準一覽</span>
+    </h3>
+    <p style="font-size:.9rem;color:var(--dim)">
+      <span class="en">Key requirements under the Ordinance. Most units fail on one or two items — the point of an assessment is to find out which, before you spend anything.</span>
+      <span class="zh">條例下的主要要求。大部分單位只在一兩個項目未達標——評估的目的，正是在您花費任何金錢之前，先確認是哪幾項。</span>
+    </p>
+    <div class="std-grid rv">
+      <div class="std"><div class="n">AREA</div><div class="v">8 m²</div><div class="l"><span class="en">Minimum internal floor area per unit</span><span class="zh">每間最低內部樓面面積</span></div></div>
+      <div class="std"><div class="n">HEIGHT</div><div class="v">2.3 m</div><div class="l"><span class="en">Minimum ceiling height</span><span class="zh">最低樓底高度</span></div></div>
+      <div class="std"><div class="n">METERING</div><div class="v"><span class="en">Separate</span><span class="zh">獨立水電錶</span></div><div class="l"><span class="en">Individual water &amp; electricity meters from the utilities</span><span class="zh">由水務署及電力公司提供的獨立計量</span></div></div>
+      <div class="std"><div class="n">SANITARY</div><div class="v"><span class="en">Own W/C</span><span class="zh">獨立廁所</span></div><div class="l"><span class="en">Independent toilet, properly separated from cooking area</span><span class="zh">獨立廁所，並與煮食空間妥善分隔</span></div></div>
+      <div class="std"><div class="n">WINDOW</div><div class="v"><span class="en">Openable</span><span class="zh">窗戶</span></div><div class="l"><span class="en">Window or approved mechanical ventilation</span><span class="zh">窗戶或認可機械通風</span></div></div>
+      <div class="std"><div class="n">FIRE</div><div class="v"><span class="en">Fire safety</span><span class="zh">防火防煙</span></div><div class="l"><span class="en">Fire-resisting construction &amp; means of escape</span><span class="zh">防火結構及走火通道</span></div></div>
+      <div class="std"><div class="n">STRUCTURE</div><div class="v"><span class="en">Sound</span><span class="zh">結構安全</span></div><div class="l"><span class="en">No unauthorised or unsafe structural alteration</span><span class="zh">不得有違例或不安全的結構改動</span></div></div>
+      <div class="std"><div class="n">ORDERS</div><div class="v"><span class="en">Cleared</span><span class="zh">已遵辦命令</span></div><div class="l"><span class="en">Outstanding statutory orders must be complied with first</span><span class="zh">須先遵辦未完成的法定命令</span></div></div>
+    </div>
+    <p style="font-size:.78rem;color:var(--dim);margin-top:14px">
+      <span class="en">Summarised for guidance only — the full requirements are set out in the Ordinance and the Code of Practice issued by the Housing Bureau.</span>
+      <span class="zh">以上僅為概括說明，詳細要求以《簡樸房條例》及房屋局發出的《實務守則》為準。</span>
+    </p>
+
+    <h3 style="font-family:var(--display);font-weight:800;font-size:1.25rem;margin:52px 0 4px">
+      <span class="en">The dates that matter</span><span class="zh">業主必須知道的時間表</span>
+    </h3>
+    <div class="tl rv">
+      <div class="tl-item">
+        <div class="tl-when">2026 · 03 · 01</div>
+        <div class="tl-what"><strong><span class="en">Ordinance in force</span><span class="zh">條例正式生效</span></strong><span class="d"><span class="en">Twelve-month registration period opens; certification applications accepted.</span><span class="zh">為期12個月的登記期開始，同時接受認證申請。</span></span></div>
+      </div>
+      <div class="tl-item hot">
+        <div class="tl-when">2027 · 02 · 28</div>
+        <div class="tl-what"><strong><span class="en">Registration deadline</span><span class="zh">登記期結束</span></strong><span class="d"><span class="en">Units not registered by this date lose the protection of the grace period.</span><span class="zh">未於此日期前登記的單位，將失去寬限期保障。</span></span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-when">2027 · 03 · 01</div>
+        <div class="tl-what"><strong><span class="en">Enforcement begins</span><span class="zh">開始執法</span></strong><span class="d"><span class="en">Letting an unregistered, uncertified subdivided unit becomes an offence.</span><span class="zh">出租未登記及未獲認證的分間單位即屬犯罪。</span></span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-when">2027 · 03 &rarr; 2030 · 02</div>
+        <div class="tl-what"><strong><span class="en">36-month grace period</span><span class="zh">36個月寬限期</span></strong><span class="d"><span class="en">Registered units carry out works and obtain certification within this window.</span><span class="zh">已登記單位須在此期間完成改造工程並取得認證。</span></span></div>
+      </div>
+      <div class="tl-item hot">
+        <div class="tl-when">2030 · 03 · 01</div>
+        <div class="tl-what"><strong><span class="en">Grace period ends</span><span class="zh">寬限期全面結束</span></strong><span class="d"><span class="en">From this date every let subdivided unit must hold a valid certification.</span><span class="zh">此日起，所有出租分間單位均須持有有效認證。</span></span></div>
+      </div>
+    </div>
+    <div class="warn rv">
+      <strong><span class="en">Why early matters more than it looks</span><span class="zh">為何宜早不宜遲</span></strong>
+      <p>
+        <span class="en">Unlawful letting under the Ordinance carries heavy penalties, including a substantial fine and imprisonment. Beyond the law, there is a practical squeeze: with over a hundred thousand units in the market and a limited pool of specified professionals and contractors, the closer to the deadline, the harder it becomes to secure assessment and works slots.</span>
+        <span class="zh">根據條例，違法出租可招致嚴重罰則，包括高額罰款及監禁。除法律風險外，更實際的問題是資源擠塞：全港逾十萬個分間單位，而指明專業人士及承辦商數目有限，愈接近死線，愈難安排評估及工程檔期。</span>
+      </p>
     </div>
   </div>
 </section>
@@ -1090,6 +1189,50 @@
 </section>
 
 
+
+<!-- ============ KNOWLEDGE ============ -->
+<section id="knowledge">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2><span class="en">Owner's guides</span><span class="zh">業主知識庫</span></h2>
+      <span class="sec-note"><span class="en">Written by our team</span><span class="zh">團隊撰寫</span></span>
+    </div>
+    <p class="sec-intro rv"><span class="en">Plain-language guides to the rules owners actually run into — written by the people who file the submissions, not copied from a circular.</span><span class="zh">以業主看得懂的語言，解說實際會遇到的規例——由親手處理入則的團隊撰寫，而非照抄通告。</span></p>
+    <div class="kb-grid rv">
+      <a class="kb" href="/guide-bhu-standards.html">
+        <span class="k">BHU · Standards</span>
+        <h3><span class="en">The eight minimum standards for Basic Housing Units</span><span class="zh">簡樸房八項居住環境最低標準：業主自查指南</span></h3>
+        <p><span class="en">Area, ceiling height, metering, sanitary, ventilation, fire, structure and outstanding orders — what each one means in practice.</span><span class="zh">面積、樓底、水電錶、廁所、通風、防火、結構及法定命令——逐項拆解實際要求。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-bhu-meters.html">
+        <span class="k">BHU · Utilities</span>
+        <h3><span class="en">Separate water and electricity meters</span><span class="zh">簡樸房獨立水錶電錶：要求、申請程序與常見延誤</span></h3>
+        <p><span class="en">Why internal sub-meters don't qualify, how the utility applications work, and why this item delays certification more than any other.</span><span class="zh">為何內部分錶不合規、申請流程如何、以及此項為何最常拖慢整個認證進度。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-bhu-timeline.html">
+        <span class="k">BHU · Timeline</span>
+        <h3><span class="en">Registration and certification: the four-year roadmap</span><span class="zh">簡樸房登記與認證時間表：業主四年路線圖</span></h3>
+        <p><span class="en">The four dates that matter, what to complete in each phase, and why the usable time is shorter than it looks.</span><span class="zh">四個關鍵日期、每階段應完成的事，以及為何可用時間遠比帳面上少。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-bd-order.html">
+        <span class="k">Statutory orders</span>
+        <h3><span class="en">What to do when you receive a Buildings Department order</span><span class="zh">收到屋宇署命令或通知書怎麼辦？業主應對指南</span></h3>
+        <p><span class="en">Removal, repair and investigation orders — the right sequence, the cost of ignoring them, and how they block BHU certification.</span><span class="zh">清拆令、修葺令、勘測令的正確應對步驟、置之不理的代價，以及它們如何阻礙簡樸房認證。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-mbis.html">
+        <span class="k">MBIS · Inspection</span>
+        <h3><span class="en">Mandatory Building Inspection: what happens after the notice</span><span class="zh">強制驗樓計劃（MBIS）：收到通知後的完整流程</span></h3>
+        <p><span class="en">Prescribed inspection versus prescribed repair, deadlines and extensions, and the extra steps for owners' corporations.</span><span class="zh">訂明檢驗與訂明修葺的分別、時限與延期，以及業主立案法團的額外程序。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- ============ FAQ ============ -->
 <section id="faq">
   <div class="wrap">
@@ -1159,6 +1302,27 @@
         <div class="ans">
           <span class="en">Yes. We assess the works, advise honestly on what can be regularized through statutory submission and what must be removed, and handle the submissions or removal supervision either way. If you have received a Buildings Department order, don't ignore it — acting early keeps options open and costs down.</span>
           <span class="zh">可以。我們會先評估有關工程，如實建議哪些可透過法定入則規範化、哪些必須拆除，並全程處理相關入則或拆除監督。如已接獲屋宇署命令，切勿置之不理——及早行動可保留更多選擇，亦可減低費用。</span>
+        </div>
+      </details>
+      <details>
+        <summary><span><span class="en">How do I know whether my unit needs certification at all?</span><span class="zh">如何判斷我的單位是否需要申請認證？</span></span></summary>
+        <div class="ans">
+          <span class="en">As a rough self-check: the property is a private residential unit (or the residential part of a composite building); it has been partitioned into two or more separately let units; each partitioned unit is intended for residential letting. Industrial and commercial buildings generally fall outside the regime, and a whole flat let without partitioning is not caught. If your unit ticks those boxes, it very likely needs certification — send us the address and floor plan and we will confirm.</span>
+          <span class="zh">可先自行初步判斷：物業屬私人住宅單位（或綜合用途建築物的住用部分）；單位已分間為兩間或以上獨立出租的房間；各分間單位用作住宅出租。工業或商業樓宇一般不受規管，整個單位不分間出租亦不屬規管範圍。若您的單位符合上述情況，則很可能需要申請認證——將樓宇地址及則圖傳送給我們，我們可為您確認。</span>
+        </div>
+      </details>
+      <details>
+        <summary><span><span class="en">I live overseas or on the Mainland — can this be handled without me coming to Hong Kong?</span><span class="zh">我身處內地或海外，可否遙距辦理？</span></span></summary>
+        <div class="ans">
+          <span class="en">Yes. Site inspection is carried out by our team; findings and options can be reviewed with you by video, and documents can be executed through an authorised representative. Cross-border owners are a meaningful part of the subdivided-unit market and the process is well established — what matters is starting early enough to allow for document turnaround.</span>
+          <span class="zh">可以。現場勘察由我們的團隊執行，結果及方案可透過視像會議與您討論，文件亦可經授權代表簽署辦理。跨境業主在分間單位市場中佔相當比例，遙距辦理流程成熟——關鍵只在於及早開始，預留文件往來的時間。</span>
+        </div>
+      </details>
+      <details>
+        <summary><span><span class="en">My building has an outstanding Buildings Department order. Does that block certification?</span><span class="zh">樓宇尚有屋宇署命令未解決，會影響認證嗎？</span></span></summary>
+        <div class="ans">
+          <span class="en">It can. Outstanding statutory orders or notices generally have to be complied with before certification can be granted. This is where having an Authorized Person and Registered Structural Engineer in-house pays off: we can deal with the order — proposal, submission, supervision and compliance — and take the certification through in the same programme, rather than sending you to a second consultant and waiting.</span>
+          <span class="zh">有可能。未遵辦的法定命令或通知書，一般須先行處理妥當，方可獲批認證。這正是駐司認可人士及註冊結構工程師的價值所在：我們可一併處理命令——由方案、入則、監督以至遵辦——並在同一個工作計劃中完成認證，毋須另聘顧問及輪候。</span>
         </div>
       </details>
       <details>
@@ -1337,12 +1501,15 @@
     {k:['ap ','authorized person','authorised','submission','buildings department','bd ','statutory','入則','認可人士','屋宇署','法定'],
      en:'We have an Authorized Person (AP) in-house, registered with the Buildings Department. We handle statutory submissions, independent checking, certification and repair supervision \u2014 and we carry the statutory responsibility ourselves.',
      zh:'我們的認可人士（AP）為屋宇署註冊，可處理法定入則、獨立審查、核證及修葺工程監督 \u2014 法定責任由我們一力承擔。'},
+    {k:['bhu','basic housing','subdivided','simplified','簡樸房','劏房','分間單位','認證','寬限期','登記'],
+     en:'Yes \u2014 Basic Housing Unit (BHU) certification is one of our current focus services. The Ordinance took effect on 1 March 2026: existing units should complete grace-period registration before 28 February 2027, then have 36 months to carry out works and obtain certification. Certification needs a report from a specified professional \u2014 ours is in-house, so assessment, certification, rectification design and submissions all stay with one team. Email '+EMAIL+' with the address and number of units.',
+     zh:'有的 \u2014 簡樸房認證是我們現時的重點服務之一。《簡樸房條例》已於2026年3月1日生效：現存單位應於2027年2月28日前完成寬限期登記，其後有36個月進行改造及取得認證。認證須由指明專業人士核證，而我們的指明專業人士就在公司之內，評估、核證、改造設計及入則全由同一團隊處理。請將樓宇地址及單位數目電郵至 '+EMAIL+'。'},
     {k:['licen','restaurant','food factory','guesthouse','club','school','entertainment','牌照','食肆','食物製造','賓館','會社','學校','娛樂場所','領牌'],
      en:'Yes \u2014 licensing consultancy is one of our core services: general and light refreshment restaurant licences, food factory, guesthouse, club certificates of compliance, school registration and places of public entertainment, plus the associated BD and FSD submissions. Tip: let us check the premises before you sign the lease. Email '+EMAIL+' to start.',
      zh:'有的 \u2014 牌照顧問是我們的核心服務之一：普通食肆及小食食肆牌照、食物製造廠、賓館、會社合格證明書、學校註冊及公眾娛樂場所牌照，連同相關屋宇署及消防處入則。建議：簽租約前先讓我們審視處所。歡迎電郵 '+EMAIL+' 查詢。'},
     {k:['service','what do you do','help','can you','服務','範疇','做咩','做什麼'],
-     en:'Four things, all under one roof:\n1. Authorized Person (AP) statutory services\n2. Condition surveys & diagnostics (incl. MBIS)\n3. Structural engineering (RSE)\n4. A&A design & project management\n5. Licensing consultancy (restaurants, guesthouses, clubs, schools)\n\nWhich one is closest to what you need?',
-     zh:'四大服務，同屬一司：\n1. 認可人士（AP）法定服務\n2. 樓宇狀況勘察及診斷（包括強制驗樓）\n3. 結構工程（RSE）\n4. 改建加建設計及項目管理\n5. 牌照顧問（食肆、賓館、會社、學校）\n\n哪一項最接近您的需要？'},
+     en:'Four things, all under one roof:\n1. Authorized Person (AP) statutory services\n2. Condition surveys & diagnostics (incl. MBIS)\n3. Structural engineering (RSE)\n4. A&A design & project management\n5. Licensing consultancy (restaurants, guesthouses, clubs, schools)\n6. Basic Housing Unit (BHU) certification for subdivided units\n\nWhich one is closest to what you need?',
+     zh:'四大服務，同屬一司：\n1. 認可人士（AP）法定服務\n2. 樓宇狀況勘察及診斷（包括強制驗樓）\n3. 結構工程（RSE）\n4. 改建加建設計及項目管理\n5. 牌照顧問（食肆、賓館、會社、學校）\n6. 簡樸房認證核證（分間單位）\n\n哪一項最接近您的需要？'},
     {k:['address','office','location','where','find you','地址','地點','邊度','喺邊','辦公室'],
      en:'Our office:\nRoom 709, 7/F, Wing On Plaza,\n62 Mody Road, Tsim Sha Tsui East,\nKowloon, Hong Kong\n\nVisits by appointment \u2014 drop us a line first at '+EMAIL+'.',
      zh:'辦公室地址：\n香港九龍尖沙咀東部\n麼地道62號永安廣場7樓709室\n\n到訪請先預約 \u2014 歡迎電郵 '+EMAIL+'。'},
