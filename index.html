@@ -15,12 +15,13 @@
 <meta property="og:url" content="https://aael.online/">
 <meta property="og:site_name" content="AAEL 躍昇建築事務顧問有限公司">
 <meta property="og:title" content="Ascend Architecture &amp; Engineering Ltd (AAEL) 躍昇建築事務顧問有限公司 — Survey it. Engineer it. Get it approved.">
-<meta property="og:description" content="認可人士AP・註冊結構工程師RSE・註冊建築測量師，同屬一司。驗樓、入則、結構、改建A&A，一站辦妥。AP, RSE and Registered Professional Surveyors under one roof — Hong Kong.">
+<meta property="og:description" content="認可人士AP・註冊結構工程師RSE・註冊專業測量師，同屬一司。驗樓、入則、結構、改建A&A，一站辦妥。AP, RSE and Registered Professional Surveyors under one roof — Hong Kong.">
 <meta property="og:image" content="https://aael.online/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="zh_HK">
 <meta property="og:locale:alternate" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AAEL 躍昇建築事務顧問有限公司 — AP & RSE Consultancy, Hong Kong">
 <meta name="twitter:description" content="驗樓・入則・結構・改建，一站辦妥。Surveys, structures and statutory approvals — one team.">
@@ -35,7 +36,7 @@
   "logo": "https://aael.online/apple-touch-icon.png",
   "image": "https://aael.online/og.png",
   "email": "aaelhk.info@gmail.com",
-  "description": "Authorized Person (AP), Registered Structural Engineer (RSE), Registered Professional Surveyor and Registered Inspector (RI) consultancy in Hong Kong. Condition surveys, MBIS/MWIS, structural engineering, A&A works, minor works, Buildings Department submissions and licensing consultancy for restaurants, guesthouses, clubs and schools. 認可人士、註冊結構工程師、註冊建築測量師及註冊檢驗人員顧問公司，提供驗樓、強制驗樓驗窗、結構工程、改建加建、小型工程、屋宇署入則及食肆賓館會社學校牌照顧問服務。",
+  "description": "Authorized Person (AP), Registered Structural Engineer (RSE), Registered Professional Surveyor (R.P.S.) and Registered Inspector (RI) consultancy in Hong Kong. Condition surveys, MBIS/MWIS, structural engineering, A&A works, minor works, Buildings Department submissions and licensing consultancy for restaurants, guesthouses, clubs and schools. 認可人士、註冊結構工程師、註冊專業測量師及註冊檢驗人員顧問公司，提供驗樓、強制驗樓驗窗、結構工程、改建加建、小型工程、屋宇署入則及食肆賓館會社學校牌照顧問服務。",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Room 709, 7/F, Wing On Plaza, 62 Mody Road, Tsim Sha Tsui East",
@@ -692,6 +693,13 @@
   .kb p{font-size:.86rem;color:var(--dim);line-height:1.6}
   .kb .go{display:inline-block;margin-top:12px;font-size:.82rem;font-weight:600;color:var(--accent-hi)}
 
+
+  /* ---------- simplified chinese ---------- */
+  body.lang-cn .zh{display:revert}
+  body.lang-cn .en{display:none}
+  body.lang-cn{--display:'Noto Sans SC','Noto Sans TC','Archivo',sans-serif;--body:'Noto Sans SC','Noto Sans TC','Instrument Sans',sans-serif}
+  .lang button{white-space:nowrap}
+
 </style>
 
 <script type="application/ld+json">
@@ -699,7 +707,7 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {"@type":"Question","name":"Why choose AAEL over a bigger firm?","acceptedAnswer":{"@type":"Answer","text":"AAEL keeps an Authorized Person, a Registered Structural Engineer, Registered Professional Surveyors and a Registered Inspector under one roof, and they personally run every project rather than delegating it down the line — with delivery standards proven on a five-star heritage hotel and the responsiveness of a focused practice."}},
+    {"@type":"Question","name":"Why choose AAEL over a bigger firm?","acceptedAnswer":{"@type":"Answer","text":"AAEL keeps an Authorized Person, a Registered Structural Engineer, Registered Professional Surveyors (R.P.S.) and a Registered Inspector under one roof, and they personally run every project rather than delegating it down the line — with delivery standards proven on a five-star heritage hotel and the responsiveness of a focused practice."}},
     {"@type":"Question","name":"What does an Authorized Person (AP) do and do I need one?","acceptedAnswer":{"@type":"Answer","text":"Under the Buildings Ordinance, most building works in Hong Kong must be prepared, submitted and supervised by an Authorized Person, who signs statutory submissions, coordinates Buildings Department approval and carries the legal responsibility. AAEL's AP is in-house."}},
     {"@type":"Question","name":"I've received an MBIS notice. What should I do?","acceptedAnswer":{"@type":"Answer","text":"The statutory deadline gives months, not days. Appoint a Registered Inspector, carry out the inspection, submit the report and complete required repairs. AAEL handles all steps with a Registered Inspector and Registered Professional Surveyors in-house and offers free initial advice."}},
     {"@type":"Question","name":"How much will it cost?","acceptedAnswer":{"@type":"Answer","text":"There is no standard price list because every building differs, but proposals are free: AAEL visits the building and sends a written scope, fee and programme within two working days, with no obligation."}},
@@ -740,6 +748,7 @@
         <div class="lang" role="group" aria-label="Language">
           <button id="btn-en" class="on" onclick="setLang('en')">EN</button>
           <button id="btn-zh" onclick="setLang('zh')">繁</button>
+          <button id="btn-cn" onclick="setLang('cn')">简</button>
         </div>
         <button class="theme-btn" id="theme-btn" aria-label="Toggle dark mode" onclick="toggleTheme()">☾</button>
         <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
@@ -758,8 +767,8 @@
         <span class="zh">勘察・工程・<br><span class="grad">入則批核，一站辦妥。</span></span>
       </h1>
       <p>
-        <span class="en">Ascend Architecture &amp; Engineering Ltd (AAEL) is the team behind some of Hong Kong's most demanding building works — a five-star heritage hotel, working industrial towers, live residential estates. With an Authorized Person, a Registered Structural Engineer Registered Professional Surveyors and a Registered Inspector under one roof, you deal with one team from day one to Buildings Department sign-off.</span>
-        <span class="zh">躍昇建築事務顧問有限公司（AAEL）是香港多項高要求樓宇工程背後的團隊——由五星級歷史酒店、營運中的工業大樓，以至入住中的住宅屋苑。認可人士（AP）、註冊結構工程師（RSE）、註冊建築測量師及註冊檢驗人員（RI）同屬一司，由第一日到屋宇署簽核，您只需面對同一團隊。</span>
+        <span class="en">Most owners don't want a consultant. They want the problem to end — without chasing four different firms, refereeing between them, or discovering at the last step that nobody will sign. AAEL holds the Authorized Person, Registered Structural Engineer, Registered Professional Surveyor (R.P.S.) and Registered Inspector in the same office. One appointment, one accountable team, from the first site visit to Buildings Department sign-off.</span>
+        <span class="zh">業主要的其實不是顧問，而是「件事有人搞掂」——不必分別聘請四間公司、不必夾在中間協調，更不必到最後一步才發現無人肯簽名。認可人士（AP）、註冊結構工程師（RSE）、註冊專業測量師（R.P.S.）及註冊檢驗人員（RI）同在一間公司之內。一次委託，一個問責團隊，由第一次上樓視察到屋宇署簽核。</span>
       </p>
       <div class="hero-ctas">
         <a href="#contact" class="btn btn-primary"><span class="en">Get a fee proposal</span><span class="zh">索取收費建議</span></a>
@@ -789,7 +798,7 @@
 
 
 <div class="ticker" aria-hidden="true">
-  <div class="ticker-track"><span><b>AP</b> 認可人士 <span>·</span> <b>RSE</b> 註冊結構工程師 <span>·</span> <b>RPS</b> 註冊建築測量師 <span>·</span> <b>MBIS</b> 強制驗樓 <span>·</span> <b>A&amp;A</b> 改建加建 <span>·</span> <b>MW</b> 小型工程 <span>·</span> <b>LICENSING</b> 牌照顧問 <span>·</span> <b>SURVEYS</b> 樓宇勘察 <span>·</span> <b>STATUTORY</b> 屋宇署入則 <span>·</span> <b>HONG KONG</b> 香港 <span>·</span> </span><span><b>AP</b> 認可人士 <span>·</span> <b>RSE</b> 註冊結構工程師 <span>·</span> <b>RPS</b> 註冊建築測量師 <span>·</span> <b>MBIS</b> 強制驗樓 <span>·</span> <b>A&amp;A</b> 改建加建 <span>·</span> <b>MW</b> 小型工程 <span>·</span> <b>LICENSING</b> 牌照顧問 <span>·</span> <b>SURVEYS</b> 樓宇勘察 <span>·</span> <b>STATUTORY</b> 屋宇署入則 <span>·</span> <b>HONG KONG</b> 香港 <span>·</span> </span></div>
+  <div class="ticker-track"><span><b>AP</b> 認可人士 <span>·</span> <b>RSE</b> 註冊結構工程師 <span>·</span> <b>RPS</b> 註冊專業測量師 <span>·</span> <b>MBIS</b> 強制驗樓 <span>·</span> <b>A&amp;A</b> 改建加建 <span>·</span> <b>MW</b> 小型工程 <span>·</span> <b>LICENSING</b> 牌照顧問 <span>·</span> <b>SURVEYS</b> 樓宇勘察 <span>·</span> <b>STATUTORY</b> 屋宇署入則 <span>·</span> <b>HONG KONG</b> 香港 <span>·</span> </span><span><b>AP</b> 認可人士 <span>·</span> <b>RSE</b> 註冊結構工程師 <span>·</span> <b>RPS</b> 註冊專業測量師 <span>·</span> <b>MBIS</b> 強制驗樓 <span>·</span> <b>A&amp;A</b> 改建加建 <span>·</span> <b>MW</b> 小型工程 <span>·</span> <b>LICENSING</b> 牌照顧問 <span>·</span> <b>SURVEYS</b> 樓宇勘察 <span>·</span> <b>STATUTORY</b> 屋宇署入則 <span>·</span> <b>HONG KONG</b> 香港 <span>·</span> </span></div>
 </div>
 
 <!-- ============ SERVICES ============ -->
@@ -799,7 +808,7 @@
       <h2><span class="en">What we do</span><span class="zh">服務範疇</span></h2>
       <span class="sec-note"><span class="en">Four disciplines</span><span class="zh">四大專業</span></span>
     </div>
-    <p class="sec-intro rv"><span class="en">Four disciplines, one accountable team. Nothing gets subcontracted out of sight, and nobody points fingers when it matters.</span><span class="zh">四大專業，一個問責團隊。絕不將責任外判，更不會在關鍵時刻互相推卸。</span></p>
+    <p class="sec-intro rv"><span class="en">If something goes wrong on your building, you want one phone number — not three consultants explaining why it was the other one's scope. Everything below sits with the same team.</span><span class="zh">樓宇一旦出事，業主想要的是一個電話號碼，而不是三間顧問各自解釋「那部分不屬我們範圍」。以下所有服務，由同一團隊承擔到底。</span></p>
     <div class="svc-grid">
       <div class="svc rv">
         <span class="idx">01</span>
@@ -816,7 +825,7 @@
         <span class="idx">02</span>
         <span class="tag"><span class="en">Surveys · Diagnostics</span><span class="zh">勘察 · 診斷</span></span>
         <h3><span class="en">Condition surveys &amp; diagnostics</span><span class="zh">樓宇狀況勘察及診斷</span></h3>
-        <p><span class="en">Our Registered Professional Surveyors tell you what's actually wrong with your building — what can wait, and what can't. Reports written for decisions, not for shelves.</span><span class="zh">由註冊建築測量師直接告訴您樓宇的實際問題——哪些可以等，哪些不能等。報告為決策而寫，不是為存檔而寫。</span></p>
+        <p><span class="en">Our Registered Professional Surveyors (R.P.S.) tell you what's actually wrong with your building — what can wait, and what can't. Reports written for decisions, not for shelves.</span><span class="zh">由註冊專業測量師直接告訴您樓宇的實際問題——哪些可以等，哪些不能等。報告為決策而寫，不是為存檔而寫。</span></p>
         <ul>
           <li><span class="en">Structural condition surveys</span><span class="zh">結構狀況勘察</span></li>
           <li><span class="en">Building defect diagnostics</span><span class="zh">樓宇缺陷診斷</span></li>
@@ -858,7 +867,7 @@
       <h2><span class="en">Scope of services</span><span class="zh">服務範圍</span></h2>
       <span class="sec-note"><span class="en">Full menu</span><span class="zh">一站式服務</span></span>
     </div>
-    <p class="sec-intro rv"><span class="en">One appointment covers the lot — from Buildings Department paperwork to the licence on your wall. If it involves your building and a government department, it's on this list.</span><span class="zh">一次委託，全盤辦妥——由屋宇署文件以至掛在牆上的牌照。凡涉及您的樓宇與政府部門的事務，均在此列。</span></p>
+    <p class="sec-intro rv"><span class="en">The test we apply: after we finish, should you need to appoint anyone else? If your problem involves your building and a government department, the answer should be no.</span><span class="zh">我們的自我要求是：做完之後，您還需要另聘他人嗎？凡是涉及您的樓宇與政府部門的事，答案理應是「不需要」。</span></p>
     <div class="svc-grid">
       <div class="svc rv">
         <span class="tag"><span class="en">Building consultancy</span><span class="zh">建築事務</span></span>
@@ -917,7 +926,7 @@
       <span class="sec-note"><span class="en">New 2026 regime</span><span class="zh">2026新制</span></span>
     </div>
     <p class="sec-intro rv">
-      <span class="en">The Basic Housing Unit (Regulation) Ordinance took effect on 1 March 2026. Every regulated subdivided unit must be certified by a "specified professional" as meeting the minimum living-environment standards before it can be lawfully let. Our in-house Registered Professional Surveyor (Building Surveying) is one of those specified professionals — so assessment, certification and any rectification works stay with one team.</span>
+      <span class="en">The Basic Housing Unit (Regulation) Ordinance took effect on 1 March 2026. Every regulated subdivided unit must be certified by a "specified professional" as meeting the minimum living-environment standards before it can be lawfully let. Our in-house Registered Professional Surveyor (R.P.S., Building Surveying) is one of those specified professionals — so assessment, certification and any rectification works stay with one team.</span>
       <span class="zh">《簡樸房條例》已於2026年3月1日生效。所有受規管的分間單位，必須經「指明專業人士」核證符合居住環境最低標準，方可合法出租。本公司駐司的註冊專業測量師（建築測量組別）正是條例指明的核證專業人士——由評估、核證以至改造工程，全程由同一團隊處理。</span>
     </p>
     <div class="svc-grid">
@@ -1025,7 +1034,7 @@
       <h2><span class="en">How we work</span><span class="zh">服務流程</span></h2>
       <span class="sec-note"><span class="en">Four steps</span><span class="zh">四個步驟</span></span>
     </div>
-    <p class="sec-intro rv"><span class="en">No mystery, no runaround. Here's what engaging us actually looks like:</span><span class="zh">沒有懸念，不兜圈子。委託我們的實際流程如下：</span></p>
+    <p class="sec-intro rv"><span class="en">Before you commit a dollar, you should know exactly what the next four steps look like and what each one costs you in time. Here it is:</span><span class="zh">在您付出第一分錢之前，理應清楚知道接下來四個步驟是甚麼、各需多少時間。以下就是：</span></p>
     <div class="steps rv">
       <div class="step">
         <div class="n">1</div>
@@ -1064,8 +1073,8 @@
       <span class="sec-note"><span class="en">Track record</span><span class="zh">項目往績</span></span>
     </div>
     <p class="sec-intro rv">
-      <span class="en">Our clients run hotels, estates and industrial plants where discretion is part of the service. So we don't publish names. But the shape of the work speaks for itself:</span>
-      <span class="zh">我們的客戶營運酒店、屋苑及工業設施，保密本身就是服務的一部分。因此我們不公開客戶名稱——但項目的份量，一看便知：</span>
+      <span class="en">You will not find our clients' names here — the owners who hire us expect that, and one day you may be glad we treat yours the same way. What the work looks like, though, we can tell you:</span>
+      <span class="zh">這裡不會看到客戶名稱——聘用我們的業主有此要求，而他日輪到您，您大概也會慶幸我們同樣守口如瓶。但項目的份量，可以說給您聽：</span>
     </p>
     <div class="stats rv">
       <div class="stat"><div class="num">50+</div><div class="lbl"><span class="en">Commissions delivered to date</span><span class="zh">歷年委託項目</span></div></div>
@@ -1140,7 +1149,7 @@
       <h2><span class="en">Senior hands on every job</span><span class="zh">每個項目，資深親自把關</span></h2>
       <span class="sec-note"><span class="en">The team</span><span class="zh">專業團隊</span></span>
     </div>
-    <p class="sec-intro rv"><span class="en">Your project is led directly by our registered professionals — not handed down the line. The people who sign are the people who show up.</span><span class="zh">您的項目由註冊專業人士親自主理，絕不層層下放。在文件上簽署的人，就是親身到場的人。</span></p>
+    <p class="sec-intro rv"><span class="en">You are not paying for a name on a letterhead and a junior on site. The person whose registration goes on your submission is the person who walks your building.</span><span class="zh">您付的錢，不是買一個信頭上的名字，然後派新人上樓。在您的文件上簽署、承擔法律責任的那位，就是親身到您樓宇視察的那位。</span></p>
     <div class="org">
       <div class="rv">
         <div class="tier-label"><span class="en">Registered professionals</span><span class="zh">註冊專業人士</span></div>
@@ -1157,7 +1166,7 @@
           </div>
           <div class="person">
             <div class="p-role"><span class="en">Surveying Lead</span><span class="zh">測量主管</span></div>
-            <div class="p-name"><span class="en">Registered Professional Surveyors</span><span class="zh">註冊建築測量師</span></div>
+            <div class="p-name"><span class="en">Registered Professional Surveyor (R.P.S.)</span><span class="zh">註冊專業測量師（R.P.S.）</span></div>
             <div class="p-reg"><span class="en">Surveyors Registration Board Registered</span><span class="zh">測量師註冊管理局註冊</span></div>
           </div>
           <div class="person">
@@ -1229,6 +1238,37 @@
         <p><span class="en">Prescribed inspection versus prescribed repair, deadlines and extensions, and the extra steps for owners' corporations.</span><span class="zh">訂明檢驗與訂明修葺的分別、時限與延期，以及業主立案法團的額外程序。</span></p>
         <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
       </a>
+
+      <a class="kb" href="/guide-ubw.html">
+        <span class="k">UBW · 僭建</span>
+        <h3><span class="en">Do unauthorised building works always have to come down?</span><span class="zh">僭建物一定要拆嗎？違例建築工程的三條出路</span></h3>
+        <p><span class="en">Lower enforcement priority, regularisation, or removal — how to tell which category you are in, and the right sequence after an order.</span><span class="zh">寬免執法、可規範化、必須清拆——如何分辨屬於哪一類，以及收到清拆令後的正確次序。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-minor-works.html">
+        <span class="k">Statutory routes</span>
+        <h3><span class="en">Minor works or A&amp;A? Getting the statutory route right</span><span class="zh">小型工程還是改建加建？開工前分清法定路線</span></h3>
+        <p><span class="en">The three classes, what each requires, and what happens when a job is filed down the wrong route.</span><span class="zh">三個級別的適用範圍與要求，以及選錯路線的實際後果。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-restaurant-licence.html">
+        <span class="k">Licensing</span>
+        <h3><span class="en">Before you sign the lease: can these premises be licensed?</span><span class="zh">開餐廳簽租約前：處所能否領牌的檢查清單</span></h3>
+        <p><span class="en">Use, escape routes, exhaust, drainage and existing breaches — the five checks that decide whether a licence is achievable.</span><span class="zh">用途、走火通道、排煙、渠務及現有違規——決定能否領牌的五項檢查。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-leakage.html">
+        <span class="k">Seepage</span>
+        <h3><span class="en">Water seepage from above: responsibility and evidence</span><span class="zh">樓上漏水：責任誰屬、如何舉證與解決流程</span></h3>
+        <p><span class="en">Common sources, how professional investigation actually works, and how to obtain evidence you can act on.</span><span class="zh">常見滲漏源頭、專業勘察方法，以及如何取得可用於追討的證據。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-oc-tender.html">
+        <span class="k">Owners' corporations</span>
+        <h3><span class="en">Major repairs: tendering, supervision and pitfalls</span><span class="zh">業主立案法團大維修：招標、監督與常見陷阱</span></h3>
+        <p><span class="en">Why consultant and contractor must stay separate, the statutory tender process, and where budgets usually break.</span><span class="zh">為何顧問與承建商角色必須分開、法定招標程序，以及最常超支的環節。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
     </div>
   </div>
 </section>
@@ -1244,8 +1284,8 @@
       <details>
         <summary><span><span class="en">Why choose AAEL over a bigger firm?</span><span class="zh">為何選擇AAEL，而非大型顧問公司？</span></span></summary>
         <div class="ans">
-          <span class="en"><strong>Because the people who sign are the people who show up.</strong> We keep an Authorized Person, a Registered Structural Engineer, Registered Professional Surveyors and a Registered Inspector under one roof — and they personally run your project rather than delegating it down the line. You get delivery standards proven on a five-star heritage hotel, with the responsiveness and fees of a focused practice. And one accountable team means no finger-pointing between consultants when it matters.</span>
-          <span class="zh"><strong>因為簽署的人，就是親身到場的人。</strong>認可人士（AP）、註冊結構工程師（RSE）、註冊建築測量師及註冊檢驗人員（RI）同屬一司，並親自主理您的項目，絕不層層下放。您以精簡團隊的收費與回應速度，享有經五星級歷史酒店驗證的執行標準。一個問責團隊，亦代表關鍵時刻絕無顧問之間互相推卸。</span>
+          <span class="en"><strong>Put yourself in the owner's chair for a moment.</strong> With a large firm you get a name and a junior. With a small one you get attention but not the registrations, so the statutory work goes outside and you end up coordinating strangers. AAEL is deliberately the third option: four registrations — AP, RSE, R.P.S. and RI — under one roof, run personally by the people who hold them. In practice that means you appoint once, you get one programme instead of three, you are never the messenger between consultants, and when something is discovered mid-project it is dealt with rather than debated. The standards are those we proved on a five-star heritage hotel; the responsiveness is that of a practice small enough to answer your call.</span>
+          <span class="zh"><strong>請站在業主的位置想一想。</strong>找大行，得到的是一個名字加一位新人；找小行，得到關注卻未必有資格，法定部分還是要外判，最終由您夾在中間協調素未謀面的幾方。AAEL 刻意做第三種選擇：認可人士（AP）、註冊結構工程師（RSE）、註冊專業測量師（R.P.S.）及註冊檢驗人員（RI）四項資格同在一司，並由持證者親自主理。實際分別是：您只需委託一次；得到一份統一的工作計劃，而非三份各自為政的時間表；您永遠不必充當顧問之間的傳話人；工程中途發現問題時，那是被處理，而不是被爭論。執行標準，是我們在五星級歷史酒店驗證過的；回應速度，是一間接得到您電話的公司才有的。</span>
         </div>
       </details>
       <details>
@@ -1259,7 +1299,7 @@
         <summary><span><span class="en">I've received an MBIS notice. What should I do?</span><span class="zh">收到強制驗樓通知，應如何處理？</span></span></summary>
         <div class="ans">
           <span class="en">Don't panic — the statutory deadline gives you months, not days. The steps: appoint a Registered Inspector, carry out the inspection, submit the report, and complete any required repairs. We handle all of it with Registered Professional Surveyors in-house. Send us a photo of the notice and we'll tell you exactly what applies to your building, free of charge.</span>
-          <span class="zh">無需驚慌——法定期限以月計算，並非以日計算。程序為：委任註冊檢驗人員、進行檢驗、提交報告，以及完成所需修葺。我們的駐司註冊檢驗人員及註冊建築測量師可全權辦理上述程序。只需將通知書拍照傳送給我們，我們將免費告知您的樓宇具體所需的跟進事項。</span>
+          <span class="zh">無需驚慌——法定期限以月計算，並非以日計算。程序為：委任註冊檢驗人員、進行檢驗、提交報告，以及完成所需修葺。我們的駐司註冊檢驗人員及註冊專業測量師可全權辦理上述程序。只需將通知書拍照傳送給我們，我們將免費告知您的樓宇具體所需的跟進事項。</span>
         </div>
       </details>
       <details>
@@ -1412,12 +1452,48 @@
 <script>
   /* ----- language ----- */
   function setLang(l){
-    document.body.classList.toggle('lang-zh', l==='zh');
-    document.documentElement.lang = l==='zh' ? 'zh-Hant' : 'en';
-    document.getElementById('btn-en').classList.toggle('on', l==='en');
-    document.getElementById('btn-zh').classList.toggle('on', l==='zh');
+    var b=document.body;
+    b.classList.toggle('lang-zh', l==='zh'||l==='cn');
+    b.classList.toggle('lang-cn', l==='cn');
+    document.documentElement.lang = l==='cn' ? 'zh-Hans' : (l==='zh' ? 'zh-Hant' : 'en');
+    ['en','zh','cn'].forEach(function(k){
+      var el=document.getElementById('btn-'+k); if(el) el.classList.toggle('on', k===l);
+    });
+    if(l==='cn') toSimplified(); else restoreTrad();
     try{localStorage.setItem('aae-lang', l);}catch(e){}
   }
+  /* --- Traditional <-> Simplified runtime conversion --- */
+  var T2S={"microphone":"","並":"并","佈":"布","佔":"占","併":"并","來":"来","係":"系","倆":"俩","個":"个","們":"们","備":"备","傳":"传","債":"债","傷":"伤","僅":"仅","僱":"雇","價":"价","億":"亿","儘":"尽","償":"偿","優":"优","兇":"凶","兌":"兑","兒":"儿","內":"内","兩":"两","冊":"册","冑":"胄","別":"别","刪":"删","則":"则","剛":"刚","剝":"剥","創":"创","劃":"划","劇":"剧","劍":"剑","劏":"㓥","劑":"剂","勁":"劲","動":"动","務":"务","勝":"胜","勞":"劳","勢":"势","勳":"勋","勵":"励","勸":"劝","匯":"汇","區":"区","協":"协","卻":"却","厭":"厌","參":"参","叢":"丛","員":"员","問":"问","啓":"启","啟":"启","單":"单","嗎":"吗","嘗":"尝","噸":"吨","嚇":"吓","嚐":"尝","嚮":"向","嚴":"严","囉":"啰","囑":"嘱","圍":"围","圖":"图","團":"团","執":"执","堅":"坚","報":"报","場":"场","塵":"尘","墮":"堕","壇":"坛","壓":"压","壞":"坏","壟":"垄","壽":"寿","夠":"够","夾":"夹","奧":"奥","奪":"夺","奮":"奋","妝":"妆","娛":"娱","嬰":"婴","孫":"孙","學":"学","實":"实","寧":"宁","審":"审","寫":"写","寬":"宽","寶":"宝","將":"将","專":"专","尋":"寻","對":"对","導":"导","屆":"届","屍":"尸","層":"层","屬":"属","峯":"峰","島":"岛","峽":"峡","嶺":"岭","嶼":"屿","嶽":"岳","巒":"峦","帥":"帅","師":"师","帳":"账","幫":"帮","幾":"几","廁":"厕","廈":"厦","廚":"厨","廠":"厂","廢":"废","廣":"广","廬":"庐","廳":"厅","強":"强","彈":"弹","彊":"强","彌":"弥","彎":"弯","彙":"汇","後":"后","徑":"径","從":"从","徵":"征","惡":"恶","態":"态","慣":"惯","慶":"庆","慾":"欲","憂":"忧","憲":"宪","應":"应","懶":"懒","懷":"怀","懸":"悬","戀":"恋","戔":"戋","戰":"战","戲":"戏","戶":"户","採":"采","換":"换","損":"损","撥":"拨","擁":"拥","擇":"择","擊":"击","擔":"担","據":"据","擠":"挤","擬":"拟","擱":"搁","擴":"扩","擺":"摆","擾":"扰","攜":"携","攝":"摄","攤":"摊","攪":"搅","敗":"败","敵":"敌","數":"数","斃":"毙","斷":"断","於":"于","時":"时","晝":"昼","曆":"历","曬":"晒","書":"书","會":"会","朧":"胧","東":"东","條":"条","業":"业","極":"极","榦":"干","構":"构","樂":"乐","樓":"楼","標":"标","樞":"枢","樣":"样","樸":"朴","橋":"桥","機":"机","檔":"档","檢":"检","櫃":"柜","櫥":"橱","權":"权","歎":"叹","歐":"欧","歛":"敛","歡":"欢","歲":"岁","歷":"历","歸":"归","殘":"残","殮":"殓","殺":"杀","殼":"壳","毀":"毁","毆":"殴","氣":"气","氫":"氢","氬":"氩","汙":"污","決":"决","沒":"没","況":"况","減":"减","測":"测","準":"准","溝":"沟","溼":"湿","滅":"灭","滯":"滞","滲":"渗","滷":"卤","滿":"满","漢":"汉","漬":"渍","漲":"涨","潑":"泼","潔":"洁","潛":"潜","潤":"润","澆":"浇","澤":"泽","濕":"湿","濟":"济","濱":"滨","濾":"滤","瀉":"泻","瀝":"沥","灑":"洒","災":"灾","為":"为","無":"无","煉":"炼","煙":"烟","熱":"热","燄":"焰","燈":"灯","燒":"烧","營":"营","燦":"灿","爐":"炉","爛":"烂","爭":"争","爺":"爷","牀":"床","牆":"墙","牘":"牍","牠":"它","牽":"牵","狀":"状","獄":"狱","獎":"奖","獨":"独","獲":"获","獵":"猎","獻":"献","現":"现","瑩":"莹","環":"环","璽":"玺","瓊":"琼","產":"产","甦":"苏","畢":"毕","異":"异","當":"当","疇":"畴","疊":"叠","瘋":"疯","療":"疗","癡":"痴","癢":"痒","癱":"瘫","發":"发","皁":"皂","皰":"疱","盜":"盗","盞":"盏","盡":"尽","監":"监","盤":"盘","盪":"荡","眾":"众","睞":"睐","矚":"瞩","矯":"矫","碁":"棋","確":"确","碼":"码","礎":"础","礙":"碍","礦":"矿","祕":"秘","祿":"禄","禍":"祸","禮":"礼","禱":"祷","稅":"税","種":"种","稱":"称","穌":"稣","積":"积","穩":"稳","穫":"获","窮":"穷","窺":"窥","竄":"窜","竈":"灶","竊":"窃","競":"竞","筆":"笔","筍":"笋","箋":"笺","節":"节","範":"范","築":"筑","篤":"笃","篩":"筛","簀":"篑","簡":"简","簷":"檐","簽":"签","籃":"篮","籌":"筹","籠":"笼","籤":"签","粧":"妆","粵":"粤","糉":"粽","糧":"粮","糰":"团","糾":"纠","紀":"纪","約":"约","紅":"红","納":"纳","紐":"纽","純":"纯","紗":"纱","紙":"纸","級":"级","紛":"纷","細":"细","終":"终","絃":"弦","組":"组","結":"结","絕":"绝","絡":"络","給":"给","絨":"绒","統":"统","綁":"绑","經":"经","綜":"综","綠":"绿","綫":"线","維":"维","綴":"缀","緊":"紧","緒":"绪","線":"线","緝":"缉","緞":"缎","締":"缔","緣":"缘","編":"编","緻":"致","縐":"绉","縣":"县","縫":"缝","縮":"缩","總":"总","績":"绩","繕":"缮","繞":"绕","繩":"绳","繼":"继","續":"续","纖":"纤","纜":"缆","罈":"坛","罰":"罚","罷":"罢","羅":"罗","羣":"群","義":"义","翹":"翘","翽":"翙","耮":"耢","聖":"圣","聞":"闻","聯":"联","聳":"耸","職":"职","聽":"听","聾":"聋","肅":"肃","脈":"脉","脣":"唇","脫":"脱","腦":"脑","膚":"肤","膠":"胶","膽":"胆","臉":"脸","臘":"腊","臥":"卧","臨":"临","臺":"台","與":"与","舉":"举","舊":"旧","舖":"铺","艙":"舱","艤":"舣","艱":"艰","芻":"刍","莊":"庄","華":"华","菴":"庵","菸":"烟","萬":"万","蒐":"搜","蓆":"席","蓋":"盖","蔴":"麻","蕭":"萧","薦":"荐","藉":"借","藍":"蓝","藥":"药","蘇":"苏","蘊":"蕴","蘭":"兰","處":"处","號":"号","虧":"亏","蜆":"蚬","蝕":"蚀","蟲":"虫","蠟":"蜡","蠻":"蛮","衆":"众","術":"术","衛":"卫","衝":"冲","衞":"卫","裇":"恤","裌":"夹","裏":"里","補":"补","裝":"装","裡":"里","製":"制","複":"复","褲":"裤","襲":"袭","覈":"核","見":"见","規":"规","覓":"觅","視":"视","覩":"睹","親":"亲","覺":"觉","覽":"览","觀":"观","觸":"触","訂":"订","計":"计","訊":"讯","討":"讨","訓":"训","託":"托","記":"记","訪":"访","設":"设","許":"许","訴":"诉","診":"诊","註":"注","詐":"诈","評":"评","詞":"词","詢":"询","試":"试","話":"话","該":"该","詳":"详","誌":"志","認":"认","語":"语","誠":"诚","誤":"误","誦":"诵","說":"说","誰":"谁","調":"调","談":"谈","請":"请","諒":"谅","論":"论","諮":"咨","諾":"诺","謀":"谋","謙":"谦","講":"讲","謝":"谢","謹":"谨","證":"证","識":"识","譚":"谭","譜":"谱","譯":"译","議":"议","護":"护","譽":"誉","讀":"读","變":"变","讓":"让","讚":"赞","豐":"丰","貝":"贝","貞":"贞","負":"负","財":"财","貢":"贡","貧":"贫","貨":"货","販":"贩","貪":"贪","貫":"贯","責":"责","貯":"贮","貳":"贰","貴":"贵","買":"买","貸":"贷","費":"费","貼":"贴","賀":"贺","賃":"赁","資":"资","賊":"贼","賑":"赈","賓":"宾","賠":"赔","賢":"贤","賣":"卖","賦":"赋","質":"质","賬":"账","賭":"赌","賴":"赖","賺":"赚","購":"购","賽":"赛","贈":"赠","贊":"赞","贏":"赢","贓":"赃","贖":"赎","趕":"赶","趨":"趋","踐":"践","蹟":"迹","躂":"跶","躉":"趸","躍":"跃","軀":"躯","車":"车","軌":"轨","軍":"军","軟":"软","軸":"轴","較":"较","載":"载","輔":"辅","輛":"辆","輝":"辉","輩":"辈","輪":"轮","輯":"辑","輸":"输","輻":"辐","輿":"舆","轄":"辖","轉":"转","轎":"轿","辦":"办","辭":"辞","農":"农","這":"这","連":"连","進":"进","運":"运","過":"过","達":"达","違":"违","遙":"遥","遜":"逊","遞":"递","遠":"远","適":"适","遲":"迟","遷":"迁","選":"选","邁":"迈","還":"还","邊":"边","邏":"逻","邨":"村","郤":"却","郵":"邮","鄉":"乡","鄭":"郑","鄰":"邻","醞":"酝","醫":"医","釀":"酿","釋":"释","釘":"钉","針":"针","鈕":"钮","鈣":"钙","鈴":"铃","鉛":"铅","鉢":"钵","銀":"银","銅":"铜","銷":"销","鋁":"铝","鋪":"铺","鋼":"钢","錄":"录","錢":"钱","錦":"锦","錫":"锡","錯":"错","錶":"表","鍋":"锅","鍵":"键","鍾":"钟","鎖":"锁","鏟":"铲","鏡":"镜","鐘":"钟","鐵":"铁","鑄":"铸","鑑":"鉴","鑽":"钻","鑿":"凿","長":"长","門":"门","閃":"闪","閉":"闭","開":"开","閒":"闲","間":"间","閘":"闸","閣":"阁","閱":"阅","闆":"板","闊":"阔","闖":"闯","關":"关","陣":"阵","陰":"阴","陳":"陈","陽":"阳","隊":"队","階":"阶","際":"际","隣":"邻","隨":"随","險":"险","隱":"隐","雙":"双","雛":"雏","雜":"杂","雞":"鸡","離":"离","難":"难","雲":"云","電":"电","霧":"雾","靂":"雳","靈":"灵","靜":"静","靭":"韧","韌":"韧","韓":"韩","響":"响","頁":"页","頂":"顶","頃":"顷","項":"项","順":"顺","須":"须","頌":"颂","預":"预","頑":"顽","頒":"颁","領":"领","頭":"头","頸":"颈","頻":"频","顆":"颗","題":"题","額":"额","顏":"颜","願":"愿","顛":"颠","類":"类","顧":"顾","顯":"显","風":"风","颱":"台","颶":"飓","飄":"飘","飛":"飞","飯":"饭","飲":"饮","飼":"饲","餅":"饼","養":"养","餓":"饿","餘":"余","館":"馆","饋":"馈","駁":"驳","駐":"驻","駕":"驾","駛":"驶","騎":"骑","騙":"骗","驅":"驱","驕":"骄","驗":"验","驚":"惊","驟":"骤","骯":"肮","髒":"脏","體":"体","髮":"发","鬆":"松","鬍":"胡","鬥":"斗","鬧":"闹","魯":"鲁","鮮":"鲜","鰂":"鲗","鳥":"鸟","鳳":"凤","鴻":"鸿","鵬":"鹏","鷹":"鹰","鹹":"咸","鹼":"碱","鹽":"盐","麗":"丽","麥":"麦","麪":"面","麵":"面","麼":"么","黃":"黄","點":"点","黨":"党","黴":"霉","齊":"齐","齒":"齿","齡":"龄","齣":"出","龍":"龙"};
+  var _origText=null;
+  function zhTextNodes(){
+    var out=[],w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{
+      acceptNode:function(n){
+        if(!n.nodeValue||!/[\u4e00-\u9fff]/.test(n.nodeValue)) return NodeFilter.FILTER_REJECT;
+        var p=n.parentElement;
+        while(p){ if(p.tagName==='SCRIPT'||p.tagName==='STYLE') return NodeFilter.FILTER_REJECT; p=p.parentElement; }
+        return NodeFilter.FILTER_ACCEPT;
+      }});
+    var n; while((n=w.nextNode())) out.push(n);
+    return out;
+  }
+  function conv(s){ var o='',i; for(i=0;i<s.length;i++){ o += (T2S[s[i]]||s[i]); } return o; }
+  function toSimplified(){
+    var nodes=zhTextNodes();
+    if(!_origText){ _origText=nodes.map(function(n){return [n,n.nodeValue];}); }
+    _origText.forEach(function(p){ p[0].nodeValue = conv(p[1]); });
+    document.querySelectorAll('[placeholder]').forEach(function(el){
+      if(!el.dataset.phOrig) el.dataset.phOrig = el.placeholder;
+      el.placeholder = conv(el.dataset.phOrig);
+    });
+  }
+  function restoreTrad(){
+    if(_origText) _origText.forEach(function(p){ p[0].nodeValue = p[1]; });
+    document.querySelectorAll('[placeholder]').forEach(function(el){
+      if(el.dataset.phOrig) el.placeholder = el.dataset.phOrig;
+    });
+  }
+  window.aaeConv = conv;
+  window.aaeIsCN = function(){ return document.body.classList.contains('lang-cn'); }
   /* ----- theme: follows system unless the visitor overrides ----- */
   var themeOverride = null;
   function applyTheme(t){
@@ -1485,13 +1561,13 @@
      zh:'每幢樓宇情況不同，我們不設劃一收費 \u2014 但報價費用全免、回覆迅速。請將樓宇地址及需求電郵至 '+EMAIL+'，兩個工作天內必有清晰的服務範圍、收費及時間表。'},
     {k:['mbis','mandatory','inspection scheme','驗樓','強制驗樓','驗窗'],
      en:'Yes \u2014 Mandatory Building Inspection Scheme (MBIS) consultancy is one of our core services. Our Registered Professional Surveyors handle the inspection, reporting and any follow-up repair consultancy. Received a statutory notice? Email it to us and we\u2019ll advise your next steps.',
-     zh:'有的 \u2014 強制驗樓計劃（MBIS）顧問是我們核心服務之一。註冊建築測量師會處理檢驗、報告及後續修葺顧問。如已收到法定通知，歡迎電郵給我們，我們會建議下一步安排。'},
+     zh:'有的 \u2014 強制驗樓計劃（MBIS）顧問是我們核心服務之一。註冊專業測量師會處理檢驗、報告及後續修葺顧問。如已收到法定通知，歡迎電郵給我們，我們會建議下一步安排。'},
     {k:['seepage','spalling','handover','pre-purchase','snag','漏水','滲水','打針','石屎','剝落','收樓','驗樓收樓','二手樓','裝修驗收'],
      en:'Yes \u2014 we investigate water seepage and leakage, concrete spalling, and carry out handover, pre-purchase and renovation completion inspections. The advantage of using us: our Authorized Person and Registered Structural Engineer are in the same office, so if the inspection uncovers something structural or statutory, we handle that too. Email '+EMAIL+' with the address.',
      zh:'有的 \u2014 我們提供漏水滲漏勘察、石屎剝落檢驗，以及新樓收樓、買樓前檢驗及裝修完工驗收。選用我們的好處：認可人士及註冊結構工程師與測量師同處一司，若檢驗發現結構或法定問題，我們可即時接手處理。歡迎將樓宇地址電郵至 '+EMAIL+'。'},
     {k:['survey','condition','defect','leak','crack','diagnos','勘察','缺陷','滲漏','裂'],
      en:'Our Registered Professional Surveyors carry out full condition surveys and defect diagnostics \u2014 from single premises to multi-block estates. You\u2019ll get a report that tells you what can wait and what can\u2019t. Email '+EMAIL+' with the building address to get started.',
-     zh:'我們的註冊建築測量師提供全面樓宇狀況勘察及缺陷診斷 \u2014 由單一處所到多座屋苑均可。報告會清楚指出哪些問題可以等、哪些不能等。請電郵樓宇地址至 '+EMAIL+' 開始安排。'},
+     zh:'我們的註冊專業測量師提供全面樓宇狀況勘察及缺陷診斷 \u2014 由單一處所到多座屋苑均可。報告會清楚指出哪些問題可以等、哪些不能等。請電郵樓宇地址至 '+EMAIL+' 開始安排。'},
     {k:['a&a','alteration','addition','renovat','hotel','fit out','fitout','改建','加建','翻新','裝修','酒店'],
      en:'We provide full A&A (alterations & additions) consultancy \u2014 design, statutory submissions and project management. We\u2019ve upgraded a five-star hotel without costing it a single room-night, so live premises don\u2019t scare us. Tell us about your plans at '+EMAIL+'.',
      zh:'我們提供全面改建及加建（A&A）顧問服務 \u2014 包括設計、法定入則及項目管理。我們曾在五星級酒店照常營業下完成提升工程，營運中的處所絕對難不倒我們。歡迎電郵 '+EMAIL+' 商談。'},
@@ -1517,8 +1593,8 @@
      en:'The fastest way to reach us is email: '+MAILTO+'\nWe reply within two working days.\n\nYou can also follow our work on Instagram: '+IG,
      zh:'最快的聯絡方法是電郵：'+MAILTO+'\n我們會於兩個工作天內回覆。\n\n亦歡迎於 Instagram 關注我們的項目：'+IG},
     {k:['team','qualification','who','registered','surveyor','資格','團隊','邊個','測量師'],
-     en:'Four professional registrations under one roof: an Authorized Person (AP), a Registered Structural Engineer (RSE), a Registered Inspector (RI) \u2014 all Buildings Department registered \u2014 plus Registered Professional Surveyors. Every project is led directly by our registered professionals.',
-     zh:'四項專業註冊資格同屬一司：屋宇署註冊的認可人士（AP）、註冊結構工程師（RSE）及註冊檢驗人員（RI），以及註冊建築測量師。每個項目均由註冊專業人士親自主理。'},
+     en:'Four professional registrations under one roof: an Authorized Person (AP), a Registered Structural Engineer (RSE), a Registered Inspector (RI) \u2014 all Buildings Department registered \u2014 plus Registered Professional Surveyors (R.P.S.). Every project is led directly by our registered professionals.',
+     zh:'四項專業註冊資格同屬一司：屋宇署註冊的認可人士（AP）、註冊結構工程師（RSE）及註冊檢驗人員（RI），以及註冊專業測量師。每個項目均由註冊專業人士親自主理。'},
     {k:['hello','hi ','hey','你好','哈囉','早晨'],
      en:'Hello! I can answer general questions about our services, fees, MBIS, surveys and how to reach us. What would you like to know?',
      zh:'您好！我可以解答有關服務、收費、強制驗樓、勘察及聯絡方法的一般查詢。請問想了解甚麼？'},
@@ -1549,6 +1625,7 @@
   function el(t,c,h){var e=document.createElement(t);e.className=c;e.innerHTML=h;return e;}
   function scroll(){var b=document.getElementById('chat-body');b.scrollTop=b.scrollHeight;}
   function botSay(html){
+    if(window.aaeIsCN && window.aaeIsCN()) html = window.aaeConv(html);
     var b=document.getElementById('chat-body');
     var tp=el('div','typing','<i></i><i></i><i></i>');
     b.appendChild(tp);scroll();
@@ -1584,7 +1661,7 @@
   }
   document.getElementById('chat-input').addEventListener('keydown',function(e){if(e.key==='Enter')chatSend();});
   var _setLang=window.setLang;
-  window.setLang=function(l){_setLang(l);renderChips();};
+  window.setLang=function(l){_setLang(l);renderChips();if(l==='cn'&&window.aaeConv){toSimplified();}};
   renderChips();
 })();
 </script>
@@ -1602,7 +1679,7 @@
     document.getElementById('f-msg').placeholder=zh()?'例如：收到強制驗樓通知／需要改建入則／樓宇滲漏勘察…':'e.g. MBIS notice received / A&A submission / leakage survey\u2026';
   }
   ph();
-  var _s=window.setLang;window.setLang=function(l){_s(l);ph();};
+  var _s=window.setLang;window.setLang=function(l){_s(l);ph();if(l==='cn'&&window.aaeIsCN&&window.aaeIsCN()){toSimplified();}};
   form.addEventListener('submit',function(e){
     e.preventDefault();
     var name=document.getElementById('f-name').value.trim();
