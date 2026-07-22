@@ -541,9 +541,10 @@
   /* ================= high-tech motion pack ================= */
   /* scroll progress bar */
   #progress{
-    position:fixed;top:0;left:0;height:3px;width:0;z-index:100;
+    position:fixed;top:0;left:0;height:3px;width:100%;z-index:100;
+    transform:scaleX(0);transform-origin:0 50%;will-change:transform;
     background:linear-gradient(90deg,var(--accent-hi),var(--accent));
-    box-shadow:0 0 12px var(--glow);transition:width .1s linear;
+    box-shadow:0 0 12px var(--glow);pointer-events:none;
   }
   /* hero entrance choreography */
   @keyframes heroUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
@@ -834,6 +835,39 @@
   header,.nav{max-width:100%;overflow:visible}
   .nav{box-sizing:border-box}
 
+
+  .hero-assure{margin-top:18px;font-size:.82rem;color:var(--dim);opacity:.9}
+  /* floating quick-contact */
+  .quick{position:fixed;right:22px;bottom:92px;z-index:88;display:flex;flex-direction:column;gap:10px}
+  .quick a{
+    width:52px;height:52px;border-radius:50%;display:grid;place-items:center;
+    background:var(--bg-2);border:1px solid var(--line);box-shadow:var(--shadow);
+    font-size:1.15rem;text-decoration:none;transition:transform .2s,border-color .2s;
+  }
+  .quick a:hover{transform:translateY(-3px);border-color:var(--accent)}
+  @media (max-width:480px){.quick{right:16px;bottom:84px}.quick a{width:46px;height:46px;font-size:1rem}}
+
+
+  .about-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:44px;align-items:start}
+  .about-lead{font-size:1.06rem;color:var(--txt);margin-bottom:18px;line-height:1.75}
+  .about p{color:var(--dim);margin-bottom:14px;font-size:.96rem;line-height:1.75}
+  .pillars{display:grid;gap:12px}
+  .pillar{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:16px 20px;background:var(--panel)}
+  .pillar b{display:block;font-family:var(--display);font-weight:700;font-size:.98rem;margin-bottom:4px}
+  .pillar span.d{font-size:.85rem;color:var(--dim);line-height:1.6}
+  @media (max-width:940px){.about-grid{grid-template-columns:1fr;gap:30px}}
+
+
+  /* content protection: keep inputs and contact details usable */
+  body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;
+       -webkit-touch-callout:none}
+  input,textarea,select,
+  .c-item,.c-item *,.form-card,.form-card *,#chat-panel,#chat-panel *{
+    -webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;
+    -webkit-touch-callout:default}
+  img{-webkit-user-drag:none;user-drag:none;pointer-events:none}
+  .wordmark img,.foot-logo{pointer-events:auto}
+
 </style>
 
 <script type="application/ld+json">
@@ -867,13 +901,18 @@
       <span>AAEL<small class="en">ASCEND ARCHITECTURE &amp; ENGINEERING LTD</small><small class="zh">躍昇建築事務顧問有限公司</small></span>
     </a>
     <div class="nav-right">
-      <nav class="nav-links">
+            <nav class="nav-links">
         <a href="#services"><span class="en">Services</span><span class="zh">服務</span></a>
         <a href="#bhu"><span class="en">BHU</span><span class="zh">簡樸房</span></a>
-        <a class="sec" href="#experience"><span class="en">Experience</span><span class="zh">項目往績</span></a>
         <a href="#knowledge"><span class="en">Guides</span><span class="zh">知識庫</span></a>
         <a href="#faq"><span class="en">FAQ</span><span class="zh">常見問題</span></a>
-        <a href="#contact" class="cta"><span class="en">Get a fee proposal</span><span class="zh">索取收費建議</span></a>
+        <a class="sec" href="#about"><span class="en">About us</span><span class="zh">公司簡介</span></a>
+        <a class="sec" href="#scope"><span class="en">Scope of services</span><span class="zh">服務範圍</span></a>
+        <a class="sec" href="#audience"><span class="en">Who we serve</span><span class="zh">服務對象</span></a>
+        <a class="sec" href="#process"><span class="en">How we work</span><span class="zh">服務流程</span></a>
+        <a class="sec" href="#experience"><span class="en">Experience</span><span class="zh">項目往績</span></a>
+        <a class="sec" href="#team"><span class="en">Our team</span><span class="zh">專業團隊</span></a>
+        <a href="#contact" class="cta"><span class="en">Free consultation</span><span class="zh">免費諮詢</span></a>
       </nav>
       <div class="switches">
         <div class="lang" role="group" aria-label="Language">
@@ -902,9 +941,14 @@
         <span class="zh">業主要的其實不是顧問，而是「件事有人搞掂」——不必分別聘請四間公司、不必夾在中間協調，更不必到最後一步才發現無人肯簽名。認可人士（A.P.）、註冊結構工程師（R.S.E.）、註冊專業測量師（R.P.S.）及註冊檢驗人員（R.I.）同在一間公司之內。一次委託，一個問責團隊，由第一次上樓視察到屋宇署簽核。</span>
       </p>
       <div class="hero-ctas">
-        <a href="#contact" class="btn btn-primary"><span class="en">Get a fee proposal</span><span class="zh">索取收費建議</span></a>
-        <a href="#experience" class="btn btn-ghost"><span class="en">See what we've done</span><span class="zh">查看項目往績</span></a>
+        <a href="#contact" class="btn btn-primary"><span class="en">Free consultation</span><span class="zh">免費初步諮詢</span></a>
+        <a href="#bhu" class="btn btn-ghost"><span class="en">Basic Housing Unit (BHU)</span><span class="zh">簡樸房認證</span></a>
+        <a href="#selfcheck" class="btn btn-ghost"><span class="en">60-second self-check</span><span class="zh">六十秒自我檢測</span></a>
       </div>
+      <p class="hero-assure">
+        <span class="en">No obligation · written scope and fee within two working days · your details stay with us</span>
+        <span class="zh">絕無約束 · 兩個工作天內書面回覆服務範圍及收費 · 資料絕對保密</span>
+      </p>
     </div>
     <div class="seals rv">
       <div class="chip">
@@ -929,8 +973,35 @@
 
 
 <div class="ticker" aria-hidden="true">
-  <div class="ticker-track"><span><b>AP</b> 認可人士 <span>·</span> <b>RSE</b> 註冊結構工程師 <span>·</span> <b>RPS</b> 註冊專業測量師 <span>·</span> <b>MBIS</b> 強制驗樓 <span>·</span> <b>A&amp;A</b> 改建加建 <span>·</span> <b>MW</b> 小型工程 <span>·</span> <b>LICENSING</b> 牌照顧問 <span>·</span> <b>SURVEYS</b> 樓宇勘察 <span>·</span> <b>STATUTORY</b> 屋宇署入則 <span>·</span> <b>HONG KONG</b> 香港 <span>·</span> </span><span><b>AP</b> 認可人士 <span>·</span> <b>RSE</b> 註冊結構工程師 <span>·</span> <b>RPS</b> 註冊專業測量師 <span>·</span> <b>MBIS</b> 強制驗樓 <span>·</span> <b>A&amp;A</b> 改建加建 <span>·</span> <b>MW</b> 小型工程 <span>·</span> <b>LICENSING</b> 牌照顧問 <span>·</span> <b>SURVEYS</b> 樓宇勘察 <span>·</span> <b>STATUTORY</b> 屋宇署入則 <span>·</span> <b>HONG KONG</b> 香港 <span>·</span> </span></div>
+  <div class="ticker-track"><span><b>A.P.</b> 認可人士 <span>·</span> <b>R.S.E.</b> 註冊結構工程師 <span>·</span> <b>R.P.S.</b> 註冊專業測量師 <span>·</span> <b>R.I.</b> 註冊檢驗人員 <span>·</span> <b>MBIS</b> 強制驗樓 <span>·</span> <b>BHU</b> 簡樸房認證 <span>·</span> <b>A&amp;A</b> 改建加建 <span>·</span> <b>MW</b> 小型工程 <span>·</span> <b>LICENSING</b> 牌照顧問 <span>·</span> <b>SURVEYS</b> 樓宇勘察 <span>·</span> <b>STATUTORY</b> 屋宇署入則 <span>·</span> <b>HONG KONG</b> 香港 <span>·</span> </span><span><b>A.P.</b> 認可人士 <span>·</span> <b>R.S.E.</b> 註冊結構工程師 <span>·</span> <b>R.P.S.</b> 註冊專業測量師 <span>·</span> <b>R.I.</b> 註冊檢驗人員 <span>·</span> <b>MBIS</b> 強制驗樓 <span>·</span> <b>BHU</b> 簡樸房認證 <span>·</span> <b>A&amp;A</b> 改建加建 <span>·</span> <b>MW</b> 小型工程 <span>·</span> <b>LICENSING</b> 牌照顧問 <span>·</span> <b>SURVEYS</b> 樓宇勘察 <span>·</span> <b>STATUTORY</b> 屋宇署入則 <span>·</span> <b>HONG KONG</b> 香港 <span>·</span> </span></div>
 </div>
+
+
+<!-- ============ ABOUT ============ -->
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2><span class="en">A building consultancy that signs its own work</span><span class="zh">一間為自己作品簽署的建築顧問公司</span></h2>
+      <span class="sec-note"><span class="en">Company profile</span><span class="zh">公司簡介</span></span>
+    </div>
+    <div class="about-grid about">
+      <div class="rv">
+        <p class="about-lead"><span class="en">Ascend Architecture &amp; Engineering Limited (AAEL) is a Hong Kong building consultancy built on one idea: the professional who carries the statutory responsibility should be the one who knows your building.</span><span class="zh">躍昇建築事務顧問有限公司（AAEL）是一間香港建築顧問公司，成立理念很簡單：承擔法定責任的專業人士，理應就是最了解您樓宇的那一位。</span></p>
+        <p><span class="en">Much of this industry works the other way round. A coordinator takes the brief, then buys in a signature from outside. It is lawful and it is common — and it is exactly where projects lose time, because the person accountable for the submission never stood where the problem is.</span><span class="zh">業界不少做法恰恰相反：統籌方接下工作，再向外購入一個簽名。這並不違法，亦相當普遍，卻正是項目流失時間的根源——因為對入則負責的人，從未站在問題所在的現場。</span></p>
+        <p><span class="en">AAEL holds four registrations in-house: Authorized Person (A.P.), Registered Structural Engineer (R.S.E.), Registered Professional Surveyor (R.P.S.) and Registered Inspector (R.I.). One appointment therefore covers surveying, structural engineering, statutory submissions, Basic Housing Unit certification, mandatory inspections, unauthorised works and premises licensing — without the client ever standing between consultants.</span><span class="zh">AAEL 在公司之內持有四項註冊資格：認可人士（A.P.）、註冊結構工程師（R.S.E.）、註冊專業測量師（R.P.S.）及註冊檢驗人員（R.I.）。因此，一次委託即涵蓋樓宇勘察、結構工程、法定入則、簡樸房認證、強制驗樓、僭建處理以至處所牌照——客戶毋須夾在不同顧問之間。</span></p>
+        <p><span class="en">Our work spans a five-star heritage hotel altered while it kept trading, multi-block residential estates, industrial processing towers, institutional premises and licensed food and beverage operations. We do not publish client names — the owners who appoint us expect that discretion, and every client receives it without exception.</span><span class="zh">我們的項目涵蓋在照常營業下完成改建的五星級歷史酒店、多座住宅屋苑、工業處理大樓、機構處所，以至持牌餐飲場所。我們不公開客戶名稱——委聘我們的業主有此期望，而這份審慎，我們對每一位客戶一視同仁。</span></p>
+        <p><span class="en">Registrations can and should be verified. The Buildings Department register is public, and we encourage every prospective client to check before appointing anyone — ourselves included.</span><span class="zh">註冊資格可以、亦應該被查證。屋宇署名冊是公開的，我們鼓勵每位準客戶在委聘任何人之前先行查核——包括查核我們。</span></p>
+      </div>
+      <div class="pillars rv">
+        <div class="pillar"><b><span class="en">Four registrations, one roof</span><span class="zh">四項註冊，同屬一司</span></b><span class="d"><span class="en">A.P. · R.S.E. · R.P.S. · R.I. — held in-house, not borrowed for a signature.</span><span class="zh">A.P.・R.S.E.・R.P.S.・R.I.——公司內部持有，並非外借簽名。</span></span></div>
+        <div class="pillar"><b><span class="en">Compliance tested before pricing</span><span class="zh">先驗合規，後談收費</span></b><span class="d"><span class="en">Every scheme is checked against the Ordinance before it is quoted, not after it is built.</span><span class="zh">每個方案在報價之前先按條例檢視，而非施工之後才發現問題。</span></span></div>
+        <div class="pillar"><b><span class="en">Written scope, written fee</span><span class="zh">白紙黑字的範圍與收費</span></b><span class="d"><span class="en">A clear proposal within two working days of the site visit. The figure quoted is the figure charged.</span><span class="zh">視察後兩個工作天內提供清晰建議書。報價的數字，就是收費的數字。</span></span></div>
+        <div class="pillar"><b><span class="en">Discretion by default</span><span class="zh">保密是基本，不是加項</span></b><span class="d"><span class="en">No client names, addresses or photographs published without consent.</span><span class="zh">未經同意，絕不公開客戶名稱、地址或相片。</span></span></div>
+        <div class="pillar"><b><span class="en">Senior attention on every job</span><span class="zh">每宗項目均由資深主理</span></b><span class="d"><span class="en">The person whose registration goes on the submission is the person who inspects the building.</span><span class="zh">在入則文件上簽署的那位，就是親身檢視樓宇的那位。</span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ============ SERVICES ============ -->
 <section id="services">
@@ -1717,7 +1788,11 @@
 </script>
 
 <!-- ============ INQUIRY ASSISTANT ============ -->
-<button class="chat-fab" id="chat-fab" aria-label="Open inquiry assistant" onclick="chatToggle()">💬</button>
+<div class="quick" aria-label="Quick contact">
+  <a href="mailto:aaelhk.info@gmail.com" title="Email / 電郵" aria-label="Email">✉</a>
+  <a href="#top" title="Back to top / 返回頂部" aria-label="Top">↑</a>
+</div>
+<button class="chat-fab id="chat-fab" aria-label="Open inquiry assistant" onclick="chatToggle()">💬</button>
 <div class="chat-panel" id="chat-panel" role="dialog" aria-label="Inquiry assistant">
   <div class="chat-head">
     <span class="dot"></span>
@@ -1953,12 +2028,21 @@
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   /* scroll progress */
   var bar = document.getElementById('progress');
-  function prog(){
-    var h = document.documentElement;
-    var p = h.scrollTop / (h.scrollHeight - h.clientHeight);
-    bar.style.width = (p*100).toFixed(2) + '%';
+  var _p=0,_t=0,_raf=null;
+  function measure(){
+    var h=document.documentElement, max=h.scrollHeight-h.clientHeight;
+    _t = max>0 ? Math.min(Math.max(h.scrollTop/max,0),1) : 0;
+    if(!_raf) _raf=requestAnimationFrame(paint);
   }
-  addEventListener('scroll', prog, {passive:true}); prog();
+  function paint(){
+    _p += (_t-_p)*0.18;                      /* eased follow = no stutter */
+    if(Math.abs(_t-_p)<0.0008) _p=_t;        /* snap at the ends */
+    bar.style.transform='scaleX('+_p.toFixed(4)+')';
+    _raf = (_p!==_t) ? requestAnimationFrame(paint) : null;
+  }
+  addEventListener('scroll', measure, {passive:true});
+  addEventListener('resize', measure, {passive:true});
+  measure(); _p=_t; bar.style.transform='scaleX('+_p+')';
 
   /* cursor spotlight on cards (fine pointers only) */
   if(!reduce && window.matchMedia('(pointer:fine)').matches){
@@ -2174,6 +2258,42 @@
   render();
   var _sl=window.setLang;
   window.setLang=function(l){_sl(l);render();result();};
+})();
+</script>
+
+
+<script>
+/* Content protection — deters casual copying. Deliberately allows selection inside
+   form fields and contact details so real customers can still use the site. */
+(function(){
+  var OK = 'INPUT,TEXTAREA,SELECT';
+  function inField(t){ return t && (OK.indexOf(t.tagName)>-1 || t.isContentEditable); }
+  function inContact(t){ return t && t.closest && t.closest('.c-item,.contact-grid,.form-card,#chat-panel'); }
+  document.addEventListener('contextmenu',function(e){
+    if(inField(e.target)||inContact(e.target)) return;
+    e.preventDefault();
+  });
+  document.addEventListener('dragstart',function(e){
+    if(inField(e.target)) return; e.preventDefault();
+  });
+  document.addEventListener('selectstart',function(e){
+    if(inField(e.target)||inContact(e.target)) return; e.preventDefault();
+  });
+  document.addEventListener('copy',function(e){
+    if(inField(e.target)||inContact(e.target)) return;
+    e.preventDefault();
+    try{
+      e.clipboardData.setData('text/plain',
+        '© 躍昇建築事務顧問有限公司 Ascend Architecture & Engineering Ltd — https://aael.online');
+    }catch(_){}
+  });
+  document.addEventListener('keydown',function(e){
+    if(inField(e.target)) return;
+    var k=(e.key||'').toLowerCase();
+    if((e.ctrlKey||e.metaKey) && ['c','a','s','u','p'].indexOf(k)>-1){ e.preventDefault(); return false; }
+    if(e.key==='F12'){ e.preventDefault(); return false; }
+    if((e.ctrlKey||e.metaKey)&&e.shiftKey&&['i','j','c'].indexOf(k)>-1){ e.preventDefault(); return false; }
+  });
 })();
 </script>
 
