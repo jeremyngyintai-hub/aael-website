@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>收到屋宇署命令或通知書怎麼辦？業主應對指南｜What to Do When You Receive a Buildings Department Order — 躍昇建築事務顧問 AAEL</title>
+<title>收到屋宇署命令怎麼辦？業主應對指南｜AAEL</title>
 <meta name="description" content="收到屋宇署清拆令、修葺令、勘測令或渠務通知書的應對步驟：不要忽視的原因、須委任甚麼專業人士、遵辦流程，以及與簡樸房認證的關係。">
 <link rel="canonical" href="https://aael.online/guide-bd-order.html">
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png">
@@ -248,8 +248,14 @@ ap(t==='dark'?'dark':'light');if(l)sl(l)})();
 /* Content protection — deters casual copying. Deliberately allows selection inside
    form fields and contact details so real customers can still use the site. */
 (function(){
-  var OK = 'INPUT,TEXTAREA,SELECT';
-  function inField(t){ return t && (OK.indexOf(t.tagName)>-1 || t.isContentEditable); }
+  var OK = ['INPUT','TEXTAREA','SELECT','OPTION'];
+  function inField(t){
+    if(!t) return false;
+    if(t.isContentEditable) return true;
+    if(t.nodeType===1 && OK.indexOf(t.tagName)>-1) return true;
+    /* also treat anything inside a field as a field */
+    return !!(t.closest && t.closest('input,textarea,select,[contenteditable="true"]'));
+  }
   function inContact(t){ return t && t.closest && t.closest('.c-item,.contact-grid,.form-card,#chat-panel'); }
   document.addEventListener('contextmenu',function(e){
     if(inField(e.target)||inContact(e.target)) return;

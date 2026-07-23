@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>僭建物一定要拆嗎？違例建築工程的三條出路｜Do Unauthorised Building Works Always Have to Come Down? — 躍昇建築事務顧問 AAEL</title>
+<title>僭建一定要拆嗎？三條出路解說｜AAEL</title>
 <meta name="description" content="違例建築工程（僭建）不一定只有拆除一途。本文說明可豁免、可規範化及必須清拆三類情況的分別、判斷準則，以及收到清拆令後的正確處理次序。">
 <link rel="canonical" href="https://aael.online/guide-ubw.html">
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png">
@@ -238,8 +238,14 @@ ap(t==='dark'?'dark':'light');if(l)sl(l)})();
 /* Content protection — deters casual copying. Deliberately allows selection inside
    form fields and contact details so real customers can still use the site. */
 (function(){
-  var OK = 'INPUT,TEXTAREA,SELECT';
-  function inField(t){ return t && (OK.indexOf(t.tagName)>-1 || t.isContentEditable); }
+  var OK = ['INPUT','TEXTAREA','SELECT','OPTION'];
+  function inField(t){
+    if(!t) return false;
+    if(t.isContentEditable) return true;
+    if(t.nodeType===1 && OK.indexOf(t.tagName)>-1) return true;
+    /* also treat anything inside a field as a field */
+    return !!(t.closest && t.closest('input,textarea,select,[contenteditable="true"]'));
+  }
   function inContact(t){ return t && t.closest && t.closest('.c-item,.contact-grid,.form-card,#chat-panel'); }
   document.addEventListener('contextmenu',function(e){
     if(inField(e.target)||inContact(e.target)) return;

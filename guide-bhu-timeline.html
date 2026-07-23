@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>簡樸房登記與認證時間表：業主四年路線圖｜BHU Registration and Certification: The Four-Year Roadmap — 躍昇建築事務顧問 AAEL</title>
+<title>簡樸房登記與認證時間表｜業主四年路線圖｜AAEL</title>
 <meta name="description" content="《簡樸房條例》由2026年3月生效起的完整時間表：12個月登記期、36個月寬限期、執法日期，以及業主在每個階段應完成的事項。">
 <link rel="canonical" href="https://aael.online/guide-bhu-timeline.html">
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png">
@@ -250,8 +250,14 @@ ap(t==='dark'?'dark':'light');if(l)sl(l)})();
 /* Content protection — deters casual copying. Deliberately allows selection inside
    form fields and contact details so real customers can still use the site. */
 (function(){
-  var OK = 'INPUT,TEXTAREA,SELECT';
-  function inField(t){ return t && (OK.indexOf(t.tagName)>-1 || t.isContentEditable); }
+  var OK = ['INPUT','TEXTAREA','SELECT','OPTION'];
+  function inField(t){
+    if(!t) return false;
+    if(t.isContentEditable) return true;
+    if(t.nodeType===1 && OK.indexOf(t.tagName)>-1) return true;
+    /* also treat anything inside a field as a field */
+    return !!(t.closest && t.closest('input,textarea,select,[contenteditable="true"]'));
+  }
   function inContact(t){ return t && t.closest && t.closest('.c-item,.contact-grid,.form-card,#chat-panel'); }
   document.addEventListener('contextmenu',function(e){
     if(inField(e.target)||inContact(e.target)) return;

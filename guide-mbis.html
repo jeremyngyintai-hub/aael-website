@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>強制驗樓計劃（MBIS）：收到通知後的完整流程｜Mandatory Building Inspection Scheme: What Happens After the Notice — 躍昇建築事務顧問 AAEL</title>
+<title>強制驗樓（MBIS）收到通知後完整流程｜AAEL</title>
 <meta name="description" content="強制驗樓計劃流程解說：法定通知的意思、須委任註冊檢驗人員的原因、訂明檢驗與訂明修葺的分別、時限，以及業主立案法團的注意事項。">
 <link rel="canonical" href="https://aael.online/guide-mbis.html">
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png">
@@ -243,8 +243,14 @@ ap(t==='dark'?'dark':'light');if(l)sl(l)})();
 /* Content protection — deters casual copying. Deliberately allows selection inside
    form fields and contact details so real customers can still use the site. */
 (function(){
-  var OK = 'INPUT,TEXTAREA,SELECT';
-  function inField(t){ return t && (OK.indexOf(t.tagName)>-1 || t.isContentEditable); }
+  var OK = ['INPUT','TEXTAREA','SELECT','OPTION'];
+  function inField(t){
+    if(!t) return false;
+    if(t.isContentEditable) return true;
+    if(t.nodeType===1 && OK.indexOf(t.tagName)>-1) return true;
+    /* also treat anything inside a field as a field */
+    return !!(t.closest && t.closest('input,textarea,select,[contenteditable="true"]'));
+  }
   function inContact(t){ return t && t.closest && t.closest('.c-item,.contact-grid,.form-card,#chat-panel'); }
   document.addEventListener('contextmenu',function(e){
     if(inField(e.target)||inContact(e.target)) return;
