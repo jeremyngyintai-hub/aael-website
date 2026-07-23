@@ -107,6 +107,17 @@ th{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:
 .more a:hover{color:var(--acc2)}
 footer{border-top:1px solid var(--line2);padding:28px 0;background:var(--bg2);font-size:.78rem;color:var(--dim);text-align:center}
 @media(max-width:560px){.wm small{display:none}article{padding:36px 0 30px}}
+
+  /* content protection: keep inputs and contact details usable */
+  body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;
+       -webkit-touch-callout:none}
+  input,textarea,select,
+  .c-item,.c-item *,.form-card,.form-card *,#chat-panel,#chat-panel *{
+    -webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;
+    -webkit-touch-callout:default}
+  img{-webkit-user-drag:none;user-drag:none;pointer-events:none}
+  .wordmark img,.foot-logo{pointer-events:auto}
+
 </style>
 </head>
 <body class="lang-zh">
@@ -233,5 +244,41 @@ function tt(){var t=document.body.classList.contains('dark')?'light':'dark';ap(t
 (function(){var t=null,l=null;try{t=localStorage.getItem('aae-theme');l=localStorage.getItem('aae-lang')}catch(e){}
 ap(t==='dark'?'dark':'light');if(l)sl(l)})();
 </script>
+
+<script>
+/* Content protection — deters casual copying. Deliberately allows selection inside
+   form fields and contact details so real customers can still use the site. */
+(function(){
+  var OK = 'INPUT,TEXTAREA,SELECT';
+  function inField(t){ return t && (OK.indexOf(t.tagName)>-1 || t.isContentEditable); }
+  function inContact(t){ return t && t.closest && t.closest('.c-item,.contact-grid,.form-card,#chat-panel'); }
+  document.addEventListener('contextmenu',function(e){
+    if(inField(e.target)||inContact(e.target)) return;
+    e.preventDefault();
+  });
+  document.addEventListener('dragstart',function(e){
+    if(inField(e.target)) return; e.preventDefault();
+  });
+  document.addEventListener('selectstart',function(e){
+    if(inField(e.target)||inContact(e.target)) return; e.preventDefault();
+  });
+  document.addEventListener('copy',function(e){
+    if(inField(e.target)||inContact(e.target)) return;
+    e.preventDefault();
+    try{
+      e.clipboardData.setData('text/plain',
+        '© 躍昇建築事務顧問有限公司 Ascend Architecture & Engineering Ltd — https://aael.online');
+    }catch(_){}
+  });
+  document.addEventListener('keydown',function(e){
+    if(inField(e.target)) return;
+    var k=(e.key||'').toLowerCase();
+    if((e.ctrlKey||e.metaKey) && ['c','a','s','u','p'].indexOf(k)>-1){ e.preventDefault(); return false; }
+    if(e.key==='F12'){ e.preventDefault(); return false; }
+    if((e.ctrlKey||e.metaKey)&&e.shiftKey&&['i','j','c'].indexOf(k)>-1){ e.preventDefault(); return false; }
+  });
+})();
+</script>
+
 </body>
 </html>
