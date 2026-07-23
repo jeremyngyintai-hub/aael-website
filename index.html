@@ -869,6 +869,18 @@
   img{-webkit-user-drag:none;user-drag:none;pointer-events:none}
   .wordmark img,.foot-logo{pointer-events:auto}
 
+
+  /* ---------- rejection risk + renewal + b2b ---------- */
+  .risk{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:24px}
+  .risk-item{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;
+    padding:16px 20px;background:var(--panel)}
+  .risk-item b{display:block;font-family:var(--display);font-weight:700;font-size:.95rem;margin-bottom:5px}
+  .risk-item span.d{font-size:.84rem;color:var(--dim);line-height:1.6}
+  .band{border:1px solid var(--accent);border-radius:var(--r);padding:26px 28px;background:var(--glow);margin-top:34px}
+  .band h3{font-family:var(--display);font-weight:800;font-size:1.2rem;margin-bottom:8px}
+  .band p{font-size:.92rem;color:var(--dim);line-height:1.7;margin-bottom:14px}
+  .band a.blink{display:inline-block;font-weight:700;color:var(--accent-hi);text-decoration:underline;font-size:.92rem}
+
 </style>
 
 <script type="application/ld+json">
@@ -1228,9 +1240,28 @@
 
     <div class="sc rv" id="selfcheck">
       <h3><span class="en">Sixty-second self-check</span><span class="zh">六十秒自我檢測</span></h3>
-      <p class="i"><span class="en">Five questions, no personal details required. This is a guide, not a determination — but it tells you within a minute whether this concerns you at all.</span><span class="zh">五條問題，毋須留下任何個人資料。此為初步指引而非正式判斷，但一分鐘內即可知道此事是否與您有關。</span></p>
+      <p class="i"><span class="en">Eight questions, no personal details required. This is a guide, not a determination — but it tells you within a minute whether this concerns you at all.</span><span class="zh">八條問題，毋須留下任何個人資料。此為初步指引而非正式判斷，但一分鐘內即可知道此事是否與您有關。</span></p>
       <div id="sc-list"></div>
       <div class="sc-res" id="sc-res"></div>
+    </div>
+
+    <h3 style="font-family:var(--display);font-weight:800;font-size:1.25rem;margin:52px 0 4px">
+      <span class="en">A compliant unit is not the same as an approved application</span><span class="zh">單位合格，不等於申請批得到</span>
+    </h3>
+    <p style="font-size:.9rem;color:var(--dim)">
+      <span class="en">When the Housing Bureau decides an application it also considers the condition of the whole building. These are the things renovation cannot fix — and the reason we assess at building level, not just inside the unit.</span>
+      <span class="zh">房屋局審批時，會一併考慮整幢建築物的情況。以下這些，裝修解決不了——這正是我們的評估由整幢樓開始，而非只看單位之內的原因。</span>
+    </p>
+    <div class="risk rv">
+      <div class="risk-item"><b><span class="en">Dangerous common parts</span><span class="zh">公用部分存在危險狀況</span></b><span class="d"><span class="en">Seriously defective drains, structural cracking or works obstructing escape routes can lead to refusal even where the unit fully complies.</span><span class="zh">嚴重問題的排水渠、結構性裂縫或阻塞逃生通道的僭建物，即使單位完全合格，亦可導致申請被拒。</span></span></div>
+      <div class="risk-item"><b><span class="en">Outstanding statutory orders</span><span class="zh">未遵辦的法定命令</span></b><span class="d"><span class="en">Orders against the unit or the building generally must be complied with first — and they are often building-wide, not yours alone.</span><span class="zh">針對單位或樓宇的命令一般須先行遵辦——而這些命令往往針對整幢樓，並非只針對您。</span></span></div>
+      <div class="risk-item"><b><span class="en">Ineligible building or location</span><span class="zh">樓宇或位置不合資格</span></b><span class="d"><span class="en">Commercial and industrial buildings, village houses, and rooftop, podium, rear lane or light well structures fall outside the scheme entirely.</span><span class="zh">商業及工業大廈、村屋，以及天台、平台、後巷或天井的僭建物，根本不在制度容許之列。</span></span></div>
+      <div class="risk-item"><b><span class="en">Ownership consents</span><span class="zh">業權同意文件</span></b><span class="d"><span class="en">Co-ownership, estates and overseas owners routinely take longer than expected to document properly.</span><span class="zh">共有業權、承辦中的物業及身處海外的業主，備妥文件所需時間往往超出預期。</span></span></div>
+    </div>
+    <div class="band rv">
+      <h3><span class="en">We assess the building, then the unit</span><span class="zh">我們先看樓，再看單位</span></h3>
+      <p><span class="en">Our Authorized Person and Registered Structural Engineer sit in the same practice as the Registered Professional Surveyor who signs the certification. So when the assessment turns up an order, a structural issue or a common-parts problem, it is dealt with rather than handed back to you as someone else's job.</span><span class="zh">簽發核證報告的註冊專業測量師（R.P.S.），與處理法定命令的認可人士（A.P.）及註冊結構工程師（R.S.E.）同屬一司。因此評估一旦發現法定命令、結構問題或公用部分狀況，那是被處理，而不是退回給您、叫您另找他人。</span></p>
+      <a class="blink" href="/guide-bhu-rejection.html"><span class="en">Read: why applications are refused →</span><span class="zh">延伸閱讀：認證申請為何會被拒絕 →</span></a>
     </div>
 
     <div class="warn rv">
@@ -1239,6 +1270,11 @@
         <span class="en">Unlawful letting under the Ordinance carries heavy penalties, including a substantial fine and imprisonment. Beyond the law, there is a practical squeeze: with over a hundred thousand units in the market and a limited pool of specified professionals and contractors, the closer to the deadline, the harder it becomes to secure assessment and works slots.</span>
         <span class="zh">根據條例，違法出租可招致嚴重罰則，包括高額罰款及監禁。除法律風險外，更實際的問題是資源擠塞：全港逾十萬個分間單位，而指明專業人士及承辦商數目有限，愈接近死線，愈難安排評估及工程檔期。</span>
       </p>
+    </div>
+    <div class="band rv">
+      <h3><span class="en">Certification is a five-year cycle, not a certificate</span><span class="zh">認證是五年周期，不是一張證書</span></h3>
+      <p><span class="en">Certification lasts five years, and renewal requires fresh certification by a specified professional, applied for three to six months before expiry. We keep your original report, drawings and measurements on file, so renewal starts from a record rather than from scratch — and we tell you before the window opens, not after it closes.</span><span class="zh">認證有效期五年，續期須在屆滿前三至六個月提出，並再次由指明專業人士核證。我們會保存您的核證報告、圖則及量度紀錄，令續期由既有資料開始，而非從頭再做——並會在申請窗口開啟之前通知您，而不是在它關上之後。</span></p>
+      <a class="blink" href="/guide-bhu-renewal.html"><span class="en">Read: the five-year renewal →</span><span class="zh">延伸閱讀：五年續期須知 →</span></a>
     </div>
   </div>
 </section>
@@ -1533,6 +1569,97 @@
         <p><span class="en">Why consultant and contractor must stay separate, the statutory tender process, and where budgets usually break.</span><span class="zh">為何顧問與承建商角色必須分開、法定招標程序，以及最常超支的環節。</span></p>
         <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
       </a>
+
+      <a class="kb" href="/guide-handover-inspection.html">
+        <span class="k">Handover · 收樓</span>
+        <h3><span class="en">New flat handover inspection: what to check</span><span class="zh">新樓收樓驗樓：業主應檢查甚麼、發現問題怎麼辦</span></h3>
+        <p><span class="en">Why inspecting before signing matters, a room-by-room checklist, and how to get defects put right within the liability period.</span><span class="zh">為何應「驗完先簽」、逐項檢查清單，以及如何在保養期內取得執修。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-pre-purchase.html">
+        <span class="k">Pre-purchase · 買樓前</span>
+        <h3><span class="en">Pre-purchase inspection: what to check before you sign</span><span class="zh">二手樓買樓前檢驗：簽臨約之前應該查甚麼</span></h3>
+        <p><span class="en">Five categories that decide whether a flat is a bargain or a liability — and how to turn findings into leverage.</span><span class="zh">決定物業是筍盤還是負擔的五類檢查，以及如何把發現轉化為議價依據。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-spalling.html">
+        <span class="k">Spalling · 石屎剝落</span>
+        <h3><span class="en">Concrete spalling: causes, risks and correct repair</span><span class="zh">石屎剝落：成因、風險與正確的修葺方法</span></h3>
+        <p><span class="en">Why surface patching fails within a few years, and what a proper repair sequence actually involves.</span><span class="zh">為何表面填補兩三年後再度爆開，以及正確的修葺程序是怎樣的。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-mwis.html">
+        <span class="k">MWIS · 強制驗窗</span>
+        <h3><span class="en">Mandatory Window Inspection: who does what</span><span class="zh">強制驗窗計劃（MWIS）：業主與租戶各自要做甚麼</span></h3>
+        <p><span class="en">How it differs from building inspection, the owner–tenant split, and why combining both notices saves money.</span><span class="zh">與強制驗樓的分別、業主與租戶的責任分工，以及兩者一併處理為何較划算。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-structural-wall.html">
+        <span class="k">Structure · 拆牆</span>
+        <h3><span class="en">Before you remove a wall: structural walls and the law</span><span class="zh">裝修拆牆之前：如何分辨主力牆與須辦的手續</span></h3>
+        <p><span class="en">Why tapping proves nothing, what needs statutory handling, and a contract clause worth insisting on.</span><span class="zh">為何敲牆判斷不可靠、哪些改動須辦手續，以及值得寫入裝修合約的一項條款。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-industrial.html">
+        <span class="k">Industrial · 工廈</span>
+        <h3><span class="en">Industrial buildings: permitted use and common traps</span><span class="zh">工廈租用及改裝：用途限制、消防要求與常見陷阱</span></h3>
+        <p><span class="en">Where permitted use actually comes from, what non-conforming use risks, and a checklist before you sign the lease.</span><span class="zh">准許用途的依據、不符用途的實際風險，以及簽租約前應查核的清單。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+
+      <a class="kb" href="/guide-bhu-rejection.html">
+        <span class="k">BHU · 申請風險</span>
+        <h3><span class="en">Why BHU certification applications are refused</span><span class="zh">簡樸房認證申請為何會被拒絕？單位合格不等於批得到</span></h3>
+        <p><span class="en">Six reasons applications fail — most of them nothing to do with the unit itself.</span><span class="zh">六個常見被拒原因，大部分與單位本身無關。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-bhu-enforcement.html">
+        <span class="k">BHU · 執法</span>
+        <h3><span class="en">Enforcement, penalties and the public register</span><span class="zh">違例出租的後果：執法安排、罰則與認證名單公開</span></h3>
+        <p><span class="en">Why a daily accruing penalty changes the arithmetic, and how the public register turns certification into a letting advantage.</span><span class="zh">按日累加的罰則如何改變風險性質，以及公開名單為何令認證變成招租優勢。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-bhu-renewal.html">
+        <span class="k">BHU · 續期</span>
+        <h3><span class="en">The five-year renewal: certification is not a one-off</span><span class="zh">簡樸房認證五年續期：不是一次過的工作</span></h3>
+        <p><span class="en">What changes in five years, the tenancy clause worth having, and why continuity saves money.</span><span class="zh">五年之間會發生甚麼、值得寫入租約的一條、以及為何由同一團隊跟進較省。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-survey-report.html">
+        <span class="k">Reports · 報告</span>
+        <h3><span class="en">How to read a survey report</span><span class="zh">驗樓報告怎麼看：業主應該讀懂的六個部分</span></h3>
+        <p><span class="en">Scope, limitations, method, grading, photographs, estimates — and how to use the report to budget, tender and negotiate.</span><span class="zh">範圍、限制、方法、分級、相片、估算——以及如何用報告去編預算、招標與議價。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-rooftop-ubw.html">
+        <span class="k">UBW · 天台平台</span>
+        <h3><span class="en">Rooftop and podium structures</span><span class="zh">天台屋與平台僭建：為何執法優先，業主如何處理</span></h3>
+        <p><span class="en">Escape routes, loading and waterproofing — why regularisation is rarely available here, and the effect on sale, mortgage and BHU eligibility.</span><span class="zh">走火通道、結構荷載與防水——為何此類難以規範化，以及對買賣、按揭及簡樸房資格的影響。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-dmc.html">
+        <span class="k">公契 · 管理</span>
+        <h3><span class="en">Deeds of mutual covenant and management fees</span><span class="zh">公契與管理費：責任誰屬、爭議如何處理</span></h3>
+        <p><span class="en">Where repair responsibility divides, the four common fee disputes, and the four things every committee decision should have.</span><span class="zh">維修責任的分界線、四類常見管理費爭議，以及法團每個決定應具備的四樣東西。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-subsidy.html">
+        <span class="k">資助計劃 SUBSIDY</span>
+        <h3><span class="en">Building repair subsidies: how applications actually work</span><span class="zh">樓宇維修資助：業主與法團應該知道的申請邏輯</span></h3>
+        <p><span class="en">Why timing decides everything, six reasons applications are cut, and how to build subsidies into the tender rather than claim afterwards.</span><span class="zh">為何時機決定一切、六個被扣減的原因，以及如何在招標階段就把資助納入規劃。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-fsd-direction.html">
+        <span class="k">消防安全 FIRE</span>
+        <h3><span class="en">Fire safety directions: what owners must do</span><span class="zh">收到消防安全指示：舊樓業主與法團應如何處理</span></h3>
+        <p><span class="en">What triggers a direction, typical improvement items, and why these works overrun on decision-making rather than construction.</span><span class="zh">指示從何而來、常見改善項目，以及此類工程為何多數敗在決策而非施工。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+    </div>
+    <div class="band rv" style="margin-top:40px">
+      <h3><span class="en">Work in this trade? We can be your certifying professional</span><span class="zh">同業合作：我們可以擔任您的核證專業人士</span></h3>
+      <p><span class="en">If you carry out Basic Housing Unit work for owners, the last step always needs a specified professional to sign the certification report. We provide that — and because we do not take on the construction on partner projects, we are not competing with you. Approvability pre-checks, statutory orders, structural submissions and five-year renewals as well.</span><span class="zh">如果您為業主承辦簡樸房工程，最後一步始終需要一位指明專業人士簽署核證報告。我們提供的正是這一環——而在同業合作項目中，我們不承接施工，因此不會與您競爭。另可代辦可批性預審、法定命令處理、結構入則及五年續期核證。</span></p>
+      <a class="blink" href="/certification-partners.html"><span class="en">Certification services for the trade →</span><span class="zh">同業核證服務詳情 →</span></a>
     </div>
   </div>
 </section>
@@ -2206,8 +2333,14 @@
     zh:"單位已分間為兩間或以上獨立出租的房間。"},
    {en:"Those partitioned units are used, or intended to be used, for residential letting.",
     zh:"該等分間單位現時或將會用作住宅出租。"},
-   {en:"The units are currently let, vacant awaiting letting, or being prepared for letting.",
-    zh:"單位現正出租、空置待租，或正準備分間出租。"},
+   {en:"The unit is NOT on a rooftop, podium, rear lane, light well or in a village house.",
+    zh:"單位並非位於天台、平台、後巷、天井，亦非村屋（新界豁免管制屋宇）。"},
+   {en:"To your knowledge, there is no outstanding Buildings Department order or notice against the unit or the building.",
+    zh:"據您所知，單位或所處樓宇並無未遵辦的屋宇署命令或通知書。"},
+   {en:"To your knowledge, the building's common parts are free of serious defects — no structural cracking, no seriously defective drains, no works blocking escape routes.",
+    zh:"據您所知，大廈公用部分沒有嚴重問題——沒有結構性裂縫、沒有嚴重的排水渠問題、沒有阻塞逃生通道的僭建物。"},
+   {en:"You are the sole owner, or can obtain written consent from all owners.",
+    zh:"您是唯一擁有人，或可取得所有擁有人的書面同意。"},
    {en:"You have not yet completed grace-period registration for these units.",
     zh:"您尚未為這些單位完成寬限期登記。"}
   ];
@@ -2237,22 +2370,30 @@
   }
   function result(){
     var box=document.getElementById('sc-res'); if(!box) return;
-    if(ans.filter(Boolean).length<5) return;
-    var yes=ans.filter(function(a){return a==='y';}).length;
-    var core = ans[0]==='y'&&ans[1]==='y'&&ans[2]==='y';
+    if(ans.filter(Boolean).length<Q.length) return;
+    var core = ans[0]==='y'&&ans[1]==='y'&&ans[2]==='y'&&ans[3]==='y';
+    var blockers=[];
+    if(ans[4]==='n') blockers.push(['an outstanding statutory order','未遵辦的法定命令']);
+    if(ans[5]==='n') blockers.push(['a problem in the building\u2019s common parts','大廈公用部分的問題']);
+    if(ans[6]==='n') blockers.push(['ownership consents still to be obtained','尚未取得的業權同意文件']);
     var en,zh;
-    if(core && ans[4]==='y'){
-      en="<strong>Your units very likely fall within the regime — and registration is still outstanding.</strong><p>On these answers the Ordinance most probably applies and grace-period registration has not been completed. That deadline does not extend. Send us the building address and the number of partitioned units and we will tell you what your specific units need, and in what order.</p>";
-      zh="<strong>您的單位很可能受條例規管，而登記尚未完成。</strong><p>按以上答案，條例極可能適用於您的單位，而寬限期登記仍未辦妥——該期限不設延展。請將樓宇地址及分間單位數目告知我們，我們會說明您的單位具體需要甚麼，以及應按甚麼次序處理。</p>";
-    } else if(core){
-      en="<strong>Your units likely fall within the regime.</strong><p>The Ordinance most probably applies. If registration is already done, the next step is assessing what rectification is needed before certification — and the earlier that is known, the more room you have to plan the works.</p>";
-      zh="<strong>您的單位很可能受條例規管。</strong><p>條例極可能適用。若登記已完成，下一步是評估認證前需要哪些改造——愈早掌握，工程安排的彈性愈大。</p>";
-    } else if(ans[0]==='n'){
-      en="<strong>Probably outside the regime — but worth confirming.</strong><p>Industrial and commercial buildings generally fall outside it. Building classification is not always obvious from use alone, so if there is any doubt, a quick check of the approved plans settles it.</p>";
-      zh="<strong>可能不受規管，但值得確認。</strong><p>工業及商業樓宇一般不在規管範圍。惟樓宇類別未必單憑用途即可判斷，如有疑問，查核批准圖則即可確定。</p>";
+    if(ans[3]==='n'){
+      en="<strong>This location is very likely outside the scheme.</strong><p>Structures on rooftops, podiums, rear lanes and light wells, and premises in village houses, are not eligible for certification \u2014 upgrading them to standard does not change that. Before spending anything on conversion, it is worth confirming your actual options. We can tell you quickly.</p>";
+      zh="<strong>此位置很可能不在制度容許之列。</strong><p>天台、平台、後巷、天井的構築物，以及村屋處所，並不符合簡樸房認證的申請資格——改到合標準也不會改變這一點。在投入任何改造費用之前，值得先確認您的實際選項。我們可以很快給您答案。</p>";
+    } else if(!core){
+      en="<strong>Likely outside the regime on these answers.</strong><p>A whole flat let without partitioning, or a non-residential building, generally falls outside it. If your circumstances change \u2014 or you are considering partitioning \u2014 take advice before any works begin.</p>";
+      zh="<strong>按以上答案，可能不受規管。</strong><p>整個單位不分間出租，或非住用樓宇，一般不屬規管範圍。惟情況一旦改變——例如考慮分間——動工前宜先諮詢意見。</p>";
+    } else if(blockers.length){
+      var be=blockers.map(function(b){return b[0];}).join('; ');
+      var bz=blockers.map(function(b){return b[1];}).join('、');
+      en="<strong>Your units likely fall within the regime \u2014 and there is something that could block the application.</strong><p>On these answers the Ordinance most probably applies, but you have flagged: "+be+". Items like these generally have to be resolved before certification can be granted, and they are usually the slowest part of the whole exercise because they involve the building rather than your unit alone. Send us the address and we will tell you what has to be cleared, and in what order.</p>";
+      zh="<strong>您的單位很可能受規管，而且有事項可能阻礙申請。</strong><p>按以上答案，條例極可能適用；但您已指出："+bz+"。這類事項一般須先行處理妥當，方可獲批認證，而且通常是整個過程中最慢的一環——因為它涉及整幢樓，而非您的單位本身。請將樓宇地址告知我們，我們會說明須先清除哪些障礙，以及應按甚麼次序處理。</p>";
+    } else if(ans[7]==='y'){
+      en="<strong>Your units very likely fall within the regime \u2014 and registration is still outstanding.</strong><p>Nothing you have flagged looks like a blocker, which is the good position to be in. Grace-period registration has not been completed, and that deadline does not extend. Send us the building address and the number of partitioned units and we will confirm what your units need.</p>";
+      zh="<strong>您的單位很可能受規管，而登記尚未完成。</strong><p>您所指出的情況之中，暫未見明顯障礙——這是有利的位置。惟寬限期登記仍未辦妥，而該期限不設延展。請將樓宇地址及分間單位數目告知我們，我們會確認您的單位具體所需。</p>";
     } else {
-      en="<strong>Likely outside the regime on these answers.</strong><p>A whole flat let without partitioning is generally not caught. If your circumstances change — or you are considering partitioning — the position changes with them, so take advice before any works begin.</p>";
-      zh="<strong>按以上答案，可能不受規管。</strong><p>整個單位不分間出租，一般不屬規管範圍。惟情況一旦改變——例如考慮分間——規管狀況亦隨之改變，動工前宜先諮詢意見。</p>";
+      en="<strong>Your units likely fall within the regime, and the position looks workable.</strong><p>Registration is done and nothing you have flagged looks like a blocker. The next step is assessing what rectification is needed before certification \u2014 and the earlier that is known, the more room you have to programme the works and the budget.</p>";
+      zh="<strong>您的單位很可能受規管，而情況看來可行。</strong><p>登記已完成，您所指出的情況亦未見明顯障礙。下一步是評估認證前需要哪些改造——愈早掌握，工程與預算的安排彈性愈大。</p>";
     }
     box.innerHTML='<span class="en">'+en+'</span><span class="zh">'+zh+'</span>'+
       '<p style="margin-top:12px"><a href="#contact"><span class="en">Tell us about your units →</span><span class="zh">告訴我們您的單位情況 →</span></a></p>';
