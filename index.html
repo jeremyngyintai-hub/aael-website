@@ -166,7 +166,8 @@
     transition:border-color .2s,box-shadow .2s;
   }
   .theme-btn:hover{border-color:var(--accent);box-shadow:0 0 16px var(--glow)}
-  .burger{display:none;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--txt)}
+  .burger{display:grid;place-items:center;background:none;border:none;font-size:1.5rem;
+    cursor:pointer;color:var(--txt);width:34px;height:34px;line-height:1}
 
   /* ---------- hero ---------- */
   .hero{position:relative;border-bottom:1px solid var(--line-soft);overflow:hidden}
@@ -800,7 +801,7 @@
   /* hand over to the menu button earlier so nothing crams */
   @media (max-width:1180px){
     .nav-links{
-      display:none;position:absolute;top:74px;left:0;right:0;background:var(--nav-bg);
+      display:none !important;position:absolute;top:74px;left:0;right:0;background:var(--nav-bg);
       backdrop-filter:blur(16px);flex-direction:column;padding:18px 24px 24px;
       border-bottom:1px solid var(--line);align-items:flex-start;gap:2px;
       max-height:calc(100vh - 74px);overflow-y:auto;
@@ -812,9 +813,6 @@
     .nav-links .navgrp{display:block}
     .nav-links a.cta{margin-top:12px;text-align:center;padding:13px 16px;font-size:.92rem}
     .burger{display:block}
-  }
-  @media (min-width:1181px){
-    .burger{display:none}
   }
   @media (max-width:520px){
     .nav{height:66px;gap:10px}
@@ -961,6 +959,50 @@
     .nav-links .navgrp{padding:13px 2px 5px}
   }
 
+
+  /* ---------- one grouped menu, every screen size ---------- */
+  .site-menu{
+    position:fixed;z-index:70;background:var(--bg);border:1px solid var(--line);
+    box-shadow:0 20px 50px rgba(0,0,0,.35);display:none;overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .site-menu.open{display:block}
+  .site-menu a{
+    display:flex;align-items:center;padding:11px 2px;line-height:1.3;font-size:.96rem;
+    font-family:var(--display);font-weight:600;text-decoration:none;color:var(--txt);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .site-menu a:last-of-type{border-bottom:none}
+  .site-menu a:hover{color:var(--accent-hi)}
+  .site-menu .navgrp{
+    font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--accent);padding:11px 2px 4px;border-bottom:1px solid var(--line);margin-top:2px;
+  }
+  .site-menu .navgrp:first-child{margin-top:0;padding-top:4px}
+  .site-menu a.cta{
+    margin-top:14px;justify-content:center;padding:14px 16px;border-bottom:none;
+    background:linear-gradient(135deg,var(--accent),var(--accent-3,#6E3512));color:#fff;border-radius:10px;
+  }
+  /* desktop: right-anchored dropdown */
+  @media (min-width:1181px){
+    .site-menu{top:78px;right:22px;width:320px;max-height:calc(100vh - 100px);
+      border-radius:14px;padding:12px 20px 18px}
+    .burger{display:grid}
+  }
+  /* mobile: full-width sheet */
+  @media (max-width:1180px){
+    .site-menu{top:74px;left:0;right:0;border-left:none;border-right:none;
+      max-height:calc(100vh - 74px);padding:6px 22px 20px}
+    .nav-links{display:none !important}
+  }
+  @media (max-width:520px){ .site-menu{top:66px;max-height:calc(100vh - 66px)} }
+  body.menu-open .quick,
+  body.menu-open .chat-fab,
+  body.menu-open .chat-panel{opacity:0;pointer-events:none;transition:opacity .2s}
+  .nav-scrim{position:fixed;inset:0;z-index:69;background:rgba(0,0,0,.42);
+    opacity:0;pointer-events:none;transition:opacity .25s}
+  .nav-scrim.on{opacity:1;pointer-events:auto}
+
 </style>
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "為何選擇AAEL，而非大型顧問公司？", "acceptedAnswer": {"@type": "Answer", "text": "請站在業主的位置想一想。找大行，得到的是一個名字加一位新人；找小行，得到關注卻未必有資格，法定部分還是要外判，最終由您夾在中間協調素未謀面的幾方。AAEL 刻意做第三種選擇：認可人士（A.P.）、註冊結構工程師（R.S.E.）、註冊專業測量師（R.P.S.）及註冊檢驗人員（R.I.）四項資格同在一司，並由持證者親自主理。實際分別是：您只需委託一次；得到一份統一的工作計劃，而非三份各自為政的時間表；您永遠不必充當顧問之間的傳話人；工程中途發現問題時，那是被處理，而不是被爭論。執行標準，是我們在五星級歷史酒店驗證過的；回應速度，是一間接得到您電話的公司才有的。"}}, {"@type": "Question", "name": "認可人士（A.P.）究竟做甚麼？我需要嗎？", "acceptedAnswer": {"@type": "Answer", "text": "根據《建築物條例》，香港大部分建築工程均須由認可人士草擬、入則及監督。AP須簽署法定文件、統籌屋宇署審批，並承擔法律責任。簡單而言：屋宇署要求圖則上有人承擔責任——在AAEL，這位簽署人是駐司專業人士，並非外借掛名。"}}, {"@type": "Question", "name": "收費大約是多少？", "acceptedAnswer": {"@type": "Answer", "text": "每幢樓宇情況不同，故我們不設劃一價目表——但了解收費是免費的。我們會先實地視察，兩個工作天內以書面列明服務範圍、收費及時間表。絕無約束、絕無壓力，報價單上的數字就是您付的數字。"}}, {"@type": "Question", "name": "屋宇署審批需時多久？", "acceptedAnswer": {"@type": "Answer", "text": "法定審批一般每次入則約需兩個月，視乎工程範圍及複雜程度。我們能控制的，我們承諾：時間表預先與您議定，屋宇署方面由我們主動跟進，您毋須操心。"}}, {"@type": "Question", "name": "小型工程都會接嗎？", "acceptedAnswer": {"@type": "Answer", "text": "會。小型工程、單一處所勘察、牌照入則——我們同樣認真對待，因為做好一單小工程，往往換來一位長期客戶。無論項目大小，均由同一班註冊專業人士親自處理。"}}, {"@type": "Question", "name": "物業繼續營運期間，可否同時進行工程？", "acceptedAnswer": {"@type": "Answer", "text": "可以——在營運中的資產上施工正是我們的專長之一。我們曾在五星級酒店照常營業的情況下完成提升工程：分階段施工、非繁忙時段作業，以及嚴格的塵埃及噪音管制。我們以您的營運為先編排工程，而非要求營運遷就工程。"}}, {"@type": "Question", "name": "你們與承建商是甚麼關係？是否獨立？", "acceptedAnswer": {"@type": "Answer", "text": "完全獨立。我們是顧問——負責設計、入則、監督及核證，並不承接建造工程合約。這份獨立性代表：當我們審核承建商的工作時，我們只向您負責。我們亦可協助招標及甄選承建商，由第一日起維護您的權益。"}}, {"@type": "Question", "name": "我身處內地或海外，可否遙距辦理？", "acceptedAnswer": {"@type": "Answer", "text": "可以。現場勘察由我們的團隊執行，結果及方案可透過視像會議與您討論，文件亦可經授權代表簽署辦理。跨境業主在分間單位市場中佔相當比例，遙距辦理流程成熟——關鍵只在於及早開始，預留文件往來的時間。"}}, {"@type": "Question", "name": "開始前需要準備甚麼文件？", "acceptedAnswer": {"@type": "Answer", "text": "只需樓宇地址及您所關注的事項，已足夠讓我們展開工作。如備有現存圖則、過往報告或屋宇署信件，固然有助評估；如未有，我們可代為索取樓宇紀錄圖則。第一步，真的只是一封電郵。"}}]}</script>
@@ -977,21 +1019,9 @@
       <span>AAEL<small class="en">ASCEND ARCHITECTURE &amp; ENGINEERING LTD</small><small class="zh">躍昇建築事務顧問有限公司</small></span>
     </a>
     <div class="nav-right">
-                  <div class="nav-scrim" id="nav-scrim" onclick="closeMenu()"></div>
-      <nav class="nav-links">
-        <div class="navgrp"><span class="en">The practice</span><span class="zh">關於本公司</span></div>
-        <a class="sec" href="#about"><span class="en">About us</span><span class="zh">公司簡介</span></a>
+                  <nav class="nav-links">
         <a href="#services"><span class="en">Services</span><span class="zh">服務</span></a>
-        <a class="sec" href="#scope"><span class="en">Scope of services</span><span class="zh">服務範圍</span></a>
         <a href="#bhu"><span class="en">BHU</span><span class="zh">簡樸房</span></a>
-        <div class="navgrp"><span class="en">Working with us</span><span class="zh">與我們合作</span></div>
-        <a class="sec" href="#audience"><span class="en">Who we serve</span><span class="zh">服務對象</span></a>
-        <a class="sec" href="#process"><span class="en">How we work</span><span class="zh">服務流程</span></a>
-        <a class="sec" href="#experience"><span class="en">Experience</span><span class="zh">項目往績</span></a>
-        <a class="sec" href="#voices"><span class="en">Our commitments</span><span class="zh">服務承諾</span></a>
-        <a class="sec" href="#team"><span class="en">Our team</span><span class="zh">專業團隊</span></a>
-        <a class="sec" href="#sectors"><span class="en">Sectors</span><span class="zh">服務行業</span></a>
-        <div class="navgrp"><span class="en">Resources</span><span class="zh">資源</span></div>
         <a href="#knowledge"><span class="en">Guides</span><span class="zh">知識庫</span></a>
         <a href="#faq"><span class="en">FAQ</span><span class="zh">常見問題</span></a>
         <a href="#contact" class="cta"><span class="en">Free consultation</span><span class="zh">免費諮詢</span></a>
@@ -1008,6 +1038,27 @@
     </div>
   </div>
 </header>
+<div class="nav-scrim" id="nav-scrim" onclick="closeMenu()"></div>
+<nav class="site-menu" id="site-menu" aria-label="All sections">
+  <div class="navgrp"><span class="en">The practice</span><span class="zh">關於本公司</span></div>
+  <a href="#about"><span class="en">About us</span><span class="zh">公司簡介</span></a>
+  <a href="#services"><span class="en">Services</span><span class="zh">服務</span></a>
+  <a href="#scope"><span class="en">Scope of services</span><span class="zh">服務範圍</span></a>
+  <a href="#bhu"><span class="en">Basic Housing Unit</span><span class="zh">簡樸房</span></a>
+  <div class="navgrp"><span class="en">Working with us</span><span class="zh">與我們合作</span></div>
+  <a href="#audience"><span class="en">Who we serve</span><span class="zh">服務對象</span></a>
+  <a href="#process"><span class="en">How we work</span><span class="zh">服務流程</span></a>
+  <a href="#experience"><span class="en">Experience</span><span class="zh">項目往績</span></a>
+  <a href="#voices"><span class="en">Our commitments</span><span class="zh">服務承諾</span></a>
+  <a href="#team"><span class="en">Our team</span><span class="zh">專業團隊</span></a>
+  <a href="#sectors"><span class="en">Sectors</span><span class="zh">服務行業</span></a>
+  <div class="navgrp"><span class="en">Resources</span><span class="zh">資源</span></div>
+  <a href="#knowledge"><span class="en">Knowledge base</span><span class="zh">知識庫</span></a>
+  <a href="/certification-partners.html"><span class="en">Certification for the trade</span><span class="zh">同業核證服務</span></a>
+  <a href="#faq"><span class="en">FAQ</span><span class="zh">常見問題</span></a>
+  <a class="cta" href="#contact"><span class="en">Free consultation</span><span class="zh">免費諮詢・聯絡我們</span></a>
+</nav>
+
 
 <!-- ============ HERO ============ -->
 <div class="hero" id="top">
@@ -2555,20 +2606,28 @@
 
 <script>
 (function(){
-  var nav=document.querySelector('.nav-links'), scrim=document.getElementById('nav-scrim'),
+  var menu=document.getElementById('site-menu'),
+      scrim=document.getElementById('nav-scrim'),
       burger=document.querySelector('.burger');
-  if(!nav) return;
-  function open(){ nav.classList.add('open'); if(scrim) scrim.classList.add('on'); document.body.classList.add('menu-open'); }
-  window.closeMenu=function(){ nav.classList.remove('open'); if(scrim) scrim.classList.remove('on'); document.body.classList.remove('menu-open'); };
+  if(!menu) return;
+  function open(){ menu.classList.add('open'); if(scrim) scrim.classList.add('on');
+    document.body.classList.add('menu-open'); if(burger) burger.setAttribute('aria-expanded','true'); }
+  window.closeMenu=function(){ menu.classList.remove('open'); if(scrim) scrim.classList.remove('on');
+    document.body.classList.remove('menu-open'); if(burger) burger.setAttribute('aria-expanded','false'); };
   if(burger){
+    burger.setAttribute('aria-expanded','false');
     burger.addEventListener('click', function(e){
-      e.stopPropagation();
-      setTimeout(function(){ nav.classList.contains('open') ? open() : window.closeMenu(); },0);
+      e.preventDefault(); e.stopPropagation();
+      menu.classList.contains('open') ? window.closeMenu() : open();
     });
   }
-  nav.addEventListener('click', function(e){ if(e.target.closest('a')) window.closeMenu(); });
+  menu.addEventListener('click', function(e){ if(e.target.closest('a')) window.closeMenu(); });
   addEventListener('keydown', function(e){ if(e.key==='Escape') window.closeMenu(); });
-  addEventListener('resize', function(){ if(innerWidth>1180) window.closeMenu(); });
+  document.addEventListener('click', function(e){
+    if(!menu.classList.contains('open')) return;
+    if(e.target.closest('#site-menu')||e.target.closest('.burger')) return;
+    window.closeMenu();
+  });
 })();
 </script>
 
