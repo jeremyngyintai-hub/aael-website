@@ -2170,7 +2170,8 @@
     if(!_raf) _raf=requestAnimationFrame(paint);
   }
   function paint(){
-    _p += (_t-_p)*0.18;                      /* eased follow = no stutter */
+    var d=_t-_p;
+    _p += d*(0.18+0.55*Math.abs(d));         /* adaptive: smooth when near, quick on big jumps */
     if(Math.abs(_t-_p)<0.0008) _p=_t;        /* snap at the ends */
     bar.style.transform='scaleX('+_p.toFixed(4)+')';
     _raf = (_p!==_t) ? requestAnimationFrame(paint) : null;

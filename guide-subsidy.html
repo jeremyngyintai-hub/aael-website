@@ -135,11 +135,39 @@ img{-webkit-user-drag:none;pointer-events:none}
   color:var(--dim);margin-top:16px}
 @media(max-width:560px){.pager{grid-template-columns:1fr}.pager a.nx{text-align:left}#rpill{right:12px;bottom:12px}}
 
+
+/* ---------- article site menu + full footer ---------- */
+.abtn{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--panel);
+  color:var(--txt);cursor:pointer;display:grid;place-items:center;font-size:1rem;line-height:1}
+.amenu{position:fixed;top:64px;left:0;right:0;z-index:70;background:var(--bg);
+  border-bottom:1px solid var(--line);box-shadow:0 18px 40px rgba(0,0,0,.32);
+  padding:10px 22px 20px;display:none;max-height:calc(100vh - 64px);overflow-y:auto}
+.amenu.open{display:block}
+.amenu a{display:block;padding:12px 0;border-bottom:1px solid var(--line2);text-decoration:none;
+  font-family:var(--disp);font-weight:600;font-size:.96rem;color:var(--txt)}
+.amenu a:last-child{border-bottom:none}
+.amenu a:hover{color:var(--acc2)}
+.amenu .grp{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--acc);margin:14px 0 4px}
+.amenu a.cta{margin-top:14px;text-align:center;background:linear-gradient(135deg,var(--acc),var(--acc3));
+  color:var(--btn);border-radius:10px;padding:13px 16px;border:none;font-weight:700}
+.ascrim{position:fixed;inset:0;top:64px;z-index:69;background:rgba(0,0,0,.45);opacity:0;
+  pointer-events:none;transition:opacity .25s}
+.ascrim.on{opacity:1;pointer-events:auto}
+body.amenu-open{overflow:hidden}
+.fcontact{border-top:1px solid var(--line2);margin-top:22px;padding-top:20px;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;text-align:left}
+.fcontact div{font-size:.8rem;color:var(--dim);line-height:1.7}
+.fcontact b{display:block;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--acc);margin-bottom:4px;font-weight:500}
+.fcontact a{color:var(--txt);text-decoration:none;font-weight:600}
+.fcontact a:hover{color:var(--acc2)}
+
 </style>
 </head>
 <body class="lang-zh">
 <div id="rprog"></div>
-<div id="rpill"><span class="en">Left</span><span class="zh">尚餘</span><b id="rp-n">100</b>%</div>
+<div id="rpill"><span class="en">Read</span><span class="zh">已閱讀</span><b id="rp-n">0</b>%</div>
 
 <header>
   <div class="nav">
@@ -151,9 +179,31 @@ img{-webkit-user-drag:none;pointer-events:none}
       <a class="back" href="/"><span class="zh">← 返回主頁</span><span class="en">← Home</span></a>
       <div class="lang"><button id="be" onclick="sl('en')">EN</button><button id="bz" class="on" onclick="sl('zh')">繁</button><button id="bc" onclick="sl('cn')">简</button></div>
       <button class="tbtn" id="tb" onclick="tt()">☾</button>
+      <button class="abtn" id="a-burger" aria-label="Menu" onclick="aToggle()">☰</button>
+
     </div>
   </div>
 </header>
+<div class="ascrim" id="a-scrim" onclick="aClose()"></div>
+<nav class="amenu" id="a-menu" aria-label="Site">
+  <div class="grp"><span class="en">The practice</span><span class="zh">關於本公司</span></div>
+  <a href="/#about"><span class="en">About us</span><span class="zh">公司簡介</span></a>
+  <a href="/#services"><span class="en">Services</span><span class="zh">服務</span></a>
+  <a href="/#scope"><span class="en">Scope of services</span><span class="zh">服務範圍</span></a>
+  <a href="/#bhu"><span class="en">Basic Housing Unit</span><span class="zh">簡樸房</span></a>
+  <a href="/#audience"><span class="en">Who we serve</span><span class="zh">服務對象</span></a>
+  <a href="/#process"><span class="en">How we work</span><span class="zh">服務流程</span></a>
+  <a href="/#experience"><span class="en">Experience</span><span class="zh">項目往績</span></a>
+  <a href="/#voices"><span class="en">Our commitments</span><span class="zh">服務承諾</span></a>
+  <a href="/#team"><span class="en">Our team</span><span class="zh">專業團隊</span></a>
+  <a href="/#sectors"><span class="en">Sectors</span><span class="zh">服務行業</span></a>
+  <div class="grp"><span class="en">Resources</span><span class="zh">資源</span></div>
+  <a href="/#knowledge"><span class="en">All guides</span><span class="zh">知識庫全部文章</span></a>
+  <a href="/certification-partners.html"><span class="en">Certification for the trade</span><span class="zh">同業核證服務</span></a>
+  <a href="/#faq"><span class="en">FAQ</span><span class="zh">常見問題</span></a>
+  <a class="cta" href="/#contact"><span class="en">Free consultation</span><span class="zh">免費諮詢・聯絡我們</span></a>
+</nav>
+
 <article>
   <div class="wrap">
     <div class="kicker">資助計劃 SUBSIDY SCHEMES</div>
@@ -254,6 +304,12 @@ img{-webkit-user-drag:none;pointer-events:none}
   <div class="wrap">
     <span class="zh">© 2026 躍昇建築事務顧問有限公司　·　本文僅供一般參考，不構成法律或專業意見。</span>
     <span class="en">© 2026 Ascend Architecture &amp; Engineering Limited　·　General information only; not legal or professional advice.</span>
+    <div class="fcontact">
+      <div><b>Email</b><a href="mailto:aaelhk.info@gmail.com">aaelhk.info@gmail.com</a></div>
+      <div><b>Website</b><a href="/">www.aael.online</a></div>
+      <div><b>Instagram</b><a href="https://www.instagram.com/ascendarchitecture_engineering/" target="_blank" rel="noopener">@ascendarchitecture_engineering</a></div>
+      <div><b>Office</b><span class="zh">香港九龍尖沙咀東麼地道62號永安廣場7樓709室</span><span class="en">Room 709, 7/F, Wing On Plaza, 62 Mody Road, Tsim Sha Tsui East, Kowloon</span></div>
+    </div>
   </div>
 </footer>
 <script>
@@ -311,17 +367,36 @@ ap(t==='dark'?'dark':'light');if(l)sl(l)})();
     if(!raf) raf=requestAnimationFrame(paint);
   }
   function paint(){
-    p += (t-p)*0.2;
+    var d=t-p;
+    p += d*(0.2+0.55*Math.abs(d));
     if(Math.abs(t-p)<0.001) p=t;
     bar.style.transform='scaleX('+p.toFixed(4)+')';
-    var left=Math.max(0,Math.round((1-p)*100));
-    if(num) num.textContent=left;
-    if(pill) pill.classList.toggle('done',left===0);
+    var read=Math.min(100,Math.max(0,Math.round(p*100)));
+    if(num) num.textContent=read;
+    if(pill) pill.classList.toggle('done',read>=100);
     raf = (p!==t) ? requestAnimationFrame(paint) : null;
   }
   addEventListener('scroll',measure,{passive:true});
   addEventListener('resize',measure,{passive:true});
   measure(); p=t; paint();
+})();
+</script>
+
+
+<script>
+(function(){
+  var m=document.getElementById('a-menu'), s=document.getElementById('a-scrim');
+  window.aToggle=function(){ if(!m) return;
+    var o=m.classList.toggle('open');
+    if(s) s.classList.toggle('on',o);
+    document.body.classList.toggle('amenu-open',o);
+  };
+  window.aClose=function(){ if(!m) return;
+    m.classList.remove('open'); if(s) s.classList.remove('on');
+    document.body.classList.remove('amenu-open');
+  };
+  if(m) m.addEventListener('click',function(e){ if(e.target.closest('a')) window.aClose(); });
+  addEventListener('keydown',function(e){ if(e.key==='Escape') window.aClose(); });
 })();
 </script>
 
