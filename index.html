@@ -796,7 +796,7 @@
   .lang button{padding:6px 9px}
   .theme-btn{width:32px;height:32px;font-size:.92rem}
   /* items that only appear in the mobile / compact menu */
-  .nav-links a.sec{display:none}
+  .nav-links a.sec,.nav-links .navgrp{display:none}
   /* hand over to the menu button earlier so nothing crams */
   @media (max-width:1180px){
     .nav-links{
@@ -809,6 +809,7 @@
     .nav-links a{padding:11px 0;width:100%;border-bottom:1px solid var(--line-soft);font-size:.95rem}
     .nav-links a:last-child{border-bottom:none}
     .nav-links a.sec{display:block}
+    .nav-links .navgrp{display:block}
     .nav-links a.cta{margin-top:12px;text-align:center;padding:13px 16px;font-size:.92rem}
     .burger{display:block}
   }
@@ -930,6 +931,36 @@
   .rem .msg.err{display:block;color:#e06c5a}
   @media(max-width:640px){.rem-grid{grid-template-columns:1fr}.rem{padding:22px}}
 
+
+  /* ---------- mobile menu: grouped, breathable, nothing overlapping ---------- */
+  @media (max-width:1180px){
+    .nav-links{padding:6px 22px 18px}
+    .nav-links a{
+      padding:11px 2px;font-size:.96rem;letter-spacing:.01em;line-height:1.3;
+      border-bottom:1px solid var(--line-soft);
+      display:flex;align-items:center;
+    }
+    /* group headings inserted between sections */
+    .nav-links .navgrp{
+      font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+      color:var(--accent);padding:11px 2px 4px;border-bottom:1px solid var(--line);
+      margin-top:2px;
+    }
+    .nav-links .navgrp:first-child{margin-top:0;padding-top:8px}
+    .nav-links a.cta{
+      margin-top:14px;justify-content:center;padding:14px 16px;font-size:.98rem;
+      border-bottom:none;
+    }
+    /* the floating rail and chat button must not sit on top of the open menu */
+    body.menu-open .quick,
+    body.menu-open .chat-fab,
+    body.menu-open .chat-panel{opacity:0;pointer-events:none;transition:opacity .2s}
+  }
+  @media (max-width:400px){
+    .nav-links a{padding:12px 2px;font-size:.96rem}
+    .nav-links .navgrp{padding:13px 2px 5px}
+  }
+
 </style>
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "為何選擇AAEL，而非大型顧問公司？", "acceptedAnswer": {"@type": "Answer", "text": "請站在業主的位置想一想。找大行，得到的是一個名字加一位新人；找小行，得到關注卻未必有資格，法定部分還是要外判，最終由您夾在中間協調素未謀面的幾方。AAEL 刻意做第三種選擇：認可人士（A.P.）、註冊結構工程師（R.S.E.）、註冊專業測量師（R.P.S.）及註冊檢驗人員（R.I.）四項資格同在一司，並由持證者親自主理。實際分別是：您只需委託一次；得到一份統一的工作計劃，而非三份各自為政的時間表；您永遠不必充當顧問之間的傳話人；工程中途發現問題時，那是被處理，而不是被爭論。執行標準，是我們在五星級歷史酒店驗證過的；回應速度，是一間接得到您電話的公司才有的。"}}, {"@type": "Question", "name": "認可人士（A.P.）究竟做甚麼？我需要嗎？", "acceptedAnswer": {"@type": "Answer", "text": "根據《建築物條例》，香港大部分建築工程均須由認可人士草擬、入則及監督。AP須簽署法定文件、統籌屋宇署審批，並承擔法律責任。簡單而言：屋宇署要求圖則上有人承擔責任——在AAEL，這位簽署人是駐司專業人士，並非外借掛名。"}}, {"@type": "Question", "name": "收費大約是多少？", "acceptedAnswer": {"@type": "Answer", "text": "每幢樓宇情況不同，故我們不設劃一價目表——但了解收費是免費的。我們會先實地視察，兩個工作天內以書面列明服務範圍、收費及時間表。絕無約束、絕無壓力，報價單上的數字就是您付的數字。"}}, {"@type": "Question", "name": "屋宇署審批需時多久？", "acceptedAnswer": {"@type": "Answer", "text": "法定審批一般每次入則約需兩個月，視乎工程範圍及複雜程度。我們能控制的，我們承諾：時間表預先與您議定，屋宇署方面由我們主動跟進，您毋須操心。"}}, {"@type": "Question", "name": "小型工程都會接嗎？", "acceptedAnswer": {"@type": "Answer", "text": "會。小型工程、單一處所勘察、牌照入則——我們同樣認真對待，因為做好一單小工程，往往換來一位長期客戶。無論項目大小，均由同一班註冊專業人士親自處理。"}}, {"@type": "Question", "name": "物業繼續營運期間，可否同時進行工程？", "acceptedAnswer": {"@type": "Answer", "text": "可以——在營運中的資產上施工正是我們的專長之一。我們曾在五星級酒店照常營業的情況下完成提升工程：分階段施工、非繁忙時段作業，以及嚴格的塵埃及噪音管制。我們以您的營運為先編排工程，而非要求營運遷就工程。"}}, {"@type": "Question", "name": "你們與承建商是甚麼關係？是否獨立？", "acceptedAnswer": {"@type": "Answer", "text": "完全獨立。我們是顧問——負責設計、入則、監督及核證，並不承接建造工程合約。這份獨立性代表：當我們審核承建商的工作時，我們只向您負責。我們亦可協助招標及甄選承建商，由第一日起維護您的權益。"}}, {"@type": "Question", "name": "我身處內地或海外，可否遙距辦理？", "acceptedAnswer": {"@type": "Answer", "text": "可以。現場勘察由我們的團隊執行，結果及方案可透過視像會議與您討論，文件亦可經授權代表簽署辦理。跨境業主在分間單位市場中佔相當比例，遙距辦理流程成熟——關鍵只在於及早開始，預留文件往來的時間。"}}, {"@type": "Question", "name": "開始前需要準備甚麼文件？", "acceptedAnswer": {"@type": "Answer", "text": "只需樓宇地址及您所關注的事項，已足夠讓我們展開工作。如備有現存圖則、過往報告或屋宇署信件，固然有助評估；如未有，我們可代為索取樓宇紀錄圖則。第一步，真的只是一封電郵。"}}]}</script>
@@ -948,16 +979,19 @@
     <div class="nav-right">
                   <div class="nav-scrim" id="nav-scrim" onclick="closeMenu()"></div>
       <nav class="nav-links">
+        <div class="navgrp"><span class="en">The practice</span><span class="zh">關於本公司</span></div>
         <a class="sec" href="#about"><span class="en">About us</span><span class="zh">公司簡介</span></a>
         <a href="#services"><span class="en">Services</span><span class="zh">服務</span></a>
         <a class="sec" href="#scope"><span class="en">Scope of services</span><span class="zh">服務範圍</span></a>
         <a href="#bhu"><span class="en">BHU</span><span class="zh">簡樸房</span></a>
+        <div class="navgrp"><span class="en">Working with us</span><span class="zh">與我們合作</span></div>
         <a class="sec" href="#audience"><span class="en">Who we serve</span><span class="zh">服務對象</span></a>
         <a class="sec" href="#process"><span class="en">How we work</span><span class="zh">服務流程</span></a>
         <a class="sec" href="#experience"><span class="en">Experience</span><span class="zh">項目往績</span></a>
         <a class="sec" href="#voices"><span class="en">Our commitments</span><span class="zh">服務承諾</span></a>
         <a class="sec" href="#team"><span class="en">Our team</span><span class="zh">專業團隊</span></a>
         <a class="sec" href="#sectors"><span class="en">Sectors</span><span class="zh">服務行業</span></a>
+        <div class="navgrp"><span class="en">Resources</span><span class="zh">資源</span></div>
         <a href="#knowledge"><span class="en">Guides</span><span class="zh">知識庫</span></a>
         <a href="#faq"><span class="en">FAQ</span><span class="zh">常見問題</span></a>
         <a href="#contact" class="cta"><span class="en">Free consultation</span><span class="zh">免費諮詢</span></a>
@@ -1596,6 +1630,12 @@
     </div>
     <p class="sec-intro rv"><span class="en">Plain-language guides to the rules owners actually run into — written by the people who file the submissions, not copied from a circular.</span><span class="zh">以業主看得懂的語言，解說實際會遇到的規例——由親手處理入則的團隊撰寫，而非照抄通告。</span></p>
     <div class="kb-grid rv">
+      <a class="kb" href="/guide-bhu-timeline.html">
+        <span class="k">BHU · Timeline</span>
+        <h3><span class="en">Registration and certification: the four-year roadmap</span><span class="zh">簡樸房登記與認證時間表：業主四年路線圖</span></h3>
+        <p><span class="en">The four dates that matter, what to complete in each phase, and why the usable time is shorter than it looks.</span><span class="zh">四個關鍵日期、每階段應完成的事，以及為何可用時間遠比帳面上少。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
       <a class="kb" href="/guide-bhu-standards.html">
         <span class="k">BHU · Standards</span>
         <h3><span class="en">The eight minimum standards for Basic Housing Units</span><span class="zh">簡樸房八項居住環境最低標準：業主自查指南</span></h3>
@@ -1608,93 +1648,12 @@
         <p><span class="en">Why internal sub-meters don't qualify, how the utility applications work, and why this item delays certification more than any other.</span><span class="zh">為何內部分錶不合規、申請流程如何、以及此項為何最常拖慢整個認證進度。</span></p>
         <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
       </a>
-      <a class="kb" href="/guide-bhu-timeline.html">
-        <span class="k">BHU · Timeline</span>
-        <h3><span class="en">Registration and certification: the four-year roadmap</span><span class="zh">簡樸房登記與認證時間表：業主四年路線圖</span></h3>
-        <p><span class="en">The four dates that matter, what to complete in each phase, and why the usable time is shorter than it looks.</span><span class="zh">四個關鍵日期、每階段應完成的事，以及為何可用時間遠比帳面上少。</span></p>
+      <a class="kb" href="/guide-specified-professional.html">
+        <span class="k">指明專業人士</span>
+        <h3><span class="en">Who signs the BHU certification report?</span><span class="zh">簡樸房核證報告由誰簽署？「指明專業人士」資格、查證與委聘</span></h3>
+        <p><span class="en">Which registrations qualify, how to verify them in ten minutes, and why some owners finish the works and then cannot find anyone to sign.</span><span class="zh">哪些註冊資格合資格、如何十分鐘內查證，以及為何有業主做完工程卻找不到人簽名。</span></p>
         <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
       </a>
-      <a class="kb" href="/guide-bd-order.html">
-        <span class="k">Statutory orders</span>
-        <h3><span class="en">What to do when you receive a Buildings Department order</span><span class="zh">收到屋宇署命令或通知書怎麼辦？業主應對指南</span></h3>
-        <p><span class="en">Removal, repair and investigation orders — the right sequence, the cost of ignoring them, and how they block BHU certification.</span><span class="zh">清拆令、修葺令、勘測令的正確應對步驟、置之不理的代價，以及它們如何阻礙簡樸房認證。</span></p>
-        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
-      </a>
-      <a class="kb" href="/guide-mbis.html">
-        <span class="k">MBIS · Inspection</span>
-        <h3><span class="en">Mandatory Building Inspection: what happens after the notice</span><span class="zh">強制驗樓計劃（MBIS）：收到通知後的完整流程</span></h3>
-        <p><span class="en">Prescribed inspection versus prescribed repair, deadlines and extensions, and the extra steps for owners' corporations.</span><span class="zh">訂明檢驗與訂明修葺的分別、時限與延期，以及業主立案法團的額外程序。</span></p>
-        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
-      </a>
-
-      <a class="kb" href="/guide-ubw.html">
-        <span class="k">UBW · 僭建</span>
-        <h3><span class="en">Do unauthorised building works always have to come down?</span><span class="zh">僭建物一定要拆嗎？違例建築工程的三條出路</span></h3>
-        <p><span class="en">Lower enforcement priority, regularisation, or removal — how to tell which category you are in, and the right sequence after an order.</span><span class="zh">寬免執法、可規範化、必須清拆——如何分辨屬於哪一類，以及收到清拆令後的正確次序。</span></p>
-        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
-      </a>
-      <a class="kb" href="/guide-minor-works.html">
-        <span class="k">Statutory routes</span>
-        <h3><span class="en">Minor works or A&amp;A? Getting the statutory route right</span><span class="zh">小型工程還是改建加建？開工前分清法定路線</span></h3>
-        <p><span class="en">The three classes, what each requires, and what happens when a job is filed down the wrong route.</span><span class="zh">三個級別的適用範圍與要求，以及選錯路線的實際後果。</span></p>
-        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
-      </a>
-      <a class="kb" href="/guide-restaurant-licence.html">
-        <span class="k">Licensing</span>
-        <h3><span class="en">Before you sign the lease: can these premises be licensed?</span><span class="zh">開餐廳簽租約前：處所能否領牌的檢查清單</span></h3>
-        <p><span class="en">Use, escape routes, exhaust, drainage and existing breaches — the five checks that decide whether a licence is achievable.</span><span class="zh">用途、走火通道、排煙、渠務及現有違規——決定能否領牌的五項檢查。</span></p>
-        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
-      </a>
-      <a class="kb" href="/guide-leakage.html">
-        <span class="k">Seepage</span>
-        <h3><span class="en">Water seepage from above: responsibility and evidence</span><span class="zh">樓上漏水：責任誰屬、如何舉證與解決流程</span></h3>
-        <p><span class="en">Common sources, how professional investigation actually works, and how to obtain evidence you can act on.</span><span class="zh">常見滲漏源頭、專業勘察方法，以及如何取得可用於追討的證據。</span></p>
-        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
-      </a>
-      <a class="kb" href="/guide-oc-tender.html">
-        <span class="k">Owners' corporations</span>
-        <h3><span class="en">Major repairs: tendering, supervision and pitfalls</span><span class="zh">業主立案法團大維修：招標、監督與常見陷阱</span></h3>
-        <p><span class="en">Why consultant and contractor must stay separate, the statutory tender process, and where budgets usually break.</span><span class="zh">為何顧問與承建商角色必須分開、法定招標程序，以及最常超支的環節。</span></p>
-        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
-      </a>
-
-      <a class="kb" href="/guide-handover-inspection.html">
-        <span class="k">Handover · 收樓</span>
-        <h3><span class="en">New flat handover inspection: what to check</span><span class="zh">新樓收樓驗樓：業主應檢查甚麼、發現問題怎麼辦</span></h3>
-        <p><span class="en">Why inspecting before signing matters, a room-by-room checklist, and how to get defects put right within the liability period.</span><span class="zh">為何應「驗完先簽」、逐項檢查清單，以及如何在保養期內取得執修。</span></p>
-        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
-      </a>
-      <a class="kb" href="/guide-pre-purchase.html">
-        <span class="k">Pre-purchase · 買樓前</span>
-        <h3><span class="en">Pre-purchase inspection: what to check before you sign</span><span class="zh">二手樓買樓前檢驗：簽臨約之前應該查甚麼</span></h3>
-        <p><span class="en">Five categories that decide whether a flat is a bargain or a liability — and how to turn findings into leverage.</span><span class="zh">決定物業是筍盤還是負擔的五類檢查，以及如何把發現轉化為議價依據。</span></p>
-        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
-      </a>
-      <a class="kb" href="/guide-spalling.html">
-        <span class="k">Spalling · 石屎剝落</span>
-        <h3><span class="en">Concrete spalling: causes, risks and correct repair</span><span class="zh">石屎剝落：成因、風險與正確的修葺方法</span></h3>
-        <p><span class="en">Why surface patching fails within a few years, and what a proper repair sequence actually involves.</span><span class="zh">為何表面填補兩三年後再度爆開，以及正確的修葺程序是怎樣的。</span></p>
-        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
-      </a>
-      <a class="kb" href="/guide-mwis.html">
-        <span class="k">MWIS · 強制驗窗</span>
-        <h3><span class="en">Mandatory Window Inspection: who does what</span><span class="zh">強制驗窗計劃（MWIS）：業主與租戶各自要做甚麼</span></h3>
-        <p><span class="en">How it differs from building inspection, the owner–tenant split, and why combining both notices saves money.</span><span class="zh">與強制驗樓的分別、業主與租戶的責任分工，以及兩者一併處理為何較划算。</span></p>
-        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
-      </a>
-      <a class="kb" href="/guide-structural-wall.html">
-        <span class="k">Structure · 拆牆</span>
-        <h3><span class="en">Before you remove a wall: structural walls and the law</span><span class="zh">裝修拆牆之前：如何分辨主力牆與須辦的手續</span></h3>
-        <p><span class="en">Why tapping proves nothing, what needs statutory handling, and a contract clause worth insisting on.</span><span class="zh">為何敲牆判斷不可靠、哪些改動須辦手續，以及值得寫入裝修合約的一項條款。</span></p>
-        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
-      </a>
-      <a class="kb" href="/guide-industrial.html">
-        <span class="k">Industrial · 工廈</span>
-        <h3><span class="en">Industrial buildings: permitted use and common traps</span><span class="zh">工廈租用及改裝：用途限制、消防要求與常見陷阱</span></h3>
-        <p><span class="en">Where permitted use actually comes from, what non-conforming use risks, and a checklist before you sign the lease.</span><span class="zh">准許用途的依據、不符用途的實際風險，以及簽租約前應查核的清單。</span></p>
-        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
-      </a>
-
       <a class="kb" href="/guide-bhu-rejection.html">
         <span class="k">BHU · 申請風險</span>
         <h3><span class="en">Why BHU certification applications are refused</span><span class="zh">簡樸房認證申請為何會被拒絕？單位合格不等於批得到</span></h3>
@@ -1713,16 +1672,82 @@
         <p><span class="en">What changes in five years, the tenancy clause worth having, and why continuity saves money.</span><span class="zh">五年之間會發生甚麼、值得寫入租約的一條、以及為何由同一團隊跟進較省。</span></p>
         <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
       </a>
+      <a class="kb" href="/guide-mbis.html">
+        <span class="k">MBIS · Inspection</span>
+        <h3><span class="en">Mandatory Building Inspection: what happens after the notice</span><span class="zh">強制驗樓計劃（MBIS）：收到通知後的完整流程</span></h3>
+        <p><span class="en">Prescribed inspection versus prescribed repair, deadlines and extensions, and the extra steps for owners' corporations.</span><span class="zh">訂明檢驗與訂明修葺的分別、時限與延期，以及業主立案法團的額外程序。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-mwis.html">
+        <span class="k">MWIS · 強制驗窗</span>
+        <h3><span class="en">Mandatory Window Inspection: who does what</span><span class="zh">強制驗窗計劃（MWIS）：業主與租戶各自要做甚麼</span></h3>
+        <p><span class="en">How it differs from building inspection, the owner–tenant split, and why combining both notices saves money.</span><span class="zh">與強制驗樓的分別、業主與租戶的責任分工，以及兩者一併處理為何較划算。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
       <a class="kb" href="/guide-survey-report.html">
         <span class="k">Reports · 報告</span>
         <h3><span class="en">How to read a survey report</span><span class="zh">驗樓報告怎麼看：業主應該讀懂的六個部分</span></h3>
         <p><span class="en">Scope, limitations, method, grading, photographs, estimates — and how to use the report to budget, tender and negotiate.</span><span class="zh">範圍、限制、方法、分級、相片、估算——以及如何用報告去編預算、招標與議價。</span></p>
         <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
       </a>
+      <a class="kb" href="/guide-spalling.html">
+        <span class="k">Spalling · 石屎剝落</span>
+        <h3><span class="en">Concrete spalling: causes, risks and correct repair</span><span class="zh">石屎剝落：成因、風險與正確的修葺方法</span></h3>
+        <p><span class="en">Why surface patching fails within a few years, and what a proper repair sequence actually involves.</span><span class="zh">為何表面填補兩三年後再度爆開，以及正確的修葺程序是怎樣的。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-bd-order.html">
+        <span class="k">Statutory orders</span>
+        <h3><span class="en">What to do when you receive a Buildings Department order</span><span class="zh">收到屋宇署命令或通知書怎麼辦？業主應對指南</span></h3>
+        <p><span class="en">Removal, repair and investigation orders — the right sequence, the cost of ignoring them, and how they block BHU certification.</span><span class="zh">清拆令、修葺令、勘測令的正確應對步驟、置之不理的代價，以及它們如何阻礙簡樸房認證。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-ubw.html">
+        <span class="k">UBW · 僭建</span>
+        <h3><span class="en">Do unauthorised building works always have to come down?</span><span class="zh">僭建物一定要拆嗎？違例建築工程的三條出路</span></h3>
+        <p><span class="en">Lower enforcement priority, regularisation, or removal — how to tell which category you are in, and the right sequence after an order.</span><span class="zh">寬免執法、可規範化、必須清拆——如何分辨屬於哪一類，以及收到清拆令後的正確次序。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
       <a class="kb" href="/guide-rooftop-ubw.html">
         <span class="k">UBW · 天台平台</span>
         <h3><span class="en">Rooftop and podium structures</span><span class="zh">天台屋與平台僭建：為何執法優先，業主如何處理</span></h3>
         <p><span class="en">Escape routes, loading and waterproofing — why regularisation is rarely available here, and the effect on sale, mortgage and BHU eligibility.</span><span class="zh">走火通道、結構荷載與防水——為何此類難以規範化，以及對買賣、按揭及簡樸房資格的影響。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-minor-works.html">
+        <span class="k">Statutory routes</span>
+        <h3><span class="en">Minor works or A&amp;A? Getting the statutory route right</span><span class="zh">小型工程還是改建加建？開工前分清法定路線</span></h3>
+        <p><span class="en">The three classes, what each requires, and what happens when a job is filed down the wrong route.</span><span class="zh">三個級別的適用範圍與要求，以及選錯路線的實際後果。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-structural-wall.html">
+        <span class="k">Structure · 拆牆</span>
+        <h3><span class="en">Before you remove a wall: structural walls and the law</span><span class="zh">裝修拆牆之前：如何分辨主力牆與須辦的手續</span></h3>
+        <p><span class="en">Why tapping proves nothing, what needs statutory handling, and a contract clause worth insisting on.</span><span class="zh">為何敲牆判斷不可靠、哪些改動須辦手續，以及值得寫入裝修合約的一項條款。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-handover-inspection.html">
+        <span class="k">Handover · 收樓</span>
+        <h3><span class="en">New flat handover inspection: what to check</span><span class="zh">新樓收樓驗樓：業主應檢查甚麼、發現問題怎麼辦</span></h3>
+        <p><span class="en">Why inspecting before signing matters, a room-by-room checklist, and how to get defects put right within the liability period.</span><span class="zh">為何應「驗完先簽」、逐項檢查清單，以及如何在保養期內取得執修。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-pre-purchase.html">
+        <span class="k">Pre-purchase · 買樓前</span>
+        <h3><span class="en">Pre-purchase inspection: what to check before you sign</span><span class="zh">二手樓買樓前檢驗：簽臨約之前應該查甚麼</span></h3>
+        <p><span class="en">Five categories that decide whether a flat is a bargain or a liability — and how to turn findings into leverage.</span><span class="zh">決定物業是筍盤還是負擔的五類檢查，以及如何把發現轉化為議價依據。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-leakage.html">
+        <span class="k">Seepage</span>
+        <h3><span class="en">Water seepage from above: responsibility and evidence</span><span class="zh">樓上漏水：責任誰屬、如何舉證與解決流程</span></h3>
+        <p><span class="en">Common sources, how professional investigation actually works, and how to obtain evidence you can act on.</span><span class="zh">常見滲漏源頭、專業勘察方法，以及如何取得可用於追討的證據。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-oc-tender.html">
+        <span class="k">Owners' corporations</span>
+        <h3><span class="en">Major repairs: tendering, supervision and pitfalls</span><span class="zh">業主立案法團大維修：招標、監督與常見陷阱</span></h3>
+        <p><span class="en">Why consultant and contractor must stay separate, the statutory tender process, and where budgets usually break.</span><span class="zh">為何顧問與承建商角色必須分開、法定招標程序，以及最常超支的環節。</span></p>
         <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
       </a>
       <a class="kb" href="/guide-dmc.html">
@@ -1743,11 +1768,16 @@
         <p><span class="en">What triggers a direction, typical improvement items, and why these works overrun on decision-making rather than construction.</span><span class="zh">指示從何而來、常見改善項目，以及此類工程為何多數敗在決策而非施工。</span></p>
         <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
       </a>
-
-      <a class="kb" href="/guide-specified-professional.html">
-        <span class="k">指明專業人士</span>
-        <h3><span class="en">Who signs the BHU certification report?</span><span class="zh">簡樸房核證報告由誰簽署？「指明專業人士」資格、查證與委聘</span></h3>
-        <p><span class="en">Which registrations qualify, how to verify them in ten minutes, and why some owners finish the works and then cannot find anyone to sign.</span><span class="zh">哪些註冊資格合資格、如何十分鐘內查證，以及為何有業主做完工程卻找不到人簽名。</span></p>
+      <a class="kb" href="/guide-restaurant-licence.html">
+        <span class="k">Licensing</span>
+        <h3><span class="en">Before you sign the lease: can these premises be licensed?</span><span class="zh">開餐廳簽租約前：處所能否領牌的檢查清單</span></h3>
+        <p><span class="en">Use, escape routes, exhaust, drainage and existing breaches — the five checks that decide whether a licence is achievable.</span><span class="zh">用途、走火通道、排煙、渠務及現有違規——決定能否領牌的五項檢查。</span></p>
+        <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
+      </a>
+      <a class="kb" href="/guide-industrial.html">
+        <span class="k">Industrial · 工廈</span>
+        <h3><span class="en">Industrial buildings: permitted use and common traps</span><span class="zh">工廈租用及改裝：用途限制、消防要求與常見陷阱</span></h3>
+        <p><span class="en">Where permitted use actually comes from, what non-conforming use risks, and a checklist before you sign the lease.</span><span class="zh">准許用途的依據、不符用途的實際風險，以及簽租約前應查核的清單。</span></p>
         <span class="go"><span class="en">Read the guide →</span><span class="zh">閱讀全文 →</span></span>
       </a>
     </div>
