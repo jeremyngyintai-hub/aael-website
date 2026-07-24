@@ -881,26 +881,39 @@
   .band p{font-size:.92rem;color:var(--dim);line-height:1.7;margin-bottom:14px}
   .band a.blink{display:inline-block;font-weight:700;color:var(--accent-hi);text-decoration:underline;font-size:.92rem}
 
+
+  .faq-more{margin-top:30px;border-top:1px solid var(--line-soft);padding-top:24px}
+  .faq-more h4{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  .faq-more .fl{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
+  .faq-more a{display:block;padding:12px 16px;border:1px solid var(--line);border-radius:10px;
+    background:var(--panel);text-decoration:none;font-size:.88rem;font-weight:600;transition:border-color .2s}
+  .faq-more a:hover{border-color:var(--accent)}
+  .faq-more a small{display:block;font-weight:400;font-size:.78rem;color:var(--dim);margin-top:3px}
+
+
+  /* ---------- mobile menu: solid panel, no bleed-through ---------- */
+  @media (max-width:1180px){
+    .nav-links{
+      background:var(--bg) !important;
+      backdrop-filter:none !important;-webkit-backdrop-filter:none !important;
+      box-shadow:0 18px 40px rgba(0,0,0,.35);
+      padding:10px 24px 22px;
+      max-height:calc(100vh - 74px);overflow-y:auto;-webkit-overflow-scrolling:touch;
+    }
+    body.menu-open{overflow:hidden}
+    .nav-scrim{
+      position:fixed;inset:0;top:74px;z-index:39;background:rgba(0,0,0,.45);
+      opacity:0;pointer-events:none;transition:opacity .25s;
+    }
+    .nav-scrim.on{opacity:1;pointer-events:auto}
+    .nav-links a{font-size:.98rem;padding:13px 0}
+    .nav-links a.cta{margin-top:14px}
+  }
+  @media (min-width:1181px){ .nav-scrim{display:none} }
+
 </style>
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {"@type":"Question","name":"Why choose AAEL over a bigger firm?","acceptedAnswer":{"@type":"Answer","text":"AAEL keeps an Authorized Person (A.P.), a Registered Structural Engineer (R.S.E.), a Registered Professional Surveyor (R.P.S.) and a Registered Inspector (R.I.) under one roof, and they personally run every project rather than delegating it down the line — with delivery standards proven on a five-star heritage hotel and the responsiveness of a focused practice."}},
-    {"@type":"Question","name":"What does an Authorized Person (A.P.) do and do I need one?","acceptedAnswer":{"@type":"Answer","text":"Under the Buildings Ordinance, most building works in Hong Kong must be prepared, submitted and supervised by an Authorized Person, who signs statutory submissions, coordinates Buildings Department approval and carries the legal responsibility. AAEL's AP is in-house."}},
-    {"@type":"Question","name":"I've received an MBIS notice. What should I do?","acceptedAnswer":{"@type":"Answer","text":"The statutory deadline gives months, not days. Appoint a Registered Inspector, carry out the inspection, submit the report and complete required repairs. AAEL handles all steps with a Registered Inspector and Registered Professional Surveyors in-house and offers free initial advice."}},
-    {"@type":"Question","name":"How much will it cost?","acceptedAnswer":{"@type":"Answer","text":"There is no standard price list because every building differs, but proposals are free: AAEL visits the building and sends a written scope, fee and programme within two working days, with no obligation."}},
-    {"@type":"Question","name":"How long does Buildings Department approval take?","acceptedAnswer":{"@type":"Answer","text":"Statutory processing typically runs around two months per submission depending on scope and complexity. The programme is agreed up front and AAEL follows up with the Buildings Department throughout."}},
-    {"@type":"Question","name":"Do you take on smaller projects?","acceptedAnswer":{"@type":"Answer","text":"Yes — minor works, single-premises surveys and licensing submissions are all handled by the same registered professionals, whatever the project size."}},
-    {"@type":"Question","name":"Can works be carried out while my premises stay open?","acceptedAnswer":{"@type":"Answer","text":"Yes — AAEL specialises in live assets, having upgraded a five-star hotel without costing it a single room-night, using phased sequencing, out-of-hours works and strict dust and noise controls."}},
-    {"@type":"Question","name":"Are you independent from contractors?","acceptedAnswer":{"@type":"Answer","text":"Completely. AAEL is a consultancy that designs, submits, supervises and certifies, and does not take construction contracts — so its checking answers to the owner alone. AAEL can also assist with tendering and contractor selection."}},
-    {"@type":"Question","name":"My building has unauthorized works (UBW). Can you help?","acceptedAnswer":{"@type":"Answer","text":"Yes. AAEL assesses the works, advises what can be regularized through statutory submission and what must be removed, and handles submissions or removal supervision. Acting early on Buildings Department orders keeps options open and costs down."}},
-    {"@type":"Question","name":"What do I need to prepare to get started?","acceptedAnswer":{"@type":"Answer","text":"Just the building address and a description of the concern. Existing plans, previous reports or Buildings Department correspondence help; if unavailable, AAEL can obtain record plans on the owner's behalf."}}
-  ]
-}
-</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "為何選擇AAEL，而非大型顧問公司？", "acceptedAnswer": {"@type": "Answer", "text": "請站在業主的位置想一想。找大行，得到的是一個名字加一位新人；找小行，得到關注卻未必有資格，法定部分還是要外判，最終由您夾在中間協調素未謀面的幾方。AAEL 刻意做第三種選擇：認可人士（A.P.）、註冊結構工程師（R.S.E.）、註冊專業測量師（R.P.S.）及註冊檢驗人員（R.I.）四項資格同在一司，並由持證者親自主理。實際分別是：您只需委託一次；得到一份統一的工作計劃，而非三份各自為政的時間表；您永遠不必充當顧問之間的傳話人；工程中途發現問題時，那是被處理，而不是被爭論。執行標準，是我們在五星級歷史酒店驗證過的；回應速度，是一間接得到您電話的公司才有的。"}}, {"@type": "Question", "name": "認可人士（A.P.）究竟做甚麼？我需要嗎？", "acceptedAnswer": {"@type": "Answer", "text": "根據《建築物條例》，香港大部分建築工程均須由認可人士草擬、入則及監督。AP須簽署法定文件、統籌屋宇署審批，並承擔法律責任。簡單而言：屋宇署要求圖則上有人承擔責任——在AAEL，這位簽署人是駐司專業人士，並非外借掛名。"}}, {"@type": "Question", "name": "收費大約是多少？", "acceptedAnswer": {"@type": "Answer", "text": "每幢樓宇情況不同，故我們不設劃一價目表——但了解收費是免費的。我們會先實地視察，兩個工作天內以書面列明服務範圍、收費及時間表。絕無約束、絕無壓力，報價單上的數字就是您付的數字。"}}, {"@type": "Question", "name": "屋宇署審批需時多久？", "acceptedAnswer": {"@type": "Answer", "text": "法定審批一般每次入則約需兩個月，視乎工程範圍及複雜程度。我們能控制的，我們承諾：時間表預先與您議定，屋宇署方面由我們主動跟進，您毋須操心。"}}, {"@type": "Question", "name": "小型工程都會接嗎？", "acceptedAnswer": {"@type": "Answer", "text": "會。小型工程、單一處所勘察、牌照入則——我們同樣認真對待，因為做好一單小工程，往往換來一位長期客戶。無論項目大小，均由同一班註冊專業人士親自處理。"}}, {"@type": "Question", "name": "物業繼續營運期間，可否同時進行工程？", "acceptedAnswer": {"@type": "Answer", "text": "可以——在營運中的資產上施工正是我們的專長之一。我們曾在五星級酒店照常營業的情況下完成提升工程：分階段施工、非繁忙時段作業，以及嚴格的塵埃及噪音管制。我們以您的營運為先編排工程，而非要求營運遷就工程。"}}, {"@type": "Question", "name": "你們與承建商是甚麼關係？是否獨立？", "acceptedAnswer": {"@type": "Answer", "text": "完全獨立。我們是顧問——負責設計、入則、監督及核證，並不承接建造工程合約。這份獨立性代表：當我們審核承建商的工作時，我們只向您負責。我們亦可協助招標及甄選承建商，由第一日起維護您的權益。"}}, {"@type": "Question", "name": "我身處內地或海外，可否遙距辦理？", "acceptedAnswer": {"@type": "Answer", "text": "可以。現場勘察由我們的團隊執行，結果及方案可透過視像會議與您討論，文件亦可經授權代表簽署辦理。跨境業主在分間單位市場中佔相當比例，遙距辦理流程成熟——關鍵只在於及早開始，預留文件往來的時間。"}}, {"@type": "Question", "name": "開始前需要準備甚麼文件？", "acceptedAnswer": {"@type": "Answer", "text": "只需樓宇地址及您所關注的事項，已足夠讓我們展開工作。如備有現存圖則、過往報告或屋宇署信件，固然有助評估；如未有，我們可代為索取樓宇紀錄圖則。第一步，真的只是一封電郵。"}}]}</script>
 
 </head>
 <body>
@@ -914,17 +927,20 @@
       <span>AAEL<small class="en">ASCEND ARCHITECTURE &amp; ENGINEERING LTD</small><small class="zh">躍昇建築事務顧問有限公司</small></span>
     </a>
     <div class="nav-right">
-            <nav class="nav-links">
-        <a href="#services"><span class="en">Services</span><span class="zh">服務</span></a>
-        <a href="#bhu"><span class="en">BHU</span><span class="zh">簡樸房</span></a>
-        <a href="#knowledge"><span class="en">Guides</span><span class="zh">知識庫</span></a>
-        <a href="#faq"><span class="en">FAQ</span><span class="zh">常見問題</span></a>
+                  <div class="nav-scrim" id="nav-scrim" onclick="closeMenu()"></div>
+      <nav class="nav-links">
         <a class="sec" href="#about"><span class="en">About us</span><span class="zh">公司簡介</span></a>
+        <a href="#services"><span class="en">Services</span><span class="zh">服務</span></a>
         <a class="sec" href="#scope"><span class="en">Scope of services</span><span class="zh">服務範圍</span></a>
+        <a href="#bhu"><span class="en">BHU</span><span class="zh">簡樸房</span></a>
         <a class="sec" href="#audience"><span class="en">Who we serve</span><span class="zh">服務對象</span></a>
         <a class="sec" href="#process"><span class="en">How we work</span><span class="zh">服務流程</span></a>
         <a class="sec" href="#experience"><span class="en">Experience</span><span class="zh">項目往績</span></a>
+        <a class="sec" href="#voices"><span class="en">Our commitments</span><span class="zh">服務承諾</span></a>
         <a class="sec" href="#team"><span class="en">Our team</span><span class="zh">專業團隊</span></a>
+        <a class="sec" href="#sectors"><span class="en">Sectors</span><span class="zh">服務行業</span></a>
+        <a href="#knowledge"><span class="en">Guides</span><span class="zh">知識庫</span></a>
+        <a href="#faq"><span class="en">FAQ</span><span class="zh">常見問題</span></a>
         <a href="#contact" class="cta"><span class="en">Free consultation</span><span class="zh">免費諮詢</span></a>
       </nav>
       <div class="switches">
@@ -1287,7 +1303,7 @@
       <h2><span class="en">Who we work for</span><span class="zh">我們的服務對象</span></h2>
       <span class="sec-note"><span class="en">Find yourself here</span><span class="zh">看看哪一項是您</span></span>
     </div>
-    <p class="sec-intro rv"><span class="en">Different owners arrive with very different problems. Find the one that sounds like yours — the first email is the same either way.</span><span class="zh">不同身分的業主，帶著的問題也不一樣。看看哪一項最接近您的情況——無論哪一項，第一步同樣只是一封電郵。</span></p>
+    <p class="sec-intro rv"><span class="en">Owners, corporations and trade partners arrive with very different problems. Find the one that sounds like yours — the first email is the same either way.</span><span class="zh">業主、法團以至同業，帶著的問題各有不同。看看哪一項最接近您的情況——無論哪一項，第一步同樣只是一封電郵。</span></p>
     <div class="aud-grid rv">
       <div class="aud"><div class="who"><span class="en">Individual owners</span><span class="zh">個人業主</span></div>
         <div class="need"><span class="en">Leakage, spalling, a Buildings Department letter, or works you want done properly and legally the first time.</span><span class="zh">漏水、石屎剝落、收到屋宇署信件，或想一次過合法妥善完成裝修工程。</span></div></div>
@@ -1303,6 +1319,9 @@
         <div class="need"><span class="en">Whether the premises can actually be licensed — checked before you sign the lease, not after the fit-out.</span><span class="zh">處所究竟能否領牌——在簽租約之前查清楚，而不是裝修完才發現。</span></div></div>
       <div class="aud"><div class="who"><span class="en">Interior designers &amp; contractors</span><span class="zh">室內設計師及裝修公司</span></div>
         <div class="need"><span class="en">Statutory routes confirmed and submissions signed, so your project doesn't stall halfway through.</span><span class="zh">確認法定路線及簽署入則文件，令您的項目不會做到一半被叫停。</span></div></div>
+      <div class="aud" style="border-color:var(--accent)"><div class="who"><span class="en">Agents, contractors &amp; consultancies</span><span class="zh">代辦、裝修公司及顧問同業</span></div>
+        <div class="need"><span class="en">You handle the client and the works; we sign the certification. On partner projects we don't take on construction, so we're not competing with you — and statutory orders or structural issues that would stall your job get dealt with rather than handed back.</span><span class="zh">客戶與工程由您承接，核證由我們簽署。同業合作項目中我們不承接施工，因此不會與您競爭——而阻礙您完工的法定命令或結構問題，我們會直接處理，不會退回給您。</span></div>
+        <div style="margin-top:10px"><a href="/certification-partners.html" style="font-size:.82rem;font-weight:700;color:var(--accent-hi);text-decoration:underline"><span class="en">Certification services for the trade →</span><span class="zh">同業核證服務詳情 →</span></a></div></div>
       <div class="aud"><div class="who"><span class="en">Overseas &amp; cross-border owners</span><span class="zh">海外及跨境業主</span></div>
         <div class="need"><span class="en">Everything handled remotely — inspection here, review by video, documents through an authorised representative.</span><span class="zh">全程遙距辦理——現場由我們勘察，透過視像會議商討，文件經授權代表處理。</span></div></div>
     </div>
@@ -1694,13 +1713,6 @@
         </div>
       </details>
       <details>
-        <summary><span><span class="en">I've received an MBIS notice. What should I do?</span><span class="zh">收到強制驗樓通知，應如何處理？</span></span></summary>
-        <div class="ans">
-          <span class="en">Don't panic — the statutory deadline gives you months, not days. The steps: appoint a Registered Inspector, carry out the inspection, submit the report, and complete any required repairs. We handle all of it with Registered Professional Surveyors in-house. Send us a photo of the notice and we'll tell you exactly what applies to your building, free of charge.</span>
-          <span class="zh">無需驚慌——法定期限以月計算，並非以日計算。程序為：委任註冊檢驗人員、進行檢驗、提交報告，以及完成所需修葺。我們的駐司註冊檢驗人員及註冊專業測量師可全權辦理上述程序。只需將通知書拍照傳送給我們，我們將免費告知您的樓宇具體所需的跟進事項。</span>
-        </div>
-      </details>
-      <details>
         <summary><span><span class="en">How much will it cost?</span><span class="zh">收費大約是多少？</span></span></summary>
         <div class="ans">
           <span class="en">No two buildings are the same, so we don't publish a standard price list — but finding out costs nothing. We visit your building, then send a written scope, fee and programme within two working days. No obligation, no pressure, and the number in the proposal is the number you pay.</span>
@@ -1736,38 +1748,10 @@
         </div>
       </details>
       <details>
-        <summary><span><span class="en">My building has unauthorized works (UBW). Can you help?</span><span class="zh">樓宇存在違例建築工程（僭建），可以協助處理嗎？</span></span></summary>
-        <div class="ans">
-          <span class="en">Yes. We assess the works, advise honestly on what can be regularized through statutory submission and what must be removed, and handle the submissions or removal supervision either way. If you have received a Buildings Department order, don't ignore it — acting early keeps options open and costs down.</span>
-          <span class="zh">可以。我們會先評估有關工程，如實建議哪些可透過法定入則規範化、哪些必須拆除，並全程處理相關入則或拆除監督。如已接獲屋宇署命令，切勿置之不理——及早行動可保留更多選擇，亦可減低費用。</span>
-        </div>
-      </details>
-      <details>
-        <summary><span><span class="en">How do I know whether my unit needs certification at all?</span><span class="zh">如何判斷我的單位是否需要申請認證？</span></span></summary>
-        <div class="ans">
-          <span class="en">As a rough self-check: the property is a private residential unit (or the residential part of a composite building); it has been partitioned into two or more separately let units; each partitioned unit is intended for residential letting. Industrial and commercial buildings generally fall outside the regime, and a whole flat let without partitioning is not caught. If your unit ticks those boxes, it very likely needs certification — send us the address and floor plan and we will confirm.</span>
-          <span class="zh">可先自行初步判斷：物業屬私人住宅單位（或綜合用途建築物的住用部分）；單位已分間為兩間或以上獨立出租的房間；各分間單位用作住宅出租。工業或商業樓宇一般不受規管，整個單位不分間出租亦不屬規管範圍。若您的單位符合上述情況，則很可能需要申請認證——將樓宇地址及則圖傳送給我們，我們可為您確認。</span>
-        </div>
-      </details>
-      <details>
         <summary><span><span class="en">I live overseas or on the Mainland — can this be handled without me coming to Hong Kong?</span><span class="zh">我身處內地或海外，可否遙距辦理？</span></span></summary>
         <div class="ans">
           <span class="en">Yes. Site inspection is carried out by our team; findings and options can be reviewed with you by video, and documents can be executed through an authorised representative. Cross-border owners are a meaningful part of the subdivided-unit market and the process is well established — what matters is starting early enough to allow for document turnaround.</span>
           <span class="zh">可以。現場勘察由我們的團隊執行，結果及方案可透過視像會議與您討論，文件亦可經授權代表簽署辦理。跨境業主在分間單位市場中佔相當比例，遙距辦理流程成熟——關鍵只在於及早開始，預留文件往來的時間。</span>
-        </div>
-      </details>
-      <details>
-        <summary><span><span class="en">My building has an outstanding Buildings Department order. Does that block certification?</span><span class="zh">樓宇尚有屋宇署命令未解決，會影響認證嗎？</span></span></summary>
-        <div class="ans">
-          <span class="en">It can. Outstanding statutory orders or notices generally have to be complied with before certification can be granted. This is where having an Authorized Person and Registered Structural Engineer in-house pays off: we can deal with the order — proposal, submission, supervision and compliance — and take the certification through in the same programme, rather than sending you to a second consultant and waiting.</span>
-          <span class="zh">有可能。未遵辦的法定命令或通知書，一般須先行處理妥當，方可獲批認證。這正是駐司認可人士及註冊結構工程師的價值所在：我們可一併處理命令——由方案、入則、監督以至遵辦——並在同一個工作計劃中完成認證，毋須另聘顧問及輪候。</span>
-        </div>
-      </details>
-      <details>
-        <summary><span><span class="en">I own a subdivided unit — what does the new Basic Housing Unit regime require?</span><span class="zh">我持有分間單位（劏房），簡樸房新例下應如何處理？</span></span></summary>
-        <div class="ans">
-          <span class="en">The Basic Housing Unit (Regulation) Ordinance took effect on 1 March 2026. Owners of existing subdivided units should complete grace-period registration (Form REG-01) before 28 February 2027, after which a 36-month window applies for carrying out works and obtaining certification. Certification requires a report from a specified professional — our Registered Professional Surveyor can assess the unit, issue the certification report and handle the whole application, including any rectification works and submissions.</span>
-          <span class="zh">《簡樸房條例》已於2026年3月1日生效。現存分間單位業主應於2027年2月28日前完成寬限期登記（表格REG-01），其後有36個月時間進行改造工程及申請簡樸房認證。認證必須附有指明專業人士的核證報告——本公司的註冊專業測量師可為您評估單位、簽發核證報告，並全程處理申請，包括所需的改造工程及入則。</span>
         </div>
       </details>
       <details>
@@ -1777,6 +1761,17 @@
           <span class="zh">只需樓宇地址及您所關注的事項，已足夠讓我們展開工作。如備有現存圖則、過往報告或屋宇署信件，固然有助評估；如未有，我們可代為索取樓宇紀錄圖則。第一步，真的只是一封電郵。</span>
         </div>
       </details>
+    </div>
+    <div class="faq-more rv">
+      <h4><span class="en">Answered in full in the guides</span><span class="zh">以下問題，知識庫有完整解答</span></h4>
+      <div class="fl">
+        <a href="/guide-bhu-timeline.html"><span class="en">I own a subdivided unit — what now?</span><span class="zh">我持有分間單位，新例下應如何處理？</span><small><span class="en">Registration and certification: the four-year roadmap</span><span class="zh">登記與認證：業主四年路線圖</span></small></a>
+        <a href="/guide-bhu-rejection.html"><span class="en">Does an outstanding order block certification?</span><span class="zh">未遵辦的屋宇署命令會影響認證嗎？</span><small><span class="en">Six reasons applications are refused</span><span class="zh">認證申請被拒的六個原因</span></small></a>
+        <a href="/guide-mbis.html"><span class="en">I've received an MBIS notice. What should I do?</span><span class="zh">收到強制驗樓通知，應如何處理？</span><small><span class="en">The full process, deadlines and extensions</span><span class="zh">完整流程、時限與延期安排</span></small></a>
+        <a href="/guide-ubw.html"><span class="en">My building has unauthorised works. Can you help?</span><span class="zh">樓宇有僭建，可以協助處理嗎？</span><small><span class="en">Removal, regularisation, or lower enforcement priority</span><span class="zh">清拆、規範化，還是寬免執法</span></small></a>
+        <a href="/guide-specified-professional.html"><span class="en">Who can actually sign a certification report?</span><span class="zh">核證報告究竟由誰簽署？</span><small><span class="en">Qualifications, verification and appointment</span><span class="zh">資格、查證與委聘</span></small></a>
+        <a href="#selfcheck"><span class="en">Does my unit need certification at all?</span><span class="zh">我的單位是否需要申請認證？</span><small><span class="en">Eight-question self-check, no details required</span><span class="zh">八條問題自我檢測，毋須留下資料</span></small></a>
+      </div>
     </div>
   </div>
 </section>
@@ -1861,7 +1856,7 @@
     try{localStorage.setItem('aae-lang', l);}catch(e){}
   }
   /* --- Traditional <-> Simplified runtime conversion --- */
-  var T2S={"microphone":"","並":"并","佈":"布","佔":"占","併":"并","來":"来","係":"系","倆":"俩","個":"个","們":"们","備":"备","傳":"传","債":"债","傷":"伤","僅":"仅","僱":"雇","價":"价","億":"亿","儘":"尽","償":"偿","優":"优","兇":"凶","兌":"兑","兒":"儿","內":"内","兩":"两","冊":"册","冑":"胄","別":"别","刪":"删","則":"则","剛":"刚","剝":"剥","創":"创","劃":"划","劇":"剧","劍":"剑","劏":"㓥","劑":"剂","勁":"劲","動":"动","務":"务","勝":"胜","勞":"劳","勢":"势","勳":"勋","勵":"励","勸":"劝","匯":"汇","區":"区","協":"协","卻":"却","厭":"厌","參":"参","叢":"丛","員":"员","問":"问","啓":"启","啟":"启","單":"单","嗎":"吗","嘗":"尝","噸":"吨","嚇":"吓","嚐":"尝","嚮":"向","嚴":"严","囉":"啰","囑":"嘱","圍":"围","圖":"图","團":"团","執":"执","堅":"坚","報":"报","場":"场","塵":"尘","墮":"堕","壇":"坛","壓":"压","壞":"坏","壟":"垄","壽":"寿","夠":"够","夾":"夹","奧":"奥","奪":"夺","奮":"奋","妝":"妆","娛":"娱","嬰":"婴","孫":"孙","學":"学","實":"实","寧":"宁","審":"审","寫":"写","寬":"宽","寶":"宝","將":"将","專":"专","尋":"寻","對":"对","導":"导","屆":"届","屍":"尸","層":"层","屬":"属","峯":"峰","島":"岛","峽":"峡","嶺":"岭","嶼":"屿","嶽":"岳","巒":"峦","帥":"帅","師":"师","帳":"账","幫":"帮","幾":"几","廁":"厕","廈":"厦","廚":"厨","廠":"厂","廢":"废","廣":"广","廬":"庐","廳":"厅","強":"强","彈":"弹","彊":"强","彌":"弥","彎":"弯","彙":"汇","後":"后","徑":"径","從":"从","徵":"征","惡":"恶","態":"态","慣":"惯","慶":"庆","慾":"欲","憂":"忧","憲":"宪","應":"应","懶":"懒","懷":"怀","懸":"悬","戀":"恋","戔":"戋","戰":"战","戲":"戏","戶":"户","採":"采","換":"换","損":"损","撥":"拨","擁":"拥","擇":"择","擊":"击","擔":"担","據":"据","擠":"挤","擬":"拟","擱":"搁","擴":"扩","擺":"摆","擾":"扰","攜":"携","攝":"摄","攤":"摊","攪":"搅","敗":"败","敵":"敌","數":"数","斃":"毙","斷":"断","於":"于","時":"时","晝":"昼","曆":"历","曬":"晒","書":"书","會":"会","朧":"胧","東":"东","條":"条","業":"业","極":"极","榦":"干","構":"构","樂":"乐","樓":"楼","標":"标","樞":"枢","樣":"样","樸":"朴","橋":"桥","機":"机","檔":"档","檢":"检","櫃":"柜","櫥":"橱","權":"权","歎":"叹","歐":"欧","歛":"敛","歡":"欢","歲":"岁","歷":"历","歸":"归","殘":"残","殮":"殓","殺":"杀","殼":"壳","毀":"毁","毆":"殴","氣":"气","氫":"氢","氬":"氩","汙":"污","決":"决","沒":"没","況":"况","減":"减","測":"测","準":"准","溝":"沟","溼":"湿","滅":"灭","滯":"滞","滲":"渗","滷":"卤","滿":"满","漢":"汉","漬":"渍","漲":"涨","潑":"泼","潔":"洁","潛":"潜","潤":"润","澆":"浇","澤":"泽","濕":"湿","濟":"济","濱":"滨","濾":"滤","瀉":"泻","瀝":"沥","灑":"洒","災":"灾","為":"为","無":"无","煉":"炼","煙":"烟","熱":"热","燄":"焰","燈":"灯","燒":"烧","營":"营","燦":"灿","爐":"炉","爛":"烂","爭":"争","爺":"爷","牀":"床","牆":"墙","牘":"牍","牠":"它","牽":"牵","狀":"状","獄":"狱","獎":"奖","獨":"独","獲":"获","獵":"猎","獻":"献","現":"现","瑩":"莹","環":"环","璽":"玺","瓊":"琼","產":"产","甦":"苏","畢":"毕","異":"异","當":"当","疇":"畴","疊":"叠","瘋":"疯","療":"疗","癡":"痴","癢":"痒","癱":"瘫","發":"发","皁":"皂","皰":"疱","盜":"盗","盞":"盏","盡":"尽","監":"监","盤":"盘","盪":"荡","眾":"众","睞":"睐","矚":"瞩","矯":"矫","碁":"棋","確":"确","碼":"码","礎":"础","礙":"碍","礦":"矿","祕":"秘","祿":"禄","禍":"祸","禮":"礼","禱":"祷","稅":"税","種":"种","稱":"称","穌":"稣","積":"积","穩":"稳","穫":"获","窮":"穷","窺":"窥","竄":"窜","竈":"灶","竊":"窃","競":"竞","筆":"笔","筍":"笋","箋":"笺","節":"节","範":"范","築":"筑","篤":"笃","篩":"筛","簀":"篑","簡":"简","簷":"檐","簽":"签","籃":"篮","籌":"筹","籠":"笼","籤":"签","粧":"妆","粵":"粤","糉":"粽","糧":"粮","糰":"团","糾":"纠","紀":"纪","約":"约","紅":"红","納":"纳","紐":"纽","純":"纯","紗":"纱","紙":"纸","級":"级","紛":"纷","細":"细","終":"终","絃":"弦","組":"组","結":"结","絕":"绝","絡":"络","給":"给","絨":"绒","統":"统","綁":"绑","經":"经","綜":"综","綠":"绿","綫":"线","維":"维","綴":"缀","緊":"紧","緒":"绪","線":"线","緝":"缉","緞":"缎","締":"缔","緣":"缘","編":"编","緻":"致","縐":"绉","縣":"县","縫":"缝","縮":"缩","總":"总","績":"绩","繕":"缮","繞":"绕","繩":"绳","繼":"继","續":"续","纖":"纤","纜":"缆","罈":"坛","罰":"罚","罷":"罢","羅":"罗","羣":"群","義":"义","翹":"翘","翽":"翙","耮":"耢","聖":"圣","聞":"闻","聯":"联","聳":"耸","職":"职","聽":"听","聾":"聋","肅":"肃","脈":"脉","脣":"唇","脫":"脱","腦":"脑","膚":"肤","膠":"胶","膽":"胆","臉":"脸","臘":"腊","臥":"卧","臨":"临","臺":"台","與":"与","舉":"举","舊":"旧","舖":"铺","艙":"舱","艤":"舣","艱":"艰","芻":"刍","莊":"庄","華":"华","菴":"庵","菸":"烟","萬":"万","蒐":"搜","蓆":"席","蓋":"盖","蔴":"麻","蕭":"萧","薦":"荐","藉":"借","藍":"蓝","藥":"药","蘇":"苏","蘊":"蕴","蘭":"兰","處":"处","號":"号","虧":"亏","蜆":"蚬","蝕":"蚀","蟲":"虫","蠟":"蜡","蠻":"蛮","衆":"众","術":"术","衛":"卫","衝":"冲","衞":"卫","裇":"恤","裌":"夹","裏":"里","補":"补","裝":"装","裡":"里","製":"制","複":"复","褲":"裤","襲":"袭","覈":"核","見":"见","規":"规","覓":"觅","視":"视","覩":"睹","親":"亲","覺":"觉","覽":"览","觀":"观","觸":"触","訂":"订","計":"计","訊":"讯","討":"讨","訓":"训","託":"托","記":"记","訪":"访","設":"设","許":"许","訴":"诉","診":"诊","註":"注","詐":"诈","評":"评","詞":"词","詢":"询","試":"试","話":"话","該":"该","詳":"详","誌":"志","認":"认","語":"语","誠":"诚","誤":"误","誦":"诵","說":"说","誰":"谁","調":"调","談":"谈","請":"请","諒":"谅","論":"论","諮":"咨","諾":"诺","謀":"谋","謙":"谦","講":"讲","謝":"谢","謹":"谨","證":"证","識":"识","譚":"谭","譜":"谱","譯":"译","議":"议","護":"护","譽":"誉","讀":"读","變":"变","讓":"让","讚":"赞","豐":"丰","貝":"贝","貞":"贞","負":"负","財":"财","貢":"贡","貧":"贫","貨":"货","販":"贩","貪":"贪","貫":"贯","責":"责","貯":"贮","貳":"贰","貴":"贵","買":"买","貸":"贷","費":"费","貼":"贴","賀":"贺","賃":"赁","資":"资","賊":"贼","賑":"赈","賓":"宾","賠":"赔","賢":"贤","賣":"卖","賦":"赋","質":"质","賬":"账","賭":"赌","賴":"赖","賺":"赚","購":"购","賽":"赛","贈":"赠","贊":"赞","贏":"赢","贓":"赃","贖":"赎","趕":"赶","趨":"趋","踐":"践","蹟":"迹","躂":"跶","躉":"趸","躍":"跃","軀":"躯","車":"车","軌":"轨","軍":"军","軟":"软","軸":"轴","較":"较","載":"载","輔":"辅","輛":"辆","輝":"辉","輩":"辈","輪":"轮","輯":"辑","輸":"输","輻":"辐","輿":"舆","轄":"辖","轉":"转","轎":"轿","辦":"办","辭":"辞","農":"农","這":"这","連":"连","進":"进","運":"运","過":"过","達":"达","違":"违","遙":"遥","遜":"逊","遞":"递","遠":"远","適":"适","遲":"迟","遷":"迁","選":"选","邁":"迈","還":"还","邊":"边","邏":"逻","邨":"村","郤":"却","郵":"邮","鄉":"乡","鄭":"郑","鄰":"邻","醞":"酝","醫":"医","釀":"酿","釋":"释","釘":"钉","針":"针","鈕":"钮","鈣":"钙","鈴":"铃","鉛":"铅","鉢":"钵","銀":"银","銅":"铜","銷":"销","鋁":"铝","鋪":"铺","鋼":"钢","錄":"录","錢":"钱","錦":"锦","錫":"锡","錯":"错","錶":"表","鍋":"锅","鍵":"键","鍾":"钟","鎖":"锁","鏟":"铲","鏡":"镜","鐘":"钟","鐵":"铁","鑄":"铸","鑑":"鉴","鑽":"钻","鑿":"凿","長":"长","門":"门","閃":"闪","閉":"闭","開":"开","閒":"闲","間":"间","閘":"闸","閣":"阁","閱":"阅","闆":"板","闊":"阔","闖":"闯","關":"关","陣":"阵","陰":"阴","陳":"陈","陽":"阳","隊":"队","階":"阶","際":"际","隣":"邻","隨":"随","險":"险","隱":"隐","雙":"双","雛":"雏","雜":"杂","雞":"鸡","離":"离","難":"难","雲":"云","電":"电","霧":"雾","靂":"雳","靈":"灵","靜":"静","靭":"韧","韌":"韧","韓":"韩","響":"响","頁":"页","頂":"顶","頃":"顷","項":"项","順":"顺","須":"须","頌":"颂","預":"预","頑":"顽","頒":"颁","領":"领","頭":"头","頸":"颈","頻":"频","顆":"颗","題":"题","額":"额","顏":"颜","願":"愿","顛":"颠","類":"类","顧":"顾","顯":"显","風":"风","颱":"台","颶":"飓","飄":"飘","飛":"飞","飯":"饭","飲":"饮","飼":"饲","餅":"饼","養":"养","餓":"饿","餘":"余","館":"馆","饋":"馈","駁":"驳","駐":"驻","駕":"驾","駛":"驶","騎":"骑","騙":"骗","驅":"驱","驕":"骄","驗":"验","驚":"惊","驟":"骤","骯":"肮","髒":"脏","體":"体","髮":"发","鬆":"松","鬍":"胡","鬥":"斗","鬧":"闹","魯":"鲁","鮮":"鲜","鰂":"鲗","鳥":"鸟","鳳":"凤","鴻":"鸿","鵬":"鹏","鷹":"鹰","鹹":"咸","鹼":"碱","鹽":"盐","麗":"丽","麥":"麦","麪":"面","麵":"面","麼":"么","黃":"黄","點":"点","黨":"党","黴":"霉","齊":"齐","齒":"齿","齡":"龄","齣":"出","龍":"龙"};
+  var T2S={"並":"并","佈":"布","佔":"占","併":"并","來":"来","係":"系","俬":"私","倆":"俩","倉":"仓","個":"个","們":"们","備":"备","傢":"家","傳":"传","債":"债","傷":"伤","僅":"仅","僱":"雇","價":"价","億":"亿","儘":"尽","償":"偿","優":"优","兇":"凶","兌":"兑","兒":"儿","內":"内","兩":"两","冊":"册","冑":"胄","別":"别","刪":"删","則":"则","剛":"刚","剝":"剥","創":"创","劃":"划","劇":"剧","劍":"剑","劏":"㓥","劑":"剂","勁":"劲","動":"动","務":"务","勝":"胜","勞":"劳","勢":"势","勳":"勋","勵":"励","勸":"劝","匯":"汇","區":"区","協":"协","卻":"却","厭":"厌","參":"参","叢":"丛","員":"员","問":"问","啓":"启","啟":"启","單":"单","嗎":"吗","嘗":"尝","噸":"吨","嚇":"吓","嚐":"尝","嚮":"向","嚴":"严","囉":"啰","囑":"嘱","圍":"围","圖":"图","團":"团","執":"执","堅":"坚","報":"报","場":"场","塗":"涂","塵":"尘","墜":"坠","墮":"堕","壇":"坛","壓":"压","壞":"坏","壟":"垄","壽":"寿","夠":"够","夾":"夹","奧":"奥","奪":"夺","奮":"奋","妝":"妆","娛":"娱","嬰":"婴","孫":"孙","學":"学","實":"实","寧":"宁","審":"审","寫":"写","寬":"宽","寵":"宠","寶":"宝","將":"将","專":"专","尋":"寻","對":"对","導":"导","屆":"届","屍":"尸","屜":"屉","層":"层","屬":"属","峯":"峰","島":"岛","峽":"峡","嶺":"岭","嶼":"屿","嶽":"岳","巒":"峦","帥":"帅","師":"师","帳":"账","帶":"带","幫":"帮","幾":"几","庫":"库","廁":"厕","廈":"厦","廚":"厨","廠":"厂","廢":"废","廣":"广","廬":"庐","廳":"厅","張":"张","強":"强","彈":"弹","彊":"强","彌":"弥","彎":"弯","彙":"汇","後":"后","徑":"径","從":"从","徵":"征","惡":"恶","態":"态","慣":"惯","慶":"庆","慾":"欲","憂":"忧","憲":"宪","應":"应","懶":"懒","懷":"怀","懸":"悬","戀":"恋","戔":"戋","戰":"战","戲":"戏","戶":"户","採":"采","換":"换","損":"损","撐":"撑","撥":"拨","撻":"挞","擁":"拥","擇":"择","擊":"击","擋":"挡","擔":"担","據":"据","擠":"挤","擬":"拟","擱":"搁","擴":"扩","擺":"摆","擾":"扰","攜":"携","攝":"摄","攤":"摊","攪":"搅","攬":"揽","敗":"败","敵":"敌","數":"数","斃":"毙","斷":"断","於":"于","昇":"升","時":"时","晝":"昼","曆":"历","曬":"晒","書":"书","會":"会","朧":"胧","東":"东","條":"条","業":"业","極":"极","榦":"干","構":"构","樂":"乐","樑":"梁","樓":"楼","標":"标","樞":"枢","樣":"样","樸":"朴","橋":"桥","機":"机","檔":"档","檢":"检","櫃":"柜","櫥":"橱","權":"权","歎":"叹","歐":"欧","歛":"敛","歡":"欢","歲":"岁","歷":"历","歸":"归","殘":"残","殮":"殓","殺":"杀","殼":"壳","毀":"毁","毆":"殴","氣":"气","氫":"氢","氬":"氩","汙":"污","決":"决","沒":"没","沖":"冲","況":"况","淨":"净","減":"减","測":"测","準":"准","溝":"沟","溫":"温","溼":"湿","滅":"灭","滯":"滞","滲":"渗","滷":"卤","滿":"满","漢":"汉","漬":"渍","漲":"涨","漿":"浆","潑":"泼","潔":"洁","潛":"潜","潤":"润","澆":"浇","澤":"泽","濕":"湿","濟":"济","濱":"滨","濾":"滤","瀉":"泻","瀝":"沥","灑":"洒","災":"灾","為":"为","無":"无","煉":"炼","煙":"烟","熱":"热","燄":"焰","燈":"灯","燒":"烧","營":"营","燦":"灿","爐":"炉","爛":"烂","爭":"争","爺":"爷","牀":"床","牆":"墙","牘":"牍","牠":"它","牽":"牵","狀":"状","獄":"狱","獎":"奖","獨":"独","獲":"获","獵":"猎","獻":"献","現":"现","瑩":"莹","環":"环","璽":"玺","瓊":"琼","產":"产","甦":"苏","畢":"毕","異":"异","當":"当","疇":"畴","疊":"叠","瘋":"疯","療":"疗","癡":"痴","癢":"痒","癱":"瘫","發":"发","皁":"皂","皰":"疱","盜":"盗","盞":"盏","盡":"尽","監":"监","盤":"盘","盪":"荡","眾":"众","睞":"睐","矚":"瞩","矯":"矫","碁":"棋","確":"确","碼":"码","磚":"砖","礎":"础","礙":"碍","礦":"矿","祕":"秘","祿":"禄","禍":"祸","禮":"礼","禱":"祷","稅":"税","種":"种","稱":"称","穌":"稣","積":"积","穩":"稳","穫":"获","窮":"穷","窺":"窥","竄":"窜","竈":"灶","竊":"窃","競":"竞","筆":"笔","筍":"笋","箋":"笺","節":"节","範":"范","築":"筑","篤":"笃","篩":"筛","簀":"篑","簡":"简","簷":"檐","簽":"签","籃":"篮","籌":"筹","籠":"笼","籤":"签","粧":"妆","粵":"粤","糉":"粽","糧":"粮","糰":"团","糾":"纠","紀":"纪","約":"约","紅":"红","納":"纳","紐":"纽","純":"纯","紗":"纱","紙":"纸","級":"级","紛":"纷","細":"细","終":"终","絃":"弦","組":"组","結":"结","絕":"绝","絡":"络","給":"给","絨":"绒","統":"统","絲":"丝","綁":"绑","經":"经","綜":"综","綠":"绿","綫":"线","維":"维","綱":"纲","網":"网","綴":"缀","緊":"紧","緒":"绪","線":"线","緝":"缉","緞":"缎","締":"缔","緣":"缘","編":"编","緩":"缓","練":"练","緻":"致","縐":"绉","縣":"县","縫":"缝","縮":"缩","總":"总","績":"绩","繕":"缮","繞":"绕","繩":"绳","繪":"绘","繼":"继","續":"续","纖":"纤","纜":"缆","罈":"坛","罰":"罚","罷":"罢","羅":"罗","羣":"群","義":"义","翹":"翘","翽":"翙","耮":"耢","聖":"圣","聞":"闻","聯":"联","聲":"声","聳":"耸","職":"职","聽":"听","聾":"聋","肅":"肃","脈":"脉","脣":"唇","脫":"脱","脹":"胀","腦":"脑","腳":"脚","膚":"肤","膠":"胶","膽":"胆","臉":"脸","臘":"腊","臥":"卧","臨":"临","臺":"台","與":"与","興":"兴","舉":"举","舊":"旧","舖":"铺","艙":"舱","艤":"舣","艱":"艰","芻":"刍","莊":"庄","華":"华","菴":"庵","菸":"烟","萬":"万","蒐":"搜","蓆":"席","蓋":"盖","蔴":"麻","蕩":"荡","蕭":"萧","薦":"荐","藉":"借","藍":"蓝","藥":"药","蘇":"苏","蘊":"蕴","蘭":"兰","處":"处","號":"号","虧":"亏","蜆":"蚬","蝕":"蚀","蟲":"虫","蠟":"蜡","蠻":"蛮","衆":"众","術":"术","衛":"卫","衝":"冲","衞":"卫","裇":"恤","裌":"夹","裏":"里","補":"补","裝":"装","裡":"里","製":"制","複":"复","褲":"裤","襲":"袭","覈":"核","見":"见","規":"规","覓":"觅","視":"视","覩":"睹","親":"亲","覺":"觉","覽":"览","觀":"观","觸":"触","訂":"订","計":"计","訊":"讯","討":"讨","訓":"训","託":"托","記":"记","訪":"访","設":"设","許":"许","訴":"诉","診":"诊","註":"注","詐":"诈","評":"评","詞":"词","詢":"询","試":"试","話":"话","該":"该","詳":"详","誌":"志","認":"认","語":"语","誠":"诚","誤":"误","誦":"诵","說":"说","誰":"谁","調":"调","談":"谈","請":"请","諒":"谅","論":"论","諮":"咨","諾":"诺","謀":"谋","謙":"谦","講":"讲","謝":"谢","謹":"谨","證":"证","識":"识","譚":"谭","譜":"谱","譯":"译","議":"议","護":"护","譽":"誉","讀":"读","變":"变","讓":"让","讚":"赞","豐":"丰","貝":"贝","貞":"贞","負":"负","財":"财","貢":"贡","貧":"贫","貨":"货","販":"贩","貪":"贪","貫":"贯","責":"责","貯":"贮","貳":"贰","貴":"贵","買":"买","貸":"贷","費":"费","貼":"贴","賀":"贺","賃":"赁","資":"资","賊":"贼","賑":"赈","賓":"宾","賠":"赔","賢":"贤","賣":"卖","賦":"赋","質":"质","賬":"账","賭":"赌","賴":"赖","賺":"赚","購":"购","賽":"赛","贈":"赠","贊":"赞","贏":"赢","贓":"赃","贖":"赎","趕":"赶","趨":"趋","跡":"迹","踐":"践","蹟":"迹","躂":"跶","躉":"趸","躍":"跃","軀":"躯","車":"车","軌":"轨","軍":"军","軟":"软","軸":"轴","較":"较","載":"载","輔":"辅","輕":"轻","輛":"辆","輝":"辉","輩":"辈","輪":"轮","輯":"辑","輸":"输","輻":"辐","輿":"舆","轄":"辖","轆":"辘","轉":"转","轎":"轿","辦":"办","辭":"辞","辯":"辩","農":"农","這":"这","連":"连","進":"进","運":"运","過":"过","達":"达","違":"违","遙":"遥","遜":"逊","遞":"递","遠":"远","適":"适","遲":"迟","遷":"迁","選":"选","遺":"遗","邁":"迈","還":"还","邊":"边","邏":"逻","邨":"村","郤":"却","郵":"邮","鄉":"乡","鄭":"郑","鄰":"邻","醞":"酝","醫":"医","釀":"酿","釋":"释","釘":"钉","針":"针","鈕":"钮","鈣":"钙","鈴":"铃","鉛":"铅","鉢":"钵","鉸":"铰","銀":"银","銅":"铜","銷":"销","鋁":"铝","鋪":"铺","鋼":"钢","錄":"录","錢":"钱","錦":"锦","錫":"锡","錯":"错","錶":"表","鍋":"锅","鍵":"键","鍾":"钟","鎖":"锁","鏈":"链","鏟":"铲","鏡":"镜","鏽":"锈","鐘":"钟","鐵":"铁","鑄":"铸","鑑":"鉴","鑽":"钻","鑿":"凿","長":"长","門":"门","閃":"闪","閉":"闭","開":"开","閒":"闲","間":"间","閘":"闸","閣":"阁","閱":"阅","闆":"板","闊":"阔","闖":"闯","關":"关","陣":"阵","陰":"阴","陳":"陈","陸":"陆","陽":"阳","隊":"队","階":"阶","際":"际","隣":"邻","隨":"随","險":"险","隱":"隐","雙":"双","雛":"雏","雜":"杂","雞":"鸡","離":"离","難":"难","雲":"云","電":"电","霧":"雾","靂":"雳","靈":"灵","靜":"静","靭":"韧","韌":"韧","韓":"韩","響":"响","頁":"页","頂":"顶","頃":"顷","項":"项","順":"顺","須":"须","頌":"颂","預":"预","頑":"顽","頒":"颁","領":"领","頭":"头","頸":"颈","頻":"频","顆":"颗","題":"题","額":"额","顏":"颜","願":"愿","顛":"颠","類":"类","顧":"顾","顯":"显","風":"风","颱":"台","颶":"飓","飄":"飘","飛":"飞","飯":"饭","飲":"饮","飼":"饲","飾":"饰","餅":"饼","養":"养","餓":"饿","餘":"余","館":"馆","饋":"馈","馬":"马","駁":"驳","駐":"驻","駕":"驾","駛":"驶","騎":"骑","騙":"骗","驅":"驱","驕":"骄","驗":"验","驚":"惊","驟":"骤","骯":"肮","髒":"脏","體":"体","髮":"发","鬆":"松","鬍":"胡","鬥":"斗","鬧":"闹","魯":"鲁","鮮":"鲜","鰂":"鲗","鳥":"鸟","鳳":"凤","鴻":"鸿","鵬":"鹏","鷹":"鹰","鹹":"咸","鹼":"碱","鹽":"盐","麗":"丽","麥":"麦","麪":"面","麵":"面","麼":"么","黃":"黄","點":"点","黨":"党","黴":"霉","齊":"齐","齒":"齿","齡":"龄","齣":"出","龍":"龙"};
   var _origText=null;
   function zhTextNodes(){
     var out=[],w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{
@@ -2454,6 +2449,26 @@
     if(e.key==='F12'){ e.preventDefault(); return false; }
     if((e.ctrlKey||e.metaKey)&&e.shiftKey&&['i','j','c'].indexOf(k)>-1){ e.preventDefault(); return false; }
   });
+})();
+</script>
+
+
+<script>
+(function(){
+  var nav=document.querySelector('.nav-links'), scrim=document.getElementById('nav-scrim'),
+      burger=document.querySelector('.burger');
+  if(!nav) return;
+  function open(){ nav.classList.add('open'); if(scrim) scrim.classList.add('on'); document.body.classList.add('menu-open'); }
+  window.closeMenu=function(){ nav.classList.remove('open'); if(scrim) scrim.classList.remove('on'); document.body.classList.remove('menu-open'); };
+  if(burger){
+    burger.addEventListener('click', function(e){
+      e.stopPropagation();
+      setTimeout(function(){ nav.classList.contains('open') ? open() : window.closeMenu(); },0);
+    });
+  }
+  nav.addEventListener('click', function(e){ if(e.target.closest('a')) window.closeMenu(); });
+  addEventListener('keydown', function(e){ if(e.key==='Escape') window.closeMenu(); });
+  addEventListener('resize', function(){ if(innerWidth>1180) window.closeMenu(); });
 })();
 </script>
 
