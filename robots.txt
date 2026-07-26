@@ -2,8 +2,6 @@
 
 User-agent: *
 Allow: /
-Disallow: /ai-internal.html
-Disallow: /api/
 
 # Content of this site is original work. Bulk extraction for AI training
 # or republication is not permitted.
