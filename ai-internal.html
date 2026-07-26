@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>AAEL AI 助理 · 內部測試</title>
+<style>
+:root{--bg:#0A0C11;--panel:#12151C;--panel2:#171B24;--line:rgba(255,255,255,.10);
+--txt:#EDEDEA;--dim:#9AA0AC;--acc:#CE8F5A;--acc2:#E8B183;--warn:#E0765A;--ok:#7FB069;
+--disp:'Archivo',system-ui,'Noto Sans TC',sans-serif;--body:system-ui,'Noto Sans TC',sans-serif;
+--mono:'IBM Plex Mono',ui-monospace,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.65;
+display:flex;flex-direction:column;height:100dvh}
+header{border-bottom:1px solid var(--line);padding:12px 18px;display:flex;
+align-items:center;gap:12px;flex-wrap:wrap;background:var(--panel)}
+header h1{font-family:var(--disp);font-size:.95rem;font-weight:800;letter-spacing:.01em}
+.tag{font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
+color:var(--acc);border:1px solid var(--acc);border-radius:100px;padding:3px 9px}
+.spacer{flex:1}
+.hbtn{background:none;border:1px solid var(--line);color:var(--dim);border-radius:8px;
+padding:6px 11px;font-size:.76rem;cursor:pointer;font-family:var(--body)}
+.hbtn:hover{border-color:var(--acc);color:var(--acc2)}
+#gate{margin:auto;max-width:380px;padding:34px;text-align:center}
+#gate h2{font-family:var(--disp);font-size:1.15rem;margin-bottom:8px}
+#gate p{color:var(--dim);font-size:.85rem;margin-bottom:20px}
+#gate input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;
+background:var(--panel2);color:var(--txt);font-size:.95rem;text-align:center;letter-spacing:.1em}
+#gate button{width:100%;margin-top:10px;padding:12px;border:none;border-radius:10px;cursor:pointer;
+background:linear-gradient(135deg,var(--acc),#92491A);color:#fff;font-weight:700;font-size:.92rem}
+#gate .err{color:var(--warn);font-size:.8rem;margin-top:10px;min-height:1.2em}
+main{flex:1;overflow-y:auto;padding:18px;display:none}
+.wrap{max-width:820px;margin:0 auto}
+.msg{margin-bottom:16px;display:flex;gap:10px}
+.msg .who{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;color:var(--dim);
+padding-top:6px;min-width:34px;text-transform:uppercase}
+.bub{flex:1;border-radius:12px;padding:12px 15px;font-size:.92rem}
+.me .bub{background:var(--panel2);border:1px solid var(--line)}
+.ai .bub{background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--acc)}
+.bub a{color:var(--acc2)}
+.meta{margin-top:9px;padding-top:8px;border-top:1px solid var(--line);
+font-family:var(--mono);font-size:.64rem;color:var(--dim);display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.meta b{color:var(--acc);font-weight:500}
+.flag{background:none;border:1px solid var(--line);color:var(--dim);border-radius:6px;
+padding:2px 8px;font-size:.64rem;cursor:pointer;font-family:var(--mono)}
+.flag:hover,.flag.on{border-color:var(--warn);color:var(--warn)}
+.flag.on::before{content:"⚑ "}
+footer{border-top:1px solid var(--line);padding:12px 18px;background:var(--panel);display:none}
+.inrow{max-width:820px;margin:0 auto;display:flex;gap:9px}
+#q{flex:1;padding:11px 14px;border:1px solid var(--line);border-radius:10px;
+background:var(--panel2);color:var(--txt);font-size:.92rem;font-family:var(--body);resize:none;max-height:110px}
+#q:focus{outline:none;border-color:var(--acc)}
+#send{padding:11px 20px;border:none;border-radius:10px;cursor:pointer;font-weight:700;
+background:linear-gradient(135deg,var(--acc),#92491A);color:#fff;font-size:.88rem;white-space:nowrap}
+#send:disabled{opacity:.45;cursor:default}
+.hint{max-width:820px;margin:8px auto 0;font-size:.68rem;color:var(--dim);text-align:center}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px}
+.chip{border:1px solid var(--line);border-radius:100px;padding:6px 13px;font-size:.76rem;
+color:var(--dim);cursor:pointer;background:none;font-family:var(--body)}
+.chip:hover{border-color:var(--acc);color:var(--acc2)}
+.note{border:1px solid var(--acc);border-radius:10px;padding:14px 16px;margin-bottom:20px;
+background:rgba(206,143,90,.07);font-size:.8rem;color:var(--dim)}
+.note b{color:var(--acc2);display:block;margin-bottom:4px;font-family:var(--disp)}
+.dots span{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--acc);
+margin-right:3px;animation:b 1.2s infinite}
+.dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
+@keyframes b{0%,60%,100%{opacity:.25}30%{opacity:1}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>AAEL AI 助理</h1>
+  <span class="tag">內部測試</span>
+  <span class="spacer"></span>
+  <span id="stats" style="font-family:var(--mono);font-size:.66rem;color:var(--dim)"></span>
+  <button class="hbtn" onclick="exportLog()">匯出紀錄</button>
+  <button class="hbtn" onclick="if(confirm('清除目前對話？'))reset()">清除</button>
+</header>
+
+<div id="gate">
+  <h2>內部測試存取</h2>
+  <p>此頁面僅供內部試用，未對外公開。</p>
+  <input id="code" type="password" placeholder="存取碼" autocomplete="off">
+  <button onclick="unlock()">進入</button>
+  <div class="err" id="gerr"></div>
+</div>
+
+<main id="main"><div class="wrap">
+  <div class="note">
+    <b>測試重點</b>
+    如用 Gemini 免費層，成本會顯示為估算值（免費額度內實際不收費）。<br>
+    留意三樣嘢：① 有冇編造具體數字（罰款、期限、條文編號）② 個案問題有冇正確引導至實地評估
+    ③ 語言有冇跟到提問者。發現問題按答案下方的「有問題」標記，最後匯出紀錄。
+  </div>
+  <div class="chips" id="chips"></div>
+  <div id="log"></div>
+</div></main>
+
+<footer id="foot">
+  <div class="inrow">
+    <textarea id="q" rows="1" placeholder="輸入問題…（Enter 送出，Shift+Enter 換行）"></textarea>
+    <button id="send" onclick="send()">送出</button>
+  </div>
+  <div class="hint">內部測試版本 · 回應由 AI 產生，發布前請逐項核實</div>
+</footer>
+
+<script>
+const SAMPLES = [
+  "收到強制驗樓通知書，我要做啲咩？",
+  "簡樸房登記幾時截止？",
+  "我間屋想拆一幅牆，要唔要入則？",
+  "天台屋可唔可以申請簡樸房認證？",
+  "樓上漏水，責任係邊個？",
+  "法團大維修點樣招標先算合規？",
+  "違例出租劏房罰幾多錢？",
+  "我想買二手樓，應該檢查啲咩？",
+  "工廈可唔可以改做寫字樓？",
+  "What is the deadline for BHU registration?",
+  "石屎剥落怎么处理？",
+];
+let CODE='', hist=[], nQ=0, cost=0, provider='';
+
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function md(s){
+  return esc(s)
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>')
+    .replace(/\n/g,'<br>');
+}
+function unlock(){
+  const v=document.getElementById('code').value.trim();
+  if(!v){document.getElementById('gerr').textContent='請輸入存取碼';return;}
+  CODE=v;
+  document.getElementById('gate').style.display='none';
+  document.getElementById('main').style.display='block';
+  document.getElementById('foot').style.display='block';
+  renderChips(); document.getElementById('q').focus();
+}
+document.getElementById('code').addEventListener('keydown',e=>{if(e.key==='Enter')unlock();});
+
+function renderChips(){
+  const c=document.getElementById('chips'); c.innerHTML='';
+  SAMPLES.forEach(s=>{
+    const b=document.createElement('button'); b.className='chip'; b.textContent=s;
+    b.onclick=()=>{document.getElementById('q').value=s;send();};
+    c.appendChild(b);
+  });
+}
+function add(role,html,meta){
+  const d=document.createElement('div');
+  d.className='msg '+(role==='user'?'me':'ai');
+  d.innerHTML='<div class="who">'+(role==='user'?'你':'AI')+'</div><div class="bub">'+html+(meta||'')+'</div>';
+  document.getElementById('log').appendChild(d);
+  document.getElementById('main').scrollTop=1e9;
+  return d;
+}
+function reset(){hist=[];document.getElementById('log').innerHTML='';nQ=0;cost=0;stats();}
+function stats(){
+  document.getElementById('stats').textContent =
+    nQ ? `${provider} · ${nQ} 條 · 約 US$${cost.toFixed(4)}` : '';
+}
+async function send(){
+  const el=document.getElementById('q'); const q=el.value.trim(); if(!q) return;
+  el.value=''; el.style.height='auto';
+  document.getElementById('send').disabled=true;
+  add('user',esc(q));
+  hist.push({role:'user',content:q});
+  const wait=add('assistant','<span class="dots"><span></span><span></span><span></span></span>');
+  try{
+    const t0=performance.now();
+    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({code:CODE,messages:hist})});
+    const d=await r.json();
+    const ms=Math.round(performance.now()-t0);
+    if(!r.ok){ wait.querySelector('.bub').innerHTML='<span style="color:var(--warn)">'+esc(d.error||'發生錯誤')+'</span>'; hist.pop(); return; }
+    hist.push({role:'assistant',content:d.reply});
+    // cost estimate (Sonnet 5 introductory $2 / $10 per MTok)
+    // 各供應商概略價（USD / 1M tokens），只作估算
+    const RATE={ 'claude-sonnet-5':[2,10], 'claude-haiku-4-5':[1,5], 'claude-opus-5':[5,25],
+      'gemini-2.5-flash':[0.15,0.60], 'gemini-2.5-flash-lite':[0.05,0.20],
+      'gpt-4o-mini':[0.15,0.60] };
+    let c=0;
+    if(d.usage){
+      const r=RATE[d.model]||[1,5];
+      c=(d.usage.in||0)/1e6*r[0] + (d.usage.out||0)/1e6*r[1];
+      cost+=c;
+    }
+    nQ++; provider=d.provider||''; stats();
+    const src=(d.sources||[]).map(s=>`<b>${esc(s.title.slice(0,20))}</b>`).join('　');
+    const meta='<div class="meta">'+
+      '<span>參考：'+(src||'<i>無</i>')+'</span>'+
+      '<span>'+ms+'ms</span>'+
+      '<span>'+esc(d.provider||'')+' · '+esc(d.model||'')+'</span>'+
+      (d.usage?'<span>'+d.usage.in+'→'+d.usage.out+' tok · US$'+c.toFixed(4)+'</span>':'')+
+      '<button class="flag" onclick="this.classList.toggle(\'on\');this.textContent=this.classList.contains(\'on\')?\'已標記\':\'有問題\'">有問題</button>'+
+      '</div>';
+    wait.querySelector('.bub').innerHTML=md(d.reply)+meta;
+  }catch(e){
+    wait.querySelector('.bub').innerHTML='<span style="color:var(--warn)">連線失敗：'+esc(String(e))+'</span>';
+    hist.pop();
+  }finally{
+    document.getElementById('send').disabled=false;
+    document.getElementById('q').focus();
+    document.getElementById('main').scrollTop=1e9;
+  }
+}
+function exportLog(){
+  let out='AAEL AI 助理 · 內部測試紀錄\n'+new Date().toLocaleString('zh-HK')+
+    `\n共 ${nQ} 條提問 · 估算成本 US$${cost.toFixed(4)}\n${'='.repeat(50)}\n\n`;
+  document.querySelectorAll('.msg').forEach(m=>{
+    const who=m.classList.contains('me')?'【提問】':'【回答】';
+    const flagged=m.querySelector('.flag.on')?'  ⚑ 已標記有問題':'';
+    const bub=m.querySelector('.bub').cloneNode(true);
+    const meta=bub.querySelector('.meta'); const metaTxt=meta?meta.innerText.replace(/\n/g,' '):'';
+    if(meta) meta.remove();
+    out+=who+flagged+'\n'+bub.innerText.trim()+'\n';
+    if(metaTxt) out+='  ['+metaTxt.trim()+']\n';
+    out+='\n';
+  });
+  const b=new Blob([out],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(b);
+  a.download='AAEL_AI測試紀錄_'+new Date().toISOString().slice(0,10)+'.txt';
+  a.click();
+}
+const qEl=document.getElementById('q');
+qEl.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
+qEl.addEventListener('input',()=>{qEl.style.height='auto';qEl.style.height=Math.min(qEl.scrollHeight,110)+'px';});
+</script>
+</body>
+</html>
