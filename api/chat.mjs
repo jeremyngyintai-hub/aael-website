@@ -95,7 +95,7 @@ const PROVIDERS = {
 
   gemini: {
     envKey: 'GEMINI_API_KEY',
-    defaultModel: 'gemini-2.5-flash',
+    defaultModel: 'gemini-flash-latest',  // 自動指向 Google 目前最新的 Flash 版本，減少日後模型下架的影響
     url: model => `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
     headers: k => ({ 'x-goog-api-key': k, 'content-type': 'application/json' }),
     body: (model, system, msgs) => ({
@@ -201,9 +201,29 @@ export default async function handler(req, res) {
     if (!r.ok) {
       const detail = await r.text();
       console.error(`${pName} API error`, r.status, detail.slice(0, 500));
+
+      // 模型名稱無效（404）時，嘗試列出這個 key 實際可用的模型，
+      // 直接顯示喺錯誤訊息，方便一次過修正 AAEL_MODEL。
+      let available = null;
+      if (r.status === 404 && pName === 'gemini') {
+        try {
+          const lr = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`
+          );
+          if (lr.ok) {
+            const ld = await lr.json();
+            available = (ld.models || [])
+              .filter(m => (m.supportedGenerationMethods || []).includes('generateContent'))
+              .map(m => m.name.replace('models/', ''))
+              .slice(0, 12);
+          }
+        } catch (_) { /* 列不到就算，不影響主錯誤訊息 */ }
+      }
+
       return res.status(502).json({
         error: 'AI 服務暫時無法連接，請稍後再試。',
-        hint: `${pName} 回傳 ${r.status}`,
+        hint: `${pName} 回傳 ${r.status}（目前設定的模型：${model}）`,
+        available_models: available,
       });
     }
 
