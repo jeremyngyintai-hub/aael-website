@@ -7,6 +7,10 @@ const MAX_Q = 500;            // 單次提問字數上限
 const MAX_TURNS = 12;         // 對話輪數上限
 
 /* ---------- 檢索：用關鍵詞計分揀出最相關文章 ---------- */
+function isZhQuestion(q) {
+  return /[\u4e00-\u9fff]/.test(q);
+}
+
 function retrieve(query, n = 2) {
   const q = ' ' + query.toLowerCase() + ' ';
   const scored = KB.map(a => {
@@ -52,10 +56,13 @@ const SYSTEM = `你是「躍昇建築事務顧問有限公司」（Ascend Archit
 3. 涉及個別個案的判斷（例如「我這幅牆可否拆」「我這單位能否申請」），一律說明必須實地評估，不可在網上斷定。
 4. 不確定就說不確定。錯誤資訊對 AAEL 的專業聲譽損害，遠大於答不出的損害。
 
+【重要】只輸出給用戶看的最終答案本身。不要輸出任何格式標記、內部檢查清單、
+或類似「Article link included」「格式：」這類自我核對文字 —— 這些是給你自己參考的規則，
+不是答案的一部分。
+
 【回答方式】
 · 直接、實用、貼近業主處境，不要空泛。
 · 篇幅適中：一般三至五句，複雜問題可分點，但不要長篇大論。
-· 若參考資料中有相關文章，在答案末尾以這個格式提供連結：[延伸閱讀｜文章標題](https://aael.online/文章檔名.html)
 · 涉及個案、時間緊迫或需要專業判斷時，引導聯絡：電郵 aaelhk.info@gmail.com，兩個工作天內回覆。
 
 【絕對不要做】
@@ -228,7 +235,22 @@ export default async function handler(req, res) {
     }
 
     const data = await r.json();
-    const { text, usage } = P.parse(data);
+    let { text, usage } = P.parse(data);
+    text = (text || '').trim();
+
+    // 保險：把「延伸閱讀」規則從系統指令移到這裡強制附加，
+    // 避免依賴模型自行記住格式（不同供應商對 system prompt 的遵從度不一）。
+    if (text && hits.length) {
+      const already = hits.some(a => text.includes(`${a.slug}.html`));
+      if (!already) {
+        const links = hits
+          .map(a => (isZhQuestion(question)
+            ? `延伸閱讀｜${a.title}：https://aael.online/${a.slug}.html`
+            : `Full guide: ${a.title_en || a.title} — https://aael.online/${a.slug}.html`))
+          .join('\n');
+        text += `\n\n${links}`;
+      }
+    }
 
     return res.status(200).json({
       reply: text || '未能產生回答，請換個問法再試。',
