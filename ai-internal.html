@@ -124,10 +124,22 @@ let CODE='', hist=[], nQ=0, cost=0, provider='';
 
 function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function md(s){
-  return esc(s)
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
-    .replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>')
-    .replace(/\n/g,'<br>');
+  let out = esc(s)
+    // 1. Markdown 格式連結 [文字](網址)
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,
+      '<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
+  // 2. 裸露網址（未被上面轉換過的 https://... 純文字）自動轉做可點擊連結
+  //    用一個佔位符暫時保護已轉換的 <a> 標籤，避免重複處理其 href 內容
+  const placeholders = [];
+  out = out.replace(/<a [^>]*>.*?<\/a>/g, m => {
+    placeholders.push(m);
+    return '\u0000' + (placeholders.length - 1) + '\u0000';
+  });
+  out = out.replace(/(https?:\/\/[^\s<]+)/g,
+    '<a href="$1" target="_blank" rel="noopener">$1</a>');
+  out = out.replace(/\u0000(\d+)\u0000/g, (_, i) => placeholders[i]);
+  return out.replace(/\n/g,'<br>');
 }
 function unlock(){
   const v=document.getElementById('code').value.trim();
