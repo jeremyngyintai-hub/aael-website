@@ -172,9 +172,26 @@ async function send(){
     const t0=performance.now();
     const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({code:CODE,messages:hist})});
-    const d=await r.json();
+    const raw=await r.text();
+    let d;
+    try{ d=JSON.parse(raw); }
+    catch(_){
+      let why='伺服器回應不是 JSON（HTTP '+r.status+'）';
+      if(r.status===404) why='找不到 /api/chat — 請確認 api/chat.mjs 已上載到 repo 根目錄的 api 資料夾內';
+      else if(r.status===500) why='函式執行出錯 — 請在 Vercel → Deployments → Functions → Logs 查看';
+      else if(r.status===401||r.status===403) why='存取被拒（HTTP '+r.status+'）';
+      wait.querySelector('.bub').innerHTML=
+        '<span style="color:var(--warn)">'+esc(why)+'</span>'+
+        '<div class="meta" style="display:block"><b>伺服器實際回應（前 400 字）</b><br>'+
+        '<span style="font-family:var(--mono);font-size:.62rem;white-space:pre-wrap;word-break:break-all">'+
+        esc(raw.slice(0,400))+'</span></div>';
+      hist.pop(); return;
+    }
     const ms=Math.round(performance.now()-t0);
-    if(!r.ok){ wait.querySelector('.bub').innerHTML='<span style="color:var(--warn)">'+esc(d.error||'發生錯誤')+'</span>'; hist.pop(); return; }
+    if(!r.ok){
+      wait.querySelector('.bub').innerHTML='<span style="color:var(--warn)">'+esc(d.error||'發生錯誤')+'</span>'+
+        (d.hint?'<div class="meta"><span>'+esc(d.hint)+'</span></div>':'');
+      hist.pop(); return; }
     hist.push({role:'assistant',content:d.reply});
     // cost estimate (Sonnet 5 introductory $2 / $10 per MTok)
     // 各供應商概略價（USD / 1M tokens），只作估算
