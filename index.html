@@ -1010,6 +1010,20 @@
   .kb-link:hover{text-decoration:underline}
   .chat-body b{font-weight:700;color:var(--txt)}
 
+
+/* ---------- icon system (跟 site 銅色調，SVG inline，唔佔外部請求) ---------- */
+.ic{width:22px;height:22px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.svc .ic-wrap{width:44px;height:44px;border-radius:10px;background:var(--glow);color:var(--accent);
+  display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.svc .ic-wrap .ic{width:24px;height:24px}
+.site-menu a{position:relative}
+.site-menu a .mi{width:34px;height:34px;border-radius:8px;background:var(--glow);color:var(--accent);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-right:12px}
+.site-menu a .mi .ic{width:18px;height:18px}
+.site-menu a{display:flex;align-items:center}
+.site-menu a .mtxt{display:flex;flex-direction:column;gap:1px;flex:1}
+.site-menu a .msub{font-size:.72rem;color:var(--dim);font-weight:400;font-family:var(--body)}
+.site-menu a.cta .mtxt{align-items:center}
 </style>
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "為何選擇AAEL，而非大型顧問公司？", "acceptedAnswer": {"@type": "Answer", "text": "請站在業主的位置想一想。找大行，得到的是一個名字加一位新人；找小行，得到關注卻未必有資格，法定部分還是要外判，最終由您夾在中間協調素未謀面的幾方。AAEL 刻意做第三種選擇：認可人士（A.P.）、註冊結構工程師（R.S.E.）、註冊專業測量師（R.P.S.）及註冊檢驗人員（R.I.）四項資格同在一司，並由持證者親自主理。實際分別是：您只需委託一次；得到一份統一的工作計劃，而非三份各自為政的時間表；您永遠不必充當顧問之間的傳話人；工程中途發現問題時，那是被處理，而不是被爭論。執行標準，是我們在五星級歷史酒店驗證過的；回應速度，是一間接得到您電話的公司才有的。"}}, {"@type": "Question", "name": "認可人士（A.P.）究竟做甚麼？我需要嗎？", "acceptedAnswer": {"@type": "Answer", "text": "根據《建築物條例》，香港大部分建築工程均須由認可人士草擬、入則及監督。AP須簽署法定文件、統籌屋宇署審批，並承擔法律責任。簡單而言：屋宇署要求圖則上有人承擔責任——在AAEL，這位簽署人是駐司專業人士，並非外借掛名。"}}, {"@type": "Question", "name": "收費大約是多少？", "acceptedAnswer": {"@type": "Answer", "text": "每幢樓宇情況不同，故我們不設劃一價目表——但了解收費是免費的。我們會先實地視察，兩個工作天內以書面列明服務範圍、收費及時間表。絕無約束、絕無壓力，報價單上的數字就是您付的數字。"}}, {"@type": "Question", "name": "屋宇署審批需時多久？", "acceptedAnswer": {"@type": "Answer", "text": "法定審批一般每次入則約需兩個月，視乎工程範圍及複雜程度。我們能控制的，我們承諾：時間表預先與您議定，屋宇署方面由我們主動跟進，您毋須操心。"}}, {"@type": "Question", "name": "小型工程都會接嗎？", "acceptedAnswer": {"@type": "Answer", "text": "會。小型工程、單一處所勘察、牌照入則——我們同樣認真對待，因為做好一單小工程，往往換來一位長期客戶。無論項目大小，均由同一班註冊專業人士親自處理。"}}, {"@type": "Question", "name": "物業繼續營運期間，可否同時進行工程？", "acceptedAnswer": {"@type": "Answer", "text": "可以——在營運中的資產上施工正是我們的專長之一。我們曾在五星級酒店照常營業的情況下完成提升工程：分階段施工、非繁忙時段作業，以及嚴格的塵埃及噪音管制。我們以您的營運為先編排工程，而非要求營運遷就工程。"}}, {"@type": "Question", "name": "你們與承建商是甚麼關係？是否獨立？", "acceptedAnswer": {"@type": "Answer", "text": "完全獨立。我們是顧問——負責設計、入則、監督及核證，並不承接建造工程合約。這份獨立性代表：當我們審核承建商的工作時，我們只向您負責。我們亦可協助招標及甄選承建商，由第一日起維護您的權益。"}}, {"@type": "Question", "name": "我身處內地或海外，可否遙距辦理？", "acceptedAnswer": {"@type": "Answer", "text": "可以。現場勘察由我們的團隊執行，結果及方案可透過視像會議與您討論，文件亦可經授權代表簽署辦理。跨境業主在分間單位市場中佔相當比例，遙距辦理流程成熟——關鍵只在於及早開始，預留文件往來的時間。"}}, {"@type": "Question", "name": "開始前需要準備甚麼文件？", "acceptedAnswer": {"@type": "Answer", "text": "只需樓宇地址及您所關注的事項，已足夠讓我們展開工作。如備有現存圖則、過往報告或屋宇署信件，固然有助評估；如未有，我們可代為索取樓宇紀錄圖則。第一步，真的只是一封電郵。"}}]}</script>
@@ -1048,21 +1062,22 @@
 <div class="nav-scrim" id="nav-scrim" onclick="closeMenu()"></div>
 <nav class="site-menu" id="site-menu" aria-label="All sections">
   <div class="navgrp"><span class="en">The practice</span><span class="zh">關於本公司</span></div>
-  <a href="#about"><span class="en">About us</span><span class="zh">公司簡介</span></a>
-  <a href="#services"><span class="en">Services</span><span class="zh">服務</span></a>
-  <a href="#scope"><span class="en">Scope of services</span><span class="zh">服務範圍</span></a>
-  <a href="#bhu"><span class="en">Basic Housing Unit</span><span class="zh">簡樸房</span></a>
+  <a href="#about"><span class="mi"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg></span><span class="mtxt"><span><span class="en">About us</span><span class="zh">公司簡介</span></span><span class="msub"><span class="en">The registrations behind the signature</span><span class="zh">四項專業註冊，同屬一司</span></span></span></a>
+  <a href="#services"><span class="mi"><svg class="ic" viewBox="0 0 24 24"><path d="M4 20V6l8-3 8 3v14M4 20h16M8 20V9m8 11V9M4 9h16"/></svg></span><span class="mtxt"><span><span class="en">Services</span><span class="zh">服務</span></span><span class="msub"><span class="en">Four disciplines, one team</span><span class="zh">四大專業，一個問責團隊</span></span></span></a>
+  <a href="#scope"><span class="mi"><svg class="ic" viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4"/><path d="M15 3h6v6M10 14L21 3"/></svg></span><span class="mtxt"><span><span class="en">Scope of services</span><span class="zh">服務範圍</span></span><span class="msub"><span class="en">Statutory, licensing, inspections</span><span class="zh">法定服務、牌照、檢驗</span></span></span></a>
+  <a href="#bhu"><span class="mi"><svg class="ic" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M5 9v11h14V9"/><path d="M9 20v-6h6v6"/></svg></span><span class="mtxt"><span><span class="en">Basic Housing Unit</span><span class="zh">簡樸房</span></span><span class="msub"><span class="en">Registration, standards, renewal</span><span class="zh">登記、標準、續期</span></span></span></a>
+  <a href="#esg"><span class="mi"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M2 12h20M12 2c2.5 2.7 4 6.2 4 10s-1.5 7.3-4 10c-2.5-2.7-4-6.2-4-10s1.5-7.3 4-10z"/></svg></span><span class="mtxt"><span><span class="en">ESG &amp; sustainability</span><span class="zh">ESG 與可持續發展</span></span><span class="msub"><span class="en">Compliance records &amp; sustainable design</span><span class="zh">合規紀錄與可持續設計</span></span></span></a>
   <div class="navgrp"><span class="en">Working with us</span><span class="zh">與我們合作</span></div>
-  <a href="#audience"><span class="en">Who we serve</span><span class="zh">服務對象</span></a>
-  <a href="#process"><span class="en">How we work</span><span class="zh">服務流程</span></a>
-  <a href="#experience"><span class="en">Experience</span><span class="zh">項目往績</span></a>
-  <a href="#voices"><span class="en">Our commitments</span><span class="zh">服務承諾</span></a>
-  <a href="#team"><span class="en">Our team</span><span class="zh">專業團隊</span></a>
-  <a href="#sectors"><span class="en">Sectors</span><span class="zh">服務行業</span></a>
+  <a href="#audience"><span class="mi"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="7" r="3"/><path d="M2 21v-2a5 5 0 015-5h4a5 5 0 015 5v2"/><circle cx="18" cy="8" r="2.2"/><path d="M22 21v-1.5a3.5 3.5 0 00-2.5-3.35"/></svg></span><span class="mtxt"><span><span class="en">Who we serve</span><span class="zh">服務對象</span></span><span class="msub"><span class="en">Owners, corporations &amp; the trade</span><span class="zh">業主、法團及同業</span></span></span></a>
+  <a href="#process"><span class="mi"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span><span class="mtxt"><span><span class="en">How we work</span><span class="zh">服務流程</span></span><span class="msub"><span class="en">From site visit to sign-off</span><span class="zh">由實地視察到簽核</span></span></span></a>
+  <a href="#experience"><span class="mi"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2l2.5 6.5H21l-5.2 4 2 6.5L12 15l-5.8 4 2-6.5L3 8.5h6.5z"/></svg></span><span class="mtxt"><span><span class="en">Experience</span><span class="zh">項目往績</span></span><span class="msub"><span class="en">Hotels, estates, industrial towers</span><span class="zh">酒店、屋苑、工業大樓</span></span></span></a>
+  <a href="#voices"><span class="mi"><svg class="ic" viewBox="0 0 24 24"><path d="M4 4h16v12H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></span><span class="mtxt"><span><span class="en">Our commitments</span><span class="zh">服務承諾</span></span><span class="msub"><span class="en">What we commit to, in writing</span><span class="zh">白紙黑字的承諾</span></span></span></a>
+  <a href="#team"><span class="mi"><svg class="ic" viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2 20v-1a5 5 0 015-5h2M15 20v-1a5 5 0 015-5h0"/></svg></span><span class="mtxt"><span><span class="en">Our team</span><span class="zh">專業團隊</span></span><span class="msub"><span class="en">A.P. · R.S.E. · R.P.S. · R.I.</span><span class="zh">認可人士、結構、測量、檢驗</span></span></span></a>
+  <a href="#sectors"><span class="mi"><svg class="ic" viewBox="0 0 24 24"><path d="M3 21V9l6-4 6 4v12M15 21V5l6 3v13M3 21h18"/></svg></span><span class="mtxt"><span><span class="en">Sectors</span><span class="zh">服務行業</span></span><span class="msub"><span class="en">Residential to hospitality</span><span class="zh">住宅到酒店</span></span></span></a>
   <div class="navgrp"><span class="en">Resources</span><span class="zh">資源</span></div>
-  <a href="#knowledge"><span class="en">Knowledge base</span><span class="zh">知識庫</span></a>
-  <a href="/certification-partners.html"><span class="en">Certification for the trade</span><span class="zh">同業核證服務</span></a>
-  <a href="#faq"><span class="en">FAQ</span><span class="zh">常見問題</span></a>
+  <a href="#knowledge"><span class="mi"><svg class="ic" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20V4H6.5A2.5 2.5 0 004 6.5v13z"/><path d="M4 19.5V6.5"/></svg></span><span class="mtxt"><span><span class="en">Knowledge base</span><span class="zh">知識庫</span></span><span class="msub"><span class="en">40+ owner-focused guides</span><span class="zh">40+篇業主指南</span></span></span></a>
+  <a href="/certification-partners.html"><span class="mi"><svg class="ic" viewBox="0 0 24 24"><path d="M8 12l3 3 6-6"/><circle cx="12" cy="12" r="9"/></svg></span><span class="mtxt"><span><span class="en">Certification for the trade</span><span class="zh">同業核證服務</span></span><span class="msub"><span class="en">Certification for agents &amp; contractors</span><span class="zh">為代辦及裝修公司提供核證</span></span></span></a>
+  <a href="#faq"><span class="mi"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 015 .5c0 1.5-2.2 1.8-2.4 3.3M12 17h.01"/></svg></span><span class="mtxt"><span><span class="en">FAQ</span><span class="zh">常見問題</span></span><span class="msub"><span class="en">Fees, process, common questions</span><span class="zh">收費、流程、常見問題</span></span></span></a>
   <a class="cta" href="#contact"><span class="en">Free consultation</span><span class="zh">免費諮詢・聯絡我們</span></a>
 </nav>
 
@@ -1153,6 +1168,7 @@
     <p class="sec-intro rv"><span class="en">If something goes wrong on your building, you want one phone number — not three consultants explaining why it was the other one's scope. Everything below sits with the same team.</span><span class="zh">樓宇一旦出事，業主想要的是一個可以打的電話，而不是三間顧問互相推說「那部分不屬我們負責」。以下所有服務，都由同一個團隊做到底。</span></p>
     <div class="svc-grid">
       <div class="svc rv">
+        <div class="ic-wrap"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3l2 3h4l-1 4 2 3-3 2 1 4-4-1-1 3-2-3-4 1 1-4-3-2 2-3-1-4h4z"/><circle cx="12" cy="10" r="2"/></svg></div>
         <span class="idx">01</span>
         <span class="tag"><span class="en">AP · Statutory</span><span class="zh">認可人士 · 法定</span></span>
         <h3><span class="en">Authorized Person services</span><span class="zh">認可人士服務</span></h3>
@@ -1164,6 +1180,7 @@
         </ul>
       </div>
       <div class="svc rv">
+        <div class="ic-wrap"><svg class="ic" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="M20 20l-5.5-5.5"/></svg></div>
         <span class="idx">02</span>
         <span class="tag"><span class="en">Surveys · Diagnostics</span><span class="zh">勘察 · 診斷</span></span>
         <h3><span class="en">Condition surveys &amp; diagnostics</span><span class="zh">樓宇狀況勘察及診斷</span></h3>
@@ -1175,6 +1192,7 @@
         </ul>
       </div>
       <div class="svc rv">
+        <div class="ic-wrap"><svg class="ic" viewBox="0 0 24 24"><path d="M4 20V6l8-3 8 3v14M4 20h16M8 20V9m8 11V9M4 9h16"/></svg></div>
         <span class="idx">03</span>
         <span class="tag"><span class="en">RSE · Engineering</span><span class="zh">結構工程師 · 工程</span></span>
         <h3><span class="en">Structural engineering</span><span class="zh">結構工程</span></h3>
@@ -1186,6 +1204,7 @@
         </ul>
       </div>
       <div class="svc rv">
+        <div class="ic-wrap"><svg class="ic" viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M8 3v18M3 9h5M3 15h18M13 3v6M13 15v6"/></svg></div>
         <span class="idx">04</span>
         <span class="tag"><span class="en">A&amp;A · Management</span><span class="zh">改建加建 · 管理</span></span>
         <h3><span class="en">A&amp;A design &amp; project management</span><span class="zh">改建加建設計及項目管理</span></h3>
@@ -1201,6 +1220,48 @@
 </section>
 
 
+
+
+<!-- ============ ESG ============ -->
+<section id="esg">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2><span class="en">ESG &amp; sustainability</span><span class="zh">ESG 與可持續發展</span></h2>
+      <span class="sec-note"><span class="en">Two angles, one team</span><span class="zh">兩個角度，同一團隊</span></span>
+    </div>
+    <p class="sec-intro rv"><span class="en">ESG reporting is only as credible as the documentation behind it. We approach this from two directions that we can actually stand behind — compliance records that institutional owners can cite, and structural judgement at the design stage that shapes how sustainably a building performs.</span><span class="zh">ESG 報告的可信度，取決於背後的紀錄是否經得起查證。我們從兩個我們有能力承擔的角度切入——供機構業主引用的合規紀錄，以及在設計階段以結構判斷影響樓宇長遠表現的把關角色。</span></p>
+    <div class="svc-grid">
+      <div class="svc rv">
+        <div class="ic-wrap"><svg class="ic" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div>
+        <span class="idx">05</span>
+        <span class="tag"><span class="en">Governance · Records</span><span class="zh">管治 · 紀錄</span></span>
+        <h3><span class="en">Compliance documentation for ESG reporting</span><span class="zh">供ESG報告使用的合規紀錄</span></h3>
+        <p><span class="en">Funds, REITs and institutional owners increasingly need to show building compliance status as part of ESG disclosure. We already produce the underlying records — condition surveys, statutory submission history, certification status — and can present them in a form your reporting team can cite directly.</span><span class="zh">基金、REIT及機構業主在ESG披露中，愈來愈需要展示樓宇的合規狀況。我們本身已在製作這些基礎紀錄——勘察報告、法定入則往績、認證狀態——並可整理成您的報告團隊能夠直接引用的格式。</span></p>
+        <ul>
+          <li><span class="en">Statutory compliance status reports</span><span class="zh">法定合規狀況報告</span></li>
+          <li><span class="en">Building condition documentation for disclosure</span><span class="zh">供披露用的樓宇狀況紀錄</span></li>
+          <li><span class="en">Certification &amp; inspection history summaries</span><span class="zh">認證及檢驗往績摘要</span></li>
+        </ul>
+      </div>
+      <div class="svc rv">
+        <div class="ic-wrap"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/><path d="M12 2c4 3 6 7 6 10s-2 7-6 10c-4-3-6-7-6-10s2-7 6-10z"/></svg></div>
+        <span class="idx">06</span>
+        <span class="tag"><span class="en">Environmental · Design</span><span class="zh">環境 · 設計</span></span>
+        <h3><span class="en">Structural judgement for sustainable design</span><span class="zh">可持續設計中的結構把關</span></h3>
+        <p><span class="en">Sustainability decisions — material choice, façade retrofit, structural reuse instead of demolition — are only as good as the structural engineering behind them. As the Registered Structural Engineer on your project, we assess what a building's structure can actually support, so sustainability ambitions stay buildable.</span><span class="zh">可持續設計的決定——物料選擇、外牆改造、結構保留而非拆卸重建——最終取決於背後的結構工程判斷是否可行。作為項目的註冊結構工程師，我們評估樓宇結構實際能承受甚麼，讓可持續發展的目標保持可行。</span></p>
+        <ul>
+          <li><span class="en">Structural feasibility for retrofit &amp; reuse</span><span class="zh">改造及保留重用的結構可行性評估</span></li>
+          <li><span class="en">Façade &amp; envelope alteration assessment</span><span class="zh">外牆及圍護結構改動評估</span></li>
+          <li><span class="en">Input to design teams pursuing green building goals</span><span class="zh">配合設計團隊的綠色建築目標提供意見</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="box" style="margin-top:24px">
+      <strong><span class="en">What we don't claim</span><span class="zh">我們不會聲稱的事</span></strong>
+      <p><span class="en">We are not a BEAM Plus assessor and do not carry out formal energy audits or carbon accounting. Where a project needs those specific certifications, we work alongside the accredited specialist — our role stays within statutory and structural judgement, which is what our registrations actually cover.</span><span class="zh">我們並非BEAM Plus認可評核人，亦不從事正式的能源審計或碳排放核算。若項目需要這類特定認證，我們會與相關認可專家並肩合作——我們的角色維持在法定及結構判斷範圍內，即我們的註冊資格實際涵蓋的部分。</span></p>
+    </div>
+  </div>
+</section>
 
 <!-- ============ SCOPE ============ -->
 <section id="scope">
