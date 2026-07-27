@@ -189,8 +189,14 @@ async function send(){
     }
     const ms=Math.round(performance.now()-t0);
     if(!r.ok){
-      wait.querySelector('.bub').innerHTML='<span style="color:var(--warn)">'+esc(d.error||'發生錯誤')+'</span>'+
-        (d.hint?'<div class="meta"><span>'+esc(d.hint)+'</span></div>':'');
+      let extra='';
+      if(d.hint) extra += '<div class="meta"><span>'+esc(d.hint)+'</span></div>';
+      if(d.available_models && d.available_models.length){
+        extra += '<div class="meta" style="display:block"><b>此 key 實際可用的模型（複製一個填入 Vercel 的 AAEL_MODEL）：</b><br>'+
+          '<span style="font-family:var(--mono);font-size:.68rem">'+
+          d.available_models.map(esc).join('<br>')+'</span></div>';
+      }
+      wait.querySelector('.bub').innerHTML='<span style="color:var(--warn)">'+esc(d.error||'發生錯誤')+'</span>'+extra;
       hist.pop(); return; }
     hist.push({role:'assistant',content:d.reply});
     // cost estimate (Sonnet 5 introductory $2 / $10 per MTok)
