@@ -38,7 +38,8 @@ padding-top:6px;min-width:34px;text-transform:uppercase}
 .bub{flex:1;border-radius:12px;padding:12px 15px;font-size:.92rem}
 .me .bub{background:var(--panel2);border:1px solid var(--line)}
 .ai .bub{background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--acc)}
-.bub a{color:var(--acc2)}
+.bub a{color:var(--acc2);text-decoration:underline;text-underline-offset:2px;word-break:break-all}
+.bub a:active{opacity:.6}
 .meta{margin-top:9px;padding-top:8px;border-top:1px solid var(--line);
 font-family:var(--mono);font-size:.64rem;color:var(--dim);display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .meta b{color:var(--acc);font-weight:500}
@@ -103,7 +104,7 @@ margin-right:3px;animation:b 1.2s infinite}
     <textarea id="q" rows="1" placeholder="輸入問題…（Enter 送出，Shift+Enter 換行）"></textarea>
     <button id="send" onclick="send()">送出</button>
   </div>
-  <div class="hint">內部測試版本 · 回應由 AI 產生，發布前請逐項核實</div>
+  <div class="hint">內部測試版本 v2 · 回應由 AI 產生，發布前請逐項核實</div>
 </footer>
 
 <script>
