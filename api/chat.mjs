@@ -62,7 +62,7 @@ const SYSTEM = `你是「躍昇建築事務顧問有限公司」（Ascend Archit
 
 【回答方式】
 · 直接、實用、貼近業主處境，不要空泛。
-· 篇幅適中：一般三至五句，複雜問題可分點，但不要長篇大論。
+· 篇幅適中：一般三至五句，複雜問題最多分五點列出，每點一句起計，不要長篇大論。切勿因為參考資料內容豐富就照單全收——揀最relevant的部分濃縮回答，寧願簡短完整，也不要冗長而被截斷。
 · 涉及個案、時間緊迫或需要專業判斷時，引導聯絡：電郵 aaelhk.info@gmail.com，兩個工作天內回覆。
 
 【絕對不要做】
@@ -87,7 +87,7 @@ const PROVIDERS = {
     url: () => 'https://api.anthropic.com/v1/messages',
     headers: k => ({ 'x-api-key': k, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' }),
     body: (model, system, msgs) => ({
-      model, max_tokens: 700,
+      model, max_tokens: 1400,
       system: [
         { type: 'text', text: system.rules, cache_control: { type: 'ephemeral' } },
         { type: 'text', text: system.context },
@@ -97,6 +97,7 @@ const PROVIDERS = {
     parse: d => ({
       text: (d.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n').trim(),
       usage: d.usage ? { in: d.usage.input_tokens, out: d.usage.output_tokens } : null,
+      truncated: d.stop_reason === 'max_tokens',
     }),
   },
 
@@ -111,13 +112,14 @@ const PROVIDERS = {
         role: m.role === 'assistant' ? 'model' : 'user',
         parts: [{ text: m.content }],
       })),
-      generationConfig: { maxOutputTokens: 700, temperature: 0.3 },
+      generationConfig: { maxOutputTokens: 1400, temperature: 0.3 },
     }),
     parse: d => ({
       text: (d.candidates?.[0]?.content?.parts || []).map(p => p.text).join('\n').trim(),
       usage: d.usageMetadata
         ? { in: d.usageMetadata.promptTokenCount, out: d.usageMetadata.candidatesTokenCount }
         : null,
+      truncated: d.candidates?.[0]?.finishReason === 'MAX_TOKENS',
     }),
   },
 
@@ -127,12 +129,13 @@ const PROVIDERS = {
     url: () => 'https://api.openai.com/v1/chat/completions',
     headers: k => ({ Authorization: `Bearer ${k}`, 'content-type': 'application/json' }),
     body: (model, system, msgs) => ({
-      model, max_tokens: 700, temperature: 0.3,
+      model, max_tokens: 1400, temperature: 0.3,
       messages: [{ role: 'system', content: system.rules + '\n\n' + system.context }, ...msgs],
     }),
     parse: d => ({
       text: (d.choices?.[0]?.message?.content || '').trim(),
       usage: d.usage ? { in: d.usage.prompt_tokens, out: d.usage.completion_tokens } : null,
+      truncated: d.choices?.[0]?.finish_reason === 'length',
     }),
   },
 
@@ -145,12 +148,13 @@ const PROVIDERS = {
       'HTTP-Referer': 'https://aael.online', 'X-Title': 'AAEL Assistant',
     }),
     body: (model, system, msgs) => ({
-      model, max_tokens: 700, temperature: 0.3,
+      model, max_tokens: 1400, temperature: 0.3,
       messages: [{ role: 'system', content: system.rules + '\n\n' + system.context }, ...msgs],
     }),
     parse: d => ({
       text: (d.choices?.[0]?.message?.content || '').trim(),
       usage: d.usage ? { in: d.usage.prompt_tokens, out: d.usage.completion_tokens } : null,
+      truncated: d.choices?.[0]?.finish_reason === 'length',
     }),
   },
 };
@@ -235,12 +239,18 @@ export default async function handler(req, res) {
     }
 
     const data = await r.json();
-    let { text, usage } = P.parse(data);
+    let { text, usage, truncated } = P.parse(data);
     text = (text || '').trim();
 
-    // 保險：把「延伸閱讀」規則從系統指令移到這裡強制附加，
-    // 避免依賴模型自行記住格式（不同供應商對 system prompt 的遵從度不一）。
-    if (text && hits.length) {
+    // 若答案被供應商截斷（token 上限），不要在斷句後面硬加連結，
+    // 那只會令支離破碎的答案更難閱讀；改為附加一句提示，讓用戶知道發生了甚麼。
+    if (truncated) {
+      text += isZhQuestion(question)
+        ? '\n\n（回答因長度限制被截斷，請重新提問或要求更簡短的答案。）'
+        : '\n\n(This answer was cut short due to a length limit — try asking again or request a shorter answer.)';
+    } else if (text && hits.length) {
+      // 保險：把「延伸閱讀」規則從系統指令移到這裡強制附加，
+      // 避免依賴模型自行記住格式（不同供應商對 system prompt 的遵從度不一）。
       const already = hits.some(a => text.includes(`${a.slug}.html`));
       if (!already) {
         const links = hits
@@ -255,7 +265,7 @@ export default async function handler(req, res) {
     return res.status(200).json({
       reply: text || '未能產生回答，請換個問法再試。',
       sources: hits.map(a => ({ slug: a.slug, title: a.title })),
-      usage, model, provider: pName,
+      usage, model, provider: pName, truncated: !!truncated,
     });
   } catch (e) {
     console.error('handler error', e);
