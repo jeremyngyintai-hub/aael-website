@@ -231,6 +231,9 @@ const L = {
   errGeneric:{en:'Something went wrong. Please try again shortly.',
              zh:'發生錯誤，請稍後再試。',
              cn:'发生错误，请稍后再试。'},
+  errRateLimited:{en:'The AI service is at busy capacity right now — please wait a minute or two and try again.',
+             zh:'AI 服務目前使用量達繁忙上限，請稍等一兩分鐘後再試。',
+             cn:'AI 服务目前使用量达繁忙上限，请稍等一两分钟后再试。'},
   limitTitle:{en:'Today\u2019s query limit reached', zh:'今日查詢名額已滿', cn:'今日查询名额已满'},
   limitBody: {en:'Please try again tomorrow, or email us directly at ',
              zh:'請明天再試，或直接電郵 ',
@@ -391,7 +394,8 @@ async function send(){
       return;
     }
     if(!r.ok){
-      wait.querySelector('.bub').innerHTML='<span style="color:var(--warn)">'+esc(L.errGeneric[currentLang])+'</span>';
+      var msg = d.upstreamRateLimited ? L.errRateLimited[currentLang] : L.errGeneric[currentLang];
+      wait.querySelector('.bub').innerHTML='<span style="color:var(--warn)">'+esc(msg)+'</span>';
       hist.pop(); return;
     }
     hist.push({role:'assistant',content:d.reply});

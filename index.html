@@ -2812,9 +2812,9 @@
         return;
       }
       if(!r.ok){
-        botRow.querySelector('.ai-bub').innerHTML = isZH()
-          ? T('發生錯誤，請前往 AAEL AI Pro 完整頁面查詢。')
-          : 'Something went wrong. Please try the full AAEL AI Pro page.';
+        botRow.querySelector('.ai-bub').innerHTML = d.upstreamRateLimited
+          ? (isZH() ? T('AI 服務目前使用量達繁忙上限，請稍等一兩分鐘後再試。') : 'The AI service is at busy capacity right now — please wait a minute or two and try again.')
+          : (isZH() ? T('發生錯誤，請前往 AAEL AI Pro 完整頁面查詢。') : 'Something went wrong. Please try the full AAEL AI Pro page.');
         return;
       }
       // kb.mjs 只儲存繁體標題（無簡體變體），而模型回覆本身亦未必100%跟隨輸入嘅字體——
