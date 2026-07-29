@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow,noarchive">
-<title>AAEL AI 助理 · 內部測試</title>
+<title>AAEL AI Pro · 內部測試</title>
 <style>
 :root{--bg:#0A0C11;--panel:#12151C;--panel2:#171B24;--line:rgba(255,255,255,.10);
 --txt:#EDEDEA;--dim:#9AA0AC;--acc:#CE8F5A;--acc2:#E8B183;--warn:#E0765A;--ok:#7FB069;
@@ -72,7 +72,7 @@ margin-right:3px;animation:b 1.2s infinite}
 <body>
 
 <header>
-  <h1>AAEL AI 助理</h1>
+  <h1>AAEL AI Pro</h1>
   <span class="tag">內部測試</span>
   <span class="spacer"></span>
   <span id="stats" style="font-family:var(--mono);font-size:.66rem;color:var(--dim)"></span>
@@ -243,7 +243,7 @@ async function send(){
   }
 }
 function exportLog(){
-  let out='AAEL AI 助理 · 內部測試紀錄\n'+new Date().toLocaleString('zh-HK')+
+  let out='AAEL AI Pro · 內部測試紀錄\n'+new Date().toLocaleString('zh-HK')+
     `\n共 ${nQ} 條提問 · 估算成本 US$${cost.toFixed(4)}\n${'='.repeat(50)}\n\n`;
   document.querySelectorAll('.msg').forEach(m=>{
     const who=m.classList.contains('me')?'【提問】':'【回答】';
