@@ -1,10 +1,56 @@
-// AAEL 內部測試用 AI 助理 — Vercel Serverless Function
-// 環境變數：ANTHROPIC_API_KEY（必需）、AAEL_ACCESS_CODE（必需）、AAEL_MODEL（可選）
+// AAEL 公開版 AI 助理 — Vercel Serverless Function
+// 環境變數：
+//   {PROVIDER}_API_KEY（必需，視乎 AI_PROVIDER）
+//   AAEL_MODEL（可選）
+//   UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN（可選，設定後啟用每日總量限流）
+//   AAEL_DAILY_LIMIT（可選，預設 80，全站每日總對話次數上限）
+//
+// 若未設定 Upstash，限流會退化為「進程內計數」——僅在同一個未被回收的
+// serverless 實例內有效，重啟後歸零。這不是真正的限流，只適合完全信任
+// 的低流量情境。正式公開建議設定 Upstash（見安裝說明）。
 import { KB } from './kb.mjs';
 
 const MODEL = process.env.AAEL_MODEL || 'claude-sonnet-5';
 const MAX_Q = 500;            // 單次提問字數上限
 const MAX_TURNS = 12;         // 對話輪數上限
+const DAILY_LIMIT = parseInt(process.env.AAEL_DAILY_LIMIT || '80', 10);
+
+/* ---------- 每日總量限流 ---------- */
+// 進程內 fallback（僅在 Upstash 未設定時使用；serverless 冷啟動會重置，非真正限流）
+let _fallbackCount = 0;
+let _fallbackDay = '';
+
+function todayKey() {
+  return new Date().toISOString().slice(0, 10); // YYYY-MM-DD (UTC)
+}
+
+async function checkAndIncrementDailyCount() {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  const key = `aael:chat:${todayKey()}`;
+
+  if (url && token) {
+    // 真正跨請求的限流：用 Upstash Redis REST API 做原子遞增
+    const r = await fetch(`${url}/incr/${key}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await r.json();
+    const count = data.result;
+    if (count === 1) {
+      // 首次建立這個 key，設定 25 小時後過期（略多於一日，避免時區邊界漏計）
+      await fetch(`${url}/expire/${key}/90000`, {
+        headers: { Authorization: `Bearer ${token}` },
+      }).catch(() => {});
+    }
+    return { count, limited: count > DAILY_LIMIT, real: true };
+  }
+
+  // Fallback：無 Upstash，僅在同一 function 實例內計數
+  const today = todayKey();
+  if (_fallbackDay !== today) { _fallbackDay = today; _fallbackCount = 0; }
+  _fallbackCount += 1;
+  return { count: _fallbackCount, limited: _fallbackCount > DAILY_LIMIT, real: false };
+}
 
 /* ---------- 檢索：用關鍵詞計分揀出最相關文章 ---------- */
 function isZhQuestion(q) {
@@ -174,16 +220,22 @@ export default async function handler(req, res) {
 
   let body = req.body;
   if (typeof body === 'string') { try { body = JSON.parse(body); } catch { body = {}; } }
-  const { code, messages } = body || {};
+  const { messages } = body || {};
 
-  if (!process.env.AAEL_ACCESS_CODE || code !== process.env.AAEL_ACCESS_CODE) {
-    return res.status(401).json({ error: '存取碼不正確' });
-  }
   if (!Array.isArray(messages) || messages.length === 0) {
     return res.status(400).json({ error: '沒有收到問題' });
   }
   if (messages.length > MAX_TURNS * 2) {
     return res.status(400).json({ error: '對話過長，請重新開始' });
+  }
+
+  // 每日總量限流：達到上限後，全站訪客當日不能再提問
+  const rate = await checkAndIncrementDailyCount();
+  if (rate.limited) {
+    return res.status(429).json({
+      error: '今日查詢名額已滿，請明天再試，或直接電郵 aaelhk.info@gmail.com 查詢。',
+      dailyLimitReached: true,
+    });
   }
 
   const last = messages[messages.length - 1];
@@ -266,6 +318,7 @@ export default async function handler(req, res) {
       reply: text || '未能產生回答，請換個問法再試。',
       sources: hits.map(a => ({ slug: a.slug, title: a.title })),
       usage, model, provider: pName, truncated: !!truncated,
+      quota: { used: rate.count, limit: DAILY_LIMIT, real: rate.real },
     });
   } catch (e) {
     console.error('handler error', e);
