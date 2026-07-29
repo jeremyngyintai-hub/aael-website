@@ -147,6 +147,26 @@ body.amenu-open{overflow:hidden}
 .fcontact a{color:var(--txt);text-decoration:none;font-weight:600}
 .fcontact a:hover{color:var(--acc2)}
 
+
+.ai-float{position:fixed;left:18px;bottom:18px;z-index:60;display:flex;align-items:center;gap:8px;
+padding:10px 16px 10px 12px;border-radius:100px;background:linear-gradient(135deg,var(--acc),var(--acc3));
+color:var(--btn);text-decoration:none;box-shadow:var(--shadow);font-family:var(--disp);font-weight:700;
+font-size:.82rem;transition:transform .22s,box-shadow .22s}
+.ai-float:hover{transform:translateY(-3px);box-shadow:0 14px 34px var(--glow)}
+.ai-float svg{width:17px;height:17px;stroke:var(--btn);fill:none;stroke-width:1.8;flex-shrink:0}
+.ai-float .sub{display:block;font-size:.6rem;font-weight:500;opacity:.85;font-family:var(--body)}
+body.amenu-open .ai-float{display:none}
+@media(max-width:480px){.ai-float{left:12px;bottom:12px;padding:9px 13px 9px 10px}.ai-float .sub{display:none}}
+
+.ai-promo{margin:36px auto}
+.ai-promo-box{border:1px solid var(--acc);border-radius:var(--r);padding:26px 28px;background:var(--glow);text-align:center}
+.ai-promo-badge{display:inline-block;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;
+text-transform:uppercase;color:var(--btn);background:linear-gradient(135deg,var(--acc),var(--acc3));
+padding:4px 11px;border-radius:100px;margin-bottom:12px}
+.ai-promo-box h4{font-family:var(--disp);font-weight:800;font-size:1.05rem;margin-bottom:8px}
+.ai-promo-box p{color:var(--dim);font-size:.86rem;line-height:1.65;max-width:44em;margin:0 auto 16px}
+.ai-promo-cta{display:inline-block;padding:12px 24px;border-radius:10px;font-weight:700;font-size:.88rem;
+background:linear-gradient(135deg,var(--acc),var(--acc3));color:var(--btn)}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "簡樸房核證報告可以由裝修公司簽署嗎？", "acceptedAnswer": {"@type": "Answer", "text": "不可以，除非該公司本身持有指明專業人士資格。核證報告須由註冊建築師、註冊專業工程師或註冊專業測量師（建築測量組別）簽署，並由簽署者承擔專業責任。"}}, {"@type": "Question", "name": "我們是代辦／裝修公司，可以只委託你們做核證嗎？", "acceptedAnswer": {"@type": "Answer", "text": "可以。同業合作項目中，我們只承接核證及法定相關部分，不承接裝修施工，亦不會就您已接觸的業主直接招攬同類工程。"}}, {"@type": "Question", "name": "如果單位所在樓宇有未遵辦的屋宇署命令，可以先核證嗎？", "acceptedAnswer": {"@type": "Answer", "text": "一般不可以。核證報告須確認相關法定命令已履行。我們的認可人士及註冊結構工程師可先處理命令，再進行核證，毋須您另找他人。"}}, {"@type": "Question", "name": "五年後續期，需要重新測繪嗎？", "acceptedAnswer": {"@type": "Answer", "text": "若由我們保存原始核證報告、圖則及量度紀錄，續期時可由既有資料開始，毋須重新測繪，時間及成本均較低。"}}, {"@type": "Question", "name": "如何查證你們的專業註冊？", "acceptedAnswer": {"@type": "Answer", "text": "認可人士、註冊結構工程師及註冊檢驗人員可於屋宇署公開名冊查核；註冊專業測量師可向測量師註冊管理局查核。我們鼓勵您在委聘之前先行查證。"}}]}</script>
 </head>
@@ -166,6 +186,10 @@ body.amenu-open{overflow:hidden}
     </div>
   </div>
 </header>
+<a class="ai-float" href="/ai-assistant.html" aria-label="AAEL AI Pro">
+  <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M9.5 9a2.5 2.5 0 015 .5c0 1.5-2.2 1.8-2.4 3.3M12 17h.01"/></svg>
+  <span>AI Pro<span class="sub"><span class="zh">即時問</span><span class="en">Ask now</span></span></span>
+</a>
 <div class="ascrim" id="a-scrim" onclick="aClose()"></div>
 <nav class="amenu" id="a-menu" aria-label="Site">
   <div class="grp"><span class="en">The practice</span><span class="zh">關於本公司</span></div>
@@ -307,6 +331,14 @@ body.amenu-open{overflow:hidden}
   <a href="guide-bhu-rejection.html"><span class="zh">認證為何會被拒絕</span><span class="en">Why Applications Are Refused</span></a>
 <a href="guide-bhu-standards.html"><span class="zh">八項最低標準</span><span class="en">The Eight Minimum Standards</span></a>
 <a href="guide-bd-order.html"><span class="zh">法定命令處理</span><span class="en">Statutory Orders</span></a>
+</div>
+<div class="wrap ai-promo">
+  <div class="ai-promo-box">
+    <span class="ai-promo-badge">AI Pro</span>
+    <h4><span class="zh">仲有其他樓宇問題？</span><span class="en">Have another building question?</span></h4>
+    <p><span class="zh">即時問 AAEL AI Pro，免費、毋須註冊，直接參考本網站知識庫作答。</span><span class="en">Ask AAEL AI Pro instantly — free, no sign-up, answered straight from this site’s knowledge base.</span></p>
+    <a class="ai-promo-cta" href="/ai-assistant.html"><span class="zh">開始查詢 →</span><span class="en">Ask now →</span></a>
+  </div>
 </div>
 <footer>
   <div class="wrap">

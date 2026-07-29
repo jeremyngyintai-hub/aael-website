@@ -925,6 +925,37 @@
     font-size:.76rem;color:var(--accent-hi);font-weight:600;
   }
 
+
+  .ai-float{position:fixed;left:22px;bottom:22px;z-index:60;display:flex;align-items:center;gap:8px;
+  padding:11px 17px 11px 13px;border-radius:100px;background:linear-gradient(135deg,var(--accent),var(--accent-deep));
+  color:var(--btn-txt);text-decoration:none;box-shadow:var(--shadow);font-family:var(--display);font-weight:700;
+  font-size:.84rem;transition:transform .22s,box-shadow .22s}
+  .ai-float:hover{transform:translateY(-3px);box-shadow:0 14px 34px var(--glow)}
+  .ai-float svg{width:18px;height:18px;stroke:var(--btn-txt);fill:none;stroke-width:1.8;flex-shrink:0}
+  .ai-float .sub{display:block;font-size:.62rem;font-weight:500;opacity:.85;font-family:var(--body)}
+  body.menu-open .ai-float{display:none}
+  @media(max-width:480px){.ai-float{left:16px;bottom:16px;padding:10px 14px 10px 11px}.ai-float .sub{display:none}}
+
+
+  .ai-input-row{display:flex;gap:8px;margin-top:16px}
+  .ai-input-row input{flex:1;padding:11px 14px;border:1px solid var(--line);border-radius:10px;
+  background:var(--panel-2);color:var(--txt);font-size:.88rem;font-family:var(--body)}
+  .ai-input-row input:focus{outline:none;border-color:var(--accent)}
+  .ai-input-row input:disabled{opacity:.5}
+  .ai-input-row button{padding:11px 18px;border:none;border-radius:10px;cursor:pointer;font-weight:700;
+  background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:var(--btn-txt);font-size:.9rem;
+  transition:box-shadow .2s}
+  .ai-input-row button:hover{box-shadow:0 0 20px var(--glow)}
+  .ai-input-row button:disabled{opacity:.5;cursor:default;box-shadow:none}
+  .ai-hint2{font-size:.72rem;color:var(--dim);margin-top:8px;text-align:center}
+  #heroLog{margin-top:14px}
+  #heroLog .ai-msg{margin-top:14px}
+  .ai-dots span{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--accent);
+  margin-right:3px;animation:aiDot 1.2s infinite}
+  .ai-dots span:nth-child(2){animation-delay:.2s}.ai-dots span:nth-child(3){animation-delay:.4s}
+  @keyframes aiDot{0%,60%,100%{opacity:.25}30%{opacity:1}}
+  .ai-continue{display:inline-block;margin-top:12px;font-size:.82rem;font-weight:700;color:var(--accent-hi)}
+
   .band{border:1px solid var(--accent);border-radius:var(--r);padding:26px 28px;background:var(--glow);margin-top:34px}
   .band h3{font-family:var(--display);font-weight:800;font-size:1.2rem;margin-bottom:8px}
   .band p{font-size:.92rem;color:var(--dim);line-height:1.7;margin-bottom:14px}
@@ -1251,6 +1282,12 @@
             </div>
           </div>
         </div>
+        <div class="ai-input-row">
+          <input id="heroQ" type="text" autocomplete="off">
+          <button id="heroSendBtn" onclick="heroSend()" aria-label="Send">→</button>
+        </div>
+        <div class="ai-hint2"><span class="en">Type your own question — this is the real thing, not a demo.</span><span class="zh">輸入您自己的問題——這是真實運作，不是示範。</span></div>
+        <div id="heroLog"></div>
       </div>
     </div>
   </div>
@@ -2321,6 +2358,10 @@
   <a href="mailto:aaelhk.info@gmail.com" title="Email / 電郵" aria-label="Email">✉</a>
   <a href="#top" title="Back to top / 返回頂部" aria-label="Top">↑</a>
 </div>
+<a class="ai-float" href="/ai-assistant.html" aria-label="AAEL AI Pro">
+  <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M9.5 9a2.5 2.5 0 015 .5c0 1.5-2.2 1.8-2.4 3.3M12 17h.01"/></svg>
+  <span>AI Pro<span class="sub"><span class="zh">即時問</span><span class="en">Ask now</span></span></span>
+</a>
 <button class="chat-fab" id="chat-fab" aria-label="Open inquiry assistant" onclick="chatToggle()">💬</button>
 <div class="chat-panel" id="chat-panel" role="dialog" aria-label="Inquiry assistant">
   <div class="chat-head">
@@ -2971,5 +3012,97 @@
 })();
 </script>
 
+<script>
+(function(){
+  function isZH(){return document.body.classList.contains('lang-zh');}
+  function isCN(){return document.body.classList.contains('lang-cn');}
+  function T(s){return (isCN()&&window.aaeConv)?window.aaeConv(s):s;}
+  function esc(s){return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+  var qEl = document.getElementById('heroQ');
+  var sendBtn = document.getElementById('heroSendBtn');
+  var log = document.getElementById('heroLog');
+  if(!qEl || !sendBtn || !log) return;
+
+  function ph(){
+    qEl.placeholder = isZH() ? T('簡樸房登記幾時截止？') : 'When is the deadline for BHU registration?';
+  }
+  ph();
+  var _sl = window.setLang;
+  if(_sl){ window.setLang = function(l){ _sl(l); ph(); }; }
+
+  function md(s){
+    var out = esc(s).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>');
+    out = out.replace(/(https?:\/\/[^\s<]+)/g, function(u){ return '<a href="'+u+'" target="_blank" rel="noopener">'+u+'</a>'; });
+    return out.replace(/\n/g,'<br>');
+  }
+
+  var sending = false;
+  window.heroSend = async function(){
+    if(sending) return;
+    var q = qEl.value.trim(); if(!q) return;
+    qEl.value=''; sending = true; sendBtn.disabled = true; qEl.disabled = true;
+
+    var meRow = document.createElement('div');
+    meRow.className = 'ai-msg ai-me';
+    meRow.innerHTML = '<div class="ai-who">You</div><div class="ai-bub">'+esc(q)+'</div>';
+    log.appendChild(meRow);
+
+    var botRow = document.createElement('div');
+    botRow.className = 'ai-msg ai-bot';
+    botRow.innerHTML = '<div class="ai-who">AI</div><div class="ai-bub"><span class="ai-dots"><span></span><span></span><span></span></span></div>';
+    log.appendChild(botRow);
+    botRow.scrollIntoView({behavior:'smooth', block:'nearest'});
+
+    try{
+      var r = await fetch('/api/chat', {method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({messages:[{role:'user', content:q}]})});
+      var raw = await r.text();
+      var d;
+      try{ d = JSON.parse(raw); }
+      catch(_){
+        botRow.querySelector('.ai-bub').innerHTML = T('暫時無法連接，請前往 AAEL AI Pro 完整頁面查詢。');
+        return;
+      }
+      if(r.status===429 && d.dailyLimitReached){
+        botRow.querySelector('.ai-bub').innerHTML = isZH()
+          ? T('今日查詢名額已滿，請明天再試，或電郵 aaelhk.info@gmail.com。')
+          : 'Today\u2019s query limit has been reached. Please try again tomorrow, or email aaelhk.info@gmail.com.';
+        return;
+      }
+      if(!r.ok){
+        botRow.querySelector('.ai-bub').innerHTML = isZH()
+          ? T('發生錯誤，請前往 AAEL AI Pro 完整頁面查詢。')
+          : 'Something went wrong. Please try the full AAEL AI Pro page.';
+        return;
+      }
+      // kb.mjs 只儲存繁體標題（無簡體變體），而模型回覆本身亦未必100%跟隨輸入嘅字體——
+      // 兩者都經 T() 做一次保險轉換，確保簡體模式下顯示嘅內容真正一致。
+      var src = (d.sources||[]).map(function(s){
+        return '<a href="https://aael.online/'+s.slug+'.html" target="_blank" rel="noopener">'+esc(T(s.title))+'</a>';
+      }).join('\u3000');
+      var linkLabel = isZH() ? T('延伸閱讀：') : 'Full guide: ';
+      var srcHtml = src ? '<div class="ai-link">'+linkLabel+src+'</div>' : '';
+      var replyText = isCN() ? T(d.reply) : d.reply;
+      botRow.querySelector('.ai-bub').innerHTML = md(replyText) + srcHtml;
+
+      var cont = document.createElement('a');
+      cont.className = 'ai-continue';
+      cont.href = '/ai-assistant.html';
+      cont.innerHTML = isZH() ? T('前往 AAEL AI Pro 繼續提問 →') : 'Continue the conversation on AAEL AI Pro \u2192';
+      log.appendChild(cont);
+      cont.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }catch(e){
+      botRow.querySelector('.ai-bub').innerHTML = isZH()
+        ? T('連線失敗，請前往 AAEL AI Pro 完整頁面查詢。')
+        : 'Connection failed. Please try the full AAEL AI Pro page.';
+    }finally{
+      sending = false; sendBtn.disabled = false; qEl.disabled = false; qEl.focus();
+    }
+  };
+
+  qEl.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); window.heroSend(); } });
+})();
+</script>
 </body>
 </html>
