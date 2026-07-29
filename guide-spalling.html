@@ -9,6 +9,8 @@
 <link rel="canonical" href="https://aael.online/guide-spalling.html">
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#92491A">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://aael.online/guide-spalling.html">
 <meta property="og:title" content="石屎剝落：成因、風險與正確的修葺方法｜Concrete Spalling: Causes, Risks and How It Should Be Repaired">
@@ -164,7 +166,7 @@ body.amenu-open{overflow:hidden}
 .fcontact a:hover{color:var(--acc2)}
 
 
-.ai-float{position:fixed;left:18px;bottom:18px;z-index:60;display:flex;align-items:center;gap:8px;
+.ai-float{position:fixed;right:18px;bottom:70px;z-index:60;display:flex;align-items:center;gap:8px;
 padding:10px 16px 10px 12px;border-radius:100px;background:linear-gradient(135deg,var(--acc),var(--acc3));
 color:var(--btn);text-decoration:none;box-shadow:var(--shadow);font-family:var(--disp);font-weight:700;
 font-size:.82rem;transition:transform .22s,box-shadow .22s}
@@ -172,7 +174,7 @@ font-size:.82rem;transition:transform .22s,box-shadow .22s}
 .ai-float svg{width:17px;height:17px;stroke:var(--btn);fill:none;stroke-width:1.8;flex-shrink:0}
 .ai-float .sub{display:block;font-size:.6rem;font-weight:500;opacity:.85;font-family:var(--body)}
 body.amenu-open .ai-float{display:none}
-@media(max-width:480px){.ai-float{left:12px;bottom:12px;padding:9px 13px 9px 10px}.ai-float .sub{display:none}}
+@media(max-width:480px){.ai-float{right:12px;bottom:60px;padding:9px 13px 9px 10px}.ai-float .sub{display:none}}
 
 .ai-promo{margin:36px auto}
 .ai-promo-box{border:1px solid var(--acc);border-radius:var(--r);padding:26px 28px;background:var(--glow);text-align:center}
@@ -412,5 +414,12 @@ ap(t==='dark'?'dark':'light');if(l)sl(l)})();
 })();
 </script>
 
+<script>
+if("serviceWorker" in navigator){
+  window.addEventListener("load", function(){
+    navigator.serviceWorker.register("/sw.js").catch(function(){});
+  });
+}
+</script>
 </body>
 </html>

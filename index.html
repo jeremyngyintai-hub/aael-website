@@ -10,6 +10,11 @@
 <meta name="description" content="香港建築顧問公司：驗樓・強制驗樓MBIS・簡樸房認證核證・屋宇署入則・認可人士 A.P.・結構工程・僭建處理・小型工程・食肆賓館牌照。兩個工作天內免費報價。Hong Kong building consultants — surveys, MBIS, BD submissions &amp; licensing. Free fee proposal in 2 working days.">
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#92491A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AAEL AI Pro">
 <link rel="canonical" href="https://aael.online/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://aael.online/">
@@ -868,7 +873,7 @@
   }
 
 
-  .ai-float{position:fixed;left:22px;bottom:22px;z-index:60;display:flex;align-items:center;gap:8px;
+  .ai-float{position:fixed;right:22px;bottom:22px;z-index:60;display:flex;align-items:center;gap:8px;
   padding:11px 17px 11px 13px;border-radius:100px;background:linear-gradient(135deg,var(--accent),var(--accent-deep));
   color:var(--btn-txt);text-decoration:none;box-shadow:var(--shadow);font-family:var(--display);font-weight:700;
   font-size:.84rem;transition:transform .22s,box-shadow .22s}
@@ -876,7 +881,7 @@
   .ai-float svg{width:18px;height:18px;stroke:var(--btn-txt);fill:none;stroke-width:1.8;flex-shrink:0}
   .ai-float .sub{display:block;font-size:.62rem;font-weight:500;opacity:.85;font-family:var(--body)}
   body.menu-open .ai-float{display:none}
-  @media(max-width:480px){.ai-float{left:16px;bottom:16px;padding:10px 14px 10px 11px}.ai-float .sub{display:none}}
+  @media(max-width:480px){.ai-float{right:16px;bottom:16px;padding:10px 14px 10px 11px}.ai-float .sub{display:none}}
 
 
   .ai-input-row{display:flex;gap:8px;margin-top:16px}
@@ -2844,6 +2849,104 @@
 
   qEl.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); window.heroSend(); } });
 })();
+</script>
+<!-- ============ PWA install banner ============ -->
+<div id="pwaBanner" class="pwa-banner" role="dialog" aria-label="Install app">
+  <div class="pwa-banner-icon"><img src="/icon-192.png" alt="AAEL" width="40" height="40"></div>
+  <div class="pwa-banner-txt">
+    <b><span class="en">Install AAEL AI Pro</span><span class="zh">安裝 AAEL AI Pro</span></b>
+    <span class="pwa-banner-sub" id="pwaBannerSub"></span>
+  </div>
+  <button class="pwa-banner-btn" id="pwaBannerBtn"></button>
+  <button class="pwa-banner-x" id="pwaBannerX" aria-label="Dismiss">✕</button>
+</div>
+
+<style>
+.pwa-banner{position:fixed;left:14px;right:14px;bottom:14px;z-index:120;display:none;
+align-items:center;gap:12px;padding:12px 14px;border-radius:16px;
+background:var(--panel,#12151C);border:1px solid var(--line,rgba(255,255,255,.12));
+box-shadow:0 14px 40px rgba(0,0,0,.35);backdrop-filter:blur(14px);
+font-family:var(--body,system-ui);max-width:420px;margin:0 auto}
+.pwa-banner.show{display:flex}
+.pwa-banner-icon img{border-radius:10px;display:block}
+.pwa-banner-txt{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.pwa-banner-txt b{font-family:var(--display,var(--disp,inherit));font-size:.86rem;color:var(--txt,#EDEDEA)}
+.pwa-banner-sub{font-size:.72rem;color:var(--dim,#9AA0AC);line-height:1.4}
+.pwa-banner-btn{flex-shrink:0;padding:8px 14px;border:none;border-radius:8px;cursor:pointer;
+font-weight:700;font-size:.78rem;white-space:nowrap;
+background:linear-gradient(135deg,var(--accent,var(--acc,#CE8F5A)),var(--accent-deep,var(--acc-deep,#92491A)));
+color:var(--btn-txt,#0A0C11)}
+.pwa-banner-x{flex-shrink:0;background:none;border:none;color:var(--dim,#9AA0AC);
+font-size:1rem;cursor:pointer;padding:4px}
+@media(max-width:480px){.pwa-banner{left:10px;right:10px;bottom:10px;padding:11px 12px}
+.pwa-banner-sub{display:none}}
+</style>
+
+<script>
+(function(){
+  var DISMISS_KEY = 'aael-pwa-dismissed';
+  var banner = document.getElementById('pwaBanner');
+  var btn = document.getElementById('pwaBannerBtn');
+  var sub = document.getElementById('pwaBannerSub');
+  var xBtn = document.getElementById('pwaBannerX');
+  if(!banner) return;
+
+  function isZH(){ return document.body.classList.contains('lang-zh'); }
+  function isStandalone(){
+    return window.matchMedia('(display-mode: standalone)').matches
+      || window.navigator.standalone === true; // iOS legacy flag
+  }
+  function wasDismissed(){
+    try{ return localStorage.getItem(DISMISS_KEY) === '1'; }catch(e){ return false; }
+  }
+  function dismiss(){
+    banner.classList.remove('show');
+    try{ localStorage.setItem(DISMISS_KEY, '1'); }catch(e){}
+  }
+  xBtn.addEventListener('click', dismiss);
+
+  if (isStandalone() || wasDismissed()) return; // 已安裝或者用戶之前已經關咗，唔再顯示
+
+  var isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) && !window.MSStream;
+  var deferredPrompt = null;
+
+  window.addEventListener('beforeinstallprompt', function(e){
+    e.preventDefault();
+    deferredPrompt = e;
+    sub.textContent = isZH() ? '加到主畫面，離線都可以睇知識庫' : 'Add to home screen — browse guides even offline';
+    btn.textContent = isZH() ? '安裝' : 'Install';
+    banner.classList.add('show');
+  });
+
+  btn.addEventListener('click', function(){
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function(){ deferredPrompt = null; dismiss(); });
+    } else if (isIOS) {
+      // iOS Safari 冇 beforeinstallprompt，只可以引導手動安裝
+      alert(isZH()
+        ? '安裝方法：撳畫面下方分享圖示 → 揀「加入主畫面」'
+        : 'To install: tap the Share icon below → choose "Add to Home Screen"');
+    }
+  });
+
+  // iOS：3 秒後先顯示（避免一開站就彈，太突兀），並用手動安裝指引嘅字眼
+  if (isIOS) {
+    setTimeout(function(){
+      if (isStandalone() || wasDismissed()) return;
+      sub.textContent = isZH() ? '撳分享圖示 → 加入主畫面' : 'Tap Share → Add to Home Screen';
+      btn.textContent = isZH() ? '點樣安裝？' : 'How?';
+      banner.classList.add('show');
+    }, 3000);
+  }
+})();
+</script>
+<script>
+if("serviceWorker" in navigator){
+  window.addEventListener("load", function(){
+    navigator.serviceWorker.register("/sw.js").catch(function(e){ console.warn("SW registration failed", e); });
+  });
+}
 </script>
 </body>
 </html>
