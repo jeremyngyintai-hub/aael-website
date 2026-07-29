@@ -297,6 +297,17 @@ export default async function handler(req, res) {
         } catch (_) { /* 列不到就算，不影響主錯誤訊息 */ }
       }
 
+      // 429 代表上游供應商（例如 Gemini 免費層）本身嘅速率限制，同本站自己
+      // 嘅每日總量限流（AAEL_DAILY_LIMIT）係兩回事——用獨立旗標讓前端顯示
+      // 更準確嘅提示，而唔係一律顯示「無法連接」呢句易生誤會嘅話。
+      if (r.status === 429) {
+        return res.status(503).json({
+          error: 'AI 服務目前使用量達繁忙上限，請稍等一兩分鐘後再試。',
+          hint: `${pName} 回傳 429（上游速率限制，非本站每日名額）`,
+          upstreamRateLimited: true,
+        });
+      }
+
       return res.status(502).json({
         error: 'AI 服務暫時無法連接，請稍後再試。',
         hint: `${pName} 回傳 ${r.status}（目前設定的模型：${model}）`,
