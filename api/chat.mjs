@@ -158,22 +158,19 @@ const PROVIDERS = {
         role: m.role === 'assistant' ? 'model' : 'user',
         parts: [{ text: m.content }],
       })),
-      // IMPORTANT: Gemini's API rejects the request with a hard 400 error if BOTH
-      // thinkingBudget and thinkingLevel are present in the same call (confirmed by
-      // Google's own docs: "You cannot use both thinking_level and the legacy
-      // thinking_budget parameter in the same request"). An earlier version of this
-      // file sent both, which broke every single request — this is fixed by sending
-      // thinkingBudget ALONE, which Gemini's docs confirm is kept for backward
-      // compatibility and works across both the 2.5 and 3.x model families.
-      // thinkingBudget:0 fully disables "thinking" on Gemini 2.5-series models; on
-      // Gemini 3 Flash/Flash-Lite it's accepted but may not fully eliminate thinking —
-      // the generous maxOutputTokens below is the safety net for that case, since on
-      // thinking-enabled models this budget is SHARED between invisible reasoning
-      // tokens and the visible answer.
+      // NOTE: thinkingConfig is intentionally NOT set here. Different Gemini model
+      // generations disagree on what's valid: sending both thinkingBudget+thinkingLevel
+      // together causes a 400 ("not supported together"); sending thinkingBudget:0 alone
+      // ALSO causes a 400 on some models that require thinking to stay on ("Budget 0 is
+      // invalid. This model only works in thinking mode."). Since the 'gemini-flash-latest'
+      // alias can silently point to a different underlying model over time, no
+      // thinkingConfig value is safe across all of them — so none is sent. Gemini uses its
+      // own default thinking behaviour instead. maxOutputTokens is raised well above what a
+      // concise answer needs, because on thinking-enabled models this budget is SHARED
+      // between invisible reasoning tokens and the visible answer.
       generationConfig: {
-        maxOutputTokens: 3072,
+        maxOutputTokens: 4096,
         temperature: 0.3,
-        thinkingConfig: { thinkingBudget: 0 },
       },
     }),
     parse: d => ({
