@@ -8,6 +8,12 @@
 <meta name="description" content="AAEL AI Pro，即時解答簡樸房認證、強制驗樓、屋宇署命令、僭建等香港樓宇查詢，並連結至相關知識庫文章。一般資訊參考，不構成專業意見。">
 <link rel="canonical" href="https://aael.online/ai-assistant.html">
 <link rel="icon" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#92491A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AAEL AI Pro">
 <style>
 :root{
   /* light theme (default, matches homepage) */
@@ -148,6 +154,7 @@ gap:8px;font-size:.68rem;color:var(--dim)}
   </a>
   <span class="tag">AI Pro</span>
   <span class="spacer"></span>
+  <button class="hbtn" id="newChatBtn" style="display:none" onclick="clearConversation()" data-l="newChat"></button>
   <span class="quota-pill" id="quotaPill"></span>
   <div class="switches">
     <div class="lang" role="group" aria-label="Language">
@@ -195,6 +202,7 @@ const L = {
   navBack:    {en:'Home',                 zh:'返回主頁',                cn:'返回主页'},
   navKb:      {en:'Knowledge Base',       zh:'知識庫',                  cn:'知识库'},
   navContact: {en:'Contact Us',           zh:'聯絡我們',                cn:'联络我们'},
+  newChat:    {en:'New chat',              zh:'開始新對話',              cn:'开始新对话'},
   disclaimer: {
     en:'This page is AI-generated for general reference only, and does not <b>constitute professional or legal advice</b>. For case-specific matters, please contact us for an on-site assessment.',
     zh:'本頁內容由 AI 生成，僅供一般參考，<b>不構成專業或法律意見</b>。涉及個別個案，請聯絡我們作實地評估。',
@@ -269,6 +277,58 @@ const SAMPLES = [
 let currentLang = 'en';
 let hist = [];
 let lastQuota = null;
+
+/* ---------- 對話記錄持久化：留返俾訪客下次打開時繼續睇 ---------- */
+var STORAGE_KEY = 'aael-ai-conversation';
+var MAX_STORED_MSGS = 40; // 上限，避免 localStorage 無限增長
+
+function saveConversation(){
+  try{
+    var nodes = document.querySelectorAll('#log > .msg');
+    var renderLog = Array.prototype.slice.call(nodes).map(function(el){
+      return { role: el.classList.contains('me') ? 'user' : 'assistant', html: el.querySelector('.bub').innerHTML };
+    });
+    var payload = { hist: hist.slice(-MAX_STORED_MSGS), renderLog: renderLog.slice(-MAX_STORED_MSGS) };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  }catch(e){ /* localStorage 滿咗或者被封鎖，靜靜跳過，唔影響主功能 */ }
+}
+
+function loadConversation(){
+  try{
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return false;
+    var payload = JSON.parse(raw);
+    if(!payload || !payload.renderLog || !payload.renderLog.length) return false;
+    hist = payload.hist || [];
+    var log = document.getElementById('log');
+    payload.renderLog.forEach(function(m){
+      var d = document.createElement('div');
+      d.className = 'msg ' + (m.role==='user' ? 'me' : 'ai');
+      var who = m.role==='user' ? L.who_user[currentLang] : L.who_ai[currentLang];
+      d.innerHTML = '<div class="who">'+who+'</div><div class="bub">'+m.html+'</div>';
+      log.appendChild(d);
+    });
+    document.getElementById('introBlock').style.display = 'none';
+    document.getElementById('chips').style.display = 'none';
+    document.getElementById('newChatBtn').style.display = '';
+    document.getElementById('main').scrollTop = 1e9;
+    return true;
+  }catch(e){ return false; }
+}
+
+function clearConversation(){
+  hist = [];
+  document.getElementById('log').innerHTML = '';
+  try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+  document.getElementById('introBlock').style.display = '';
+  document.getElementById('chips').style.display = '';
+  document.getElementById('newChatBtn').style.display = 'none';
+  dailyLimitHit = false;
+  var qEl = document.getElementById('q');
+  qEl.disabled = false;
+  document.getElementById('send').disabled = false;
+  qEl.placeholder = L.placeholder[currentLang];
+}
 
 function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function md(s){
@@ -407,6 +467,10 @@ async function send(){
     }).join('\u3000');
     var srcHtml = src ? '<div class="src">'+esc(L.srcPrefix[currentLang])+src+'</div>' : '';
     wait.querySelector('.bub').innerHTML=md(replyText)+srcHtml;
+    document.getElementById('introBlock').style.display = 'none';
+    document.getElementById('chips').style.display = 'none';
+    document.getElementById('newChatBtn').style.display = '';
+    saveConversation();
   }catch(e){
     wait.querySelector('.bub').innerHTML='<span style="color:var(--warn)">'+esc(L.errGeneric[currentLang])+'</span>';
     hist.pop();
@@ -432,7 +496,107 @@ qEl.addEventListener('input',function(){qEl.style.height='auto';qEl.style.height
   var savedLang = null;
   try{ savedLang = localStorage.getItem('aae-lang'); }catch(e){}
   setLang(savedLang || 'en');
+
+  loadConversation(); // 有已儲存嘅對話就攞返出嚟，冇就照舊顯示歡迎畫面
 })();
+</script>
+<!-- ============ PWA install banner ============ -->
+<div id="pwaBanner" class="pwa-banner" role="dialog" aria-label="Install app">
+  <div class="pwa-banner-icon"><img src="/icon-192.png" alt="AAEL" width="40" height="40"></div>
+  <div class="pwa-banner-txt">
+    <b><span class="en">Install AAEL AI Pro</span><span class="zh">安裝 AAEL AI Pro</span></b>
+    <span class="pwa-banner-sub" id="pwaBannerSub"></span>
+  </div>
+  <button class="pwa-banner-btn" id="pwaBannerBtn"></button>
+  <button class="pwa-banner-x" id="pwaBannerX" aria-label="Dismiss">✕</button>
+</div>
+
+<style>
+.pwa-banner{position:fixed;left:14px;right:14px;bottom:14px;z-index:120;display:none;
+align-items:center;gap:12px;padding:12px 14px;border-radius:16px;
+background:var(--panel,#12151C);border:1px solid var(--line,rgba(255,255,255,.12));
+box-shadow:0 14px 40px rgba(0,0,0,.35);backdrop-filter:blur(14px);
+font-family:var(--body,system-ui);max-width:420px;margin:0 auto}
+.pwa-banner.show{display:flex}
+.pwa-banner-icon img{border-radius:10px;display:block}
+.pwa-banner-txt{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.pwa-banner-txt b{font-family:var(--display,var(--disp,inherit));font-size:.86rem;color:var(--txt,#EDEDEA)}
+.pwa-banner-sub{font-size:.72rem;color:var(--dim,#9AA0AC);line-height:1.4}
+.pwa-banner-btn{flex-shrink:0;padding:8px 14px;border:none;border-radius:8px;cursor:pointer;
+font-weight:700;font-size:.78rem;white-space:nowrap;
+background:linear-gradient(135deg,var(--accent,var(--acc,#CE8F5A)),var(--accent-deep,var(--acc-deep,#92491A)));
+color:var(--btn-txt,#0A0C11)}
+.pwa-banner-x{flex-shrink:0;background:none;border:none;color:var(--dim,#9AA0AC);
+font-size:1rem;cursor:pointer;padding:4px}
+@media(max-width:480px){.pwa-banner{left:10px;right:10px;bottom:10px;padding:11px 12px}
+.pwa-banner-sub{display:none}}
+</style>
+
+<script>
+(function(){
+  var DISMISS_KEY = 'aael-pwa-dismissed';
+  var banner = document.getElementById('pwaBanner');
+  var btn = document.getElementById('pwaBannerBtn');
+  var sub = document.getElementById('pwaBannerSub');
+  var xBtn = document.getElementById('pwaBannerX');
+  if(!banner) return;
+
+  function isZH(){ return document.body.classList.contains('lang-zh'); }
+  function isStandalone(){
+    return window.matchMedia('(display-mode: standalone)').matches
+      || window.navigator.standalone === true; // iOS legacy flag
+  }
+  function wasDismissed(){
+    try{ return localStorage.getItem(DISMISS_KEY) === '1'; }catch(e){ return false; }
+  }
+  function dismiss(){
+    banner.classList.remove('show');
+    try{ localStorage.setItem(DISMISS_KEY, '1'); }catch(e){}
+  }
+  xBtn.addEventListener('click', dismiss);
+
+  if (isStandalone() || wasDismissed()) return; // 已安裝或者用戶之前已經關咗，唔再顯示
+
+  var isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) && !window.MSStream;
+  var deferredPrompt = null;
+
+  window.addEventListener('beforeinstallprompt', function(e){
+    e.preventDefault();
+    deferredPrompt = e;
+    sub.textContent = isZH() ? '加到主畫面，離線都可以睇知識庫' : 'Add to home screen — browse guides even offline';
+    btn.textContent = isZH() ? '安裝' : 'Install';
+    banner.classList.add('show');
+  });
+
+  btn.addEventListener('click', function(){
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function(){ deferredPrompt = null; dismiss(); });
+    } else if (isIOS) {
+      // iOS Safari 冇 beforeinstallprompt，只可以引導手動安裝
+      alert(isZH()
+        ? '安裝方法：撳畫面下方分享圖示 → 揀「加入主畫面」'
+        : 'To install: tap the Share icon below → choose "Add to Home Screen"');
+    }
+  });
+
+  // iOS：3 秒後先顯示（避免一開站就彈，太突兀），並用手動安裝指引嘅字眼
+  if (isIOS) {
+    setTimeout(function(){
+      if (isStandalone() || wasDismissed()) return;
+      sub.textContent = isZH() ? '撳分享圖示 → 加入主畫面' : 'Tap Share → Add to Home Screen';
+      btn.textContent = isZH() ? '點樣安裝？' : 'How?';
+      banner.classList.add('show');
+    }, 3000);
+  }
+})();
+</script>
+<script>
+if("serviceWorker" in navigator){
+  window.addEventListener("load", function(){
+    navigator.serviceWorker.register("/sw.js").catch(function(e){ console.warn("SW registration failed", e); });
+  });
+}
 </script>
 </body>
 </html>
