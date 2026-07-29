@@ -1,4 +1,4 @@
-// AAEL 公開版 AI 助理 — Vercel Serverless Function
+// AAEL AI Pro（公開版）— Vercel Serverless Function
 // 環境變數：
 //   {PROVIDER}_API_KEY（必需，視乎 AI_PROVIDER）
 //   AAEL_MODEL（可選）
@@ -133,7 +133,7 @@ const PROVIDERS = {
     url: () => 'https://api.anthropic.com/v1/messages',
     headers: k => ({ 'x-api-key': k, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' }),
     body: (model, system, msgs) => ({
-      model, max_tokens: 1400,
+      model, max_tokens: 2048,
       system: [
         { type: 'text', text: system.rules, cache_control: { type: 'ephemeral' } },
         { type: 'text', text: system.context },
@@ -158,12 +158,26 @@ const PROVIDERS = {
         role: m.role === 'assistant' ? 'model' : 'user',
         parts: [{ text: m.content }],
       })),
-      generationConfig: { maxOutputTokens: 1400, temperature: 0.3 },
+      // thinkingBudget:0 fully disables "thinking" on Gemini 2.5-series models.
+      // Gemini 3 Flash/Flash-Lite cannot fully disable thinking, so thinkingLevel:'low'
+      // minimises it there instead. Sending both is safe — unrecognised fields are
+      // ignored by the API rather than rejected, so this works regardless of which
+      // generation the 'latest' alias currently resolves to.
+      // maxOutputTokens raised well above what a concise answer needs, since on
+      // thinking-enabled models this budget is SHARED between invisible reasoning
+      // tokens and the visible answer — too low a ceiling silently truncates or
+      // empties the answer even when the answer itself would have been short.
+      generationConfig: {
+        maxOutputTokens: 3072,
+        temperature: 0.3,
+        thinkingConfig: { thinkingBudget: 0, thinkingLevel: 'low' },
+      },
     }),
     parse: d => ({
       text: (d.candidates?.[0]?.content?.parts || []).map(p => p.text).join('\n').trim(),
       usage: d.usageMetadata
-        ? { in: d.usageMetadata.promptTokenCount, out: d.usageMetadata.candidatesTokenCount }
+        ? { in: d.usageMetadata.promptTokenCount, out: d.usageMetadata.candidatesTokenCount,
+            thoughts: d.usageMetadata.thoughtsTokenCount || 0 }
         : null,
       truncated: d.candidates?.[0]?.finishReason === 'MAX_TOKENS',
     }),
@@ -175,7 +189,7 @@ const PROVIDERS = {
     url: () => 'https://api.openai.com/v1/chat/completions',
     headers: k => ({ Authorization: `Bearer ${k}`, 'content-type': 'application/json' }),
     body: (model, system, msgs) => ({
-      model, max_tokens: 1400, temperature: 0.3,
+      model, max_tokens: 2048, temperature: 0.3,
       messages: [{ role: 'system', content: system.rules + '\n\n' + system.context }, ...msgs],
     }),
     parse: d => ({
@@ -194,7 +208,7 @@ const PROVIDERS = {
       'HTTP-Referer': 'https://aael.online', 'X-Title': 'AAEL Assistant',
     }),
     body: (model, system, msgs) => ({
-      model, max_tokens: 1400, temperature: 0.3,
+      model, max_tokens: 2048, temperature: 0.3,
       messages: [{ role: 'system', content: system.rules + '\n\n' + system.context }, ...msgs],
     }),
     parse: d => ({
