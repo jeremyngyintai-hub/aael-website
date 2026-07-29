@@ -343,62 +343,6 @@
     .wordmark small{display:none}
   }
 
-  /* ---------- inquiry assistant ---------- */
-  .chat-fab{
-    position:fixed;right:22px;bottom:22px;z-index:90;
-    width:58px;height:58px;border-radius:50%;border:none;cursor:pointer;
-    background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:var(--btn-txt);
-    font-size:1.45rem;display:grid;place-items:center;
-    box-shadow:0 8px 30px var(--glow),0 4px 14px rgba(0,0,0,.25);
-    transition:transform .2s,box-shadow .25s;
-  }
-  .chat-fab:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 10px 38px var(--glow)}
-  .chat-panel{
-    position:fixed;right:22px;bottom:92px;z-index:91;
-    width:370px;max-width:calc(100vw - 32px);height:520px;max-height:calc(100vh - 120px);
-    display:none;flex-direction:column;overflow:hidden;
-    border:1px solid var(--line);border-radius:18px;background:var(--bg-2);
-    box-shadow:0 24px 70px rgba(0,0,0,.35);
-  }
-  .chat-panel.open{display:flex}
-  .chat-head{
-    display:flex;align-items:center;gap:11px;padding:15px 18px;
-    background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:var(--btn-txt);
-  }
-  .chat-head .dot{width:9px;height:9px;border-radius:50%;background:#7CE38B;box-shadow:0 0 8px #7CE38B}
-  .chat-head .t{font-family:var(--display);font-weight:700;font-size:.98rem;line-height:1.2}
-  .chat-head .s{font-size:.7rem;opacity:.85}
-  .chat-head .x{margin-left:auto;background:none;border:none;color:var(--btn-txt);font-size:1.15rem;cursor:pointer;opacity:.85}
-  .chat-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
-  .msg{max-width:84%;padding:10px 14px;border-radius:14px;font-size:.88rem;line-height:1.55;white-space:pre-line}
-  .msg.bot{align-self:flex-start;background:var(--panel-2);border:1px solid var(--line-soft);color:var(--txt);border-bottom-left-radius:4px}
-  .msg.me{align-self:flex-end;background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:var(--btn-txt);border-bottom-right-radius:4px}
-  .msg.bot a{color:var(--accent-hi);font-weight:600;text-decoration:underline}
-  .typing{align-self:flex-start;padding:12px 16px;border-radius:14px;background:var(--panel-2);border:1px solid var(--line-soft);display:flex;gap:5px}
-  .typing i{width:6px;height:6px;border-radius:50%;background:var(--dim);animation:tp 1s infinite}
-  .typing i:nth-child(2){animation-delay:.18s}.typing i:nth-child(3){animation-delay:.36s}
-  @keyframes tp{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
-  .chips{display:flex;flex-wrap:wrap;gap:7px;padding:0 16px 10px;background:var(--bg)}
-  .chipq{
-    font-size:.74rem;font-weight:600;color:var(--accent-hi);background:var(--glow);
-    border:1px solid var(--line);border-radius:100px;padding:6px 12px;cursor:pointer;transition:all .2s;
-  }
-  .chipq:hover{border-color:var(--accent)}
-  .chat-in{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line-soft);background:var(--bg-2)}
-  .chat-in input{
-    flex:1;border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:.88rem;
-    background:var(--bg);color:var(--txt);font-family:var(--body);outline:none;
-  }
-  .chat-in input:focus{border-color:var(--accent)}
-  .chat-in button{
-    border:none;border-radius:10px;padding:0 16px;cursor:pointer;font-size:1.05rem;
-    background:linear-gradient(135deg,var(--accent),var(--accent-deep));color:var(--btn-txt);
-  }
-  @media (max-width:480px){
-    .chat-panel{right:16px;left:16px;width:auto;bottom:86px;height:64vh}
-    .chat-fab{right:16px;bottom:16px}
-  }
-
 
   /* ---------- process steps ---------- */
   .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;counter-reset:st}
@@ -511,7 +455,7 @@
     background:linear-gradient(100deg,var(--accent) 0%,var(--accent-deep) 100%);
     -webkit-background-clip:text;background-clip:text;color:transparent;
   }
-  .form-card ::placeholder,.chat-in ::placeholder{color:var(--dim);opacity:.75}
+  .form-card ::placeholder{color:var(--dim);opacity:.75}
 
 
   /* ---------- dark-mode legibility boost ----------
@@ -592,7 +536,6 @@
     70%{box-shadow:0 8px 30px var(--glow),0 0 0 22px rgba(206,143,90,0)}
     100%{box-shadow:0 8px 30px var(--glow),0 0 0 0 rgba(206,143,90,0)}
   }
-  .chat-fab.pulse{animation:fabPulse 1.8s ease-out 3}
   /* reduced motion: disable the lot */
   @media (prefers-reduced-motion:reduce){
     #progress{transition:none}
@@ -601,7 +544,6 @@
     .ticker-track{animation:none}
     .spot{display:none}
     .btn-primary::after,.cta::after{display:none}
-    .chat-fab.pulse{animation:none}
   }
 
 
@@ -862,7 +804,7 @@
   body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;
        -webkit-touch-callout:none}
   input,textarea,select,
-  .c-item,.c-item *,.form-card,.form-card *,#chat-panel,#chat-panel *{
+  .c-item,.c-item *,.form-card,.form-card *{
     -webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;
     -webkit-touch-callout:default}
   img{-webkit-user-drag:none;user-drag:none;pointer-events:none}
@@ -1005,7 +947,7 @@
     font-size:.95rem;background:linear-gradient(135deg,var(--accent),var(--accent-3,#6E3512));
     color:#fff;font-family:var(--display)}
   .rem .note{font-size:.76rem;color:var(--dim);line-height:1.6;margin-top:12px}
-  .rem .msg{margin-top:12px;font-size:.86rem;font-weight:600;display:none}
+  .rem .msg{margin-top:12px;font-size:.86rem;font-weight:600;display:none;padding:10px 14px;border-radius:14px;max-width:84%;white-space:pre-line;line-height:1.55}
   .rem .msg.ok{display:block;color:var(--accent-hi)}
   .rem .msg.err{display:block;color:#e06c5a}
   @media(max-width:640px){.rem-grid{grid-template-columns:1fr}.rem{padding:22px}}
@@ -1030,10 +972,8 @@
       margin-top:14px;justify-content:center;padding:14px 16px;font-size:.98rem;
       border-bottom:none;
     }
-    /* the floating rail and chat button must not sit on top of the open menu */
-    body.menu-open .quick,
-    body.menu-open .chat-fab,
-    body.menu-open .chat-panel{opacity:0;pointer-events:none;transition:opacity .2s}
+    /* the floating rail must not sit on top of the open menu */
+    body.menu-open .quick{opacity:0;pointer-events:none;transition:opacity .2s}
   }
   @media (max-width:400px){
     .nav-links a{padding:12px 2px;font-size:.96rem}
@@ -1077,9 +1017,7 @@
     .nav-links{display:none !important}
   }
   @media (max-width:520px){ .site-menu{top:66px;max-height:calc(100vh - 66px)} }
-  body.menu-open .quick,
-  body.menu-open .chat-fab,
-  body.menu-open .chat-panel{opacity:0;pointer-events:none;transition:opacity .2s}
+  body.menu-open .quick{opacity:0;pointer-events:none;transition:opacity .2s}
   .nav-scrim{position:fixed;inset:0;z-index:69;background:rgba(0,0,0,.42);
     opacity:0;pointer-events:none;transition:opacity .25s}
   .nav-scrim.on{opacity:1;pointer-events:auto}
@@ -1089,7 +1027,6 @@
   .kb-link{display:inline-block;font-size:.82rem;font-weight:600;color:var(--accent-hi);
     text-decoration:none;line-height:1.5;margin:2px 0}
   .kb-link:hover{text-decoration:underline}
-  .chat-body b{font-weight:700;color:var(--txt)}
 
 
 /* ---------- icon system (跟 site 銅色調，SVG inline，唔佔外部請求) ---------- */
@@ -2362,198 +2299,8 @@
   <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M9.5 9a2.5 2.5 0 015 .5c0 1.5-2.2 1.8-2.4 3.3M12 17h.01"/></svg>
   <span>AI Pro<span class="sub"><span class="zh">即時問</span><span class="en">Ask now</span></span></span>
 </a>
-<button class="chat-fab" id="chat-fab" aria-label="Open inquiry assistant" onclick="chatToggle()">💬</button>
-<div class="chat-panel" id="chat-panel" role="dialog" aria-label="Inquiry assistant">
-  <div class="chat-head">
-    <span class="dot"></span>
-    <div>
-      <div class="t"><span class="en">AAEL Assistant</span><span class="zh">AAEL 智能助理</span></div>
-      <div class="s"><span class="en">General inquiries · replies instantly</span><span class="zh">一般查詢 · 即時回覆</span></div>
-    </div>
-    <button class="x" aria-label="Close" onclick="chatToggle()">✕</button>
-  </div>
-  <div class="chat-body" id="chat-body"></div>
-  <div class="chips" id="chat-chips"></div>
-  <div class="chat-in">
-    <input id="chat-input" type="text" autocomplete="off">
-    <button onclick="chatSend()" aria-label="Send">➤</button>
-  </div>
-</div>
 
-<script>
-(function(){
-  var EMAIL='aaelhk.info@gmail.com';
-  var MAILTO='<a href="mailto:'+EMAIL+'">'+EMAIL+'</a>';
-  var IG='<a href="https://www.instagram.com/ascendarchitecture_engineering/" target="_blank" rel="noopener">@ascendarchitecture_engineering</a>';
-  function isZH(){return document.body.classList.contains('lang-zh');}
 
-  var INTENTS=[
-    {k:['fee','quote','cost','price','charge','how much','proposal','收費','報價','費用','幾錢','價錢','收费','报价','费用','价钱'],
-     en:'Every building is different, so we don\u2019t do standard price lists \u2014 but quotes are free and fast. Email us the building address and what you need at '+EMAIL+' and you\u2019ll get a clear scope, fee and timeline within two working days.',
-     zh:'每幢樓宇情況不同，我們不設劃一收費 \u2014 但報價費用全免、回覆迅速。請將樓宇地址及需求電郵至 '+EMAIL+'，兩個工作天內必有清晰的服務範圍、收費及時間表。'},
-    {k:['mbis','mandatory','inspection scheme','驗樓','強制驗樓','驗窗'],
-     en:'Yes \u2014 Mandatory Building Inspection Scheme (MBIS) consultancy is one of our core services. Our Registered Professional Surveyors handle the inspection, reporting and any follow-up repair consultancy. Received a statutory notice? Email it to us and we\u2019ll advise your next steps.',
-     zh:'有的 \u2014 強制驗樓計劃（MBIS）顧問是我們核心服務之一。註冊專業測量師會處理檢驗、報告及後續修葺顧問。如已收到法定通知，歡迎電郵給我們，我們會建議下一步安排。'},
-    {k:['seepage','spalling','handover','pre-purchase','snag','漏水','滲水','打針','石屎','剝落','收樓','驗樓收樓','二手樓','裝修驗收'],
-     en:'Yes \u2014 we investigate water seepage and leakage, concrete spalling, and carry out handover, pre-purchase and renovation completion inspections. The advantage of using us: our Authorized Person and Registered Structural Engineer are in the same office, so if the inspection uncovers something structural or statutory, we handle that too. Email '+EMAIL+' with the address.',
-     zh:'有的 \u2014 我們提供漏水滲漏勘察、石屎剝落檢驗，以及新樓收樓、買樓前檢驗及裝修完工驗收。選用我們的好處：認可人士及註冊結構工程師與測量師同處一司，若檢驗發現結構或法定問題，我們可即時接手處理。歡迎將樓宇地址電郵至 '+EMAIL+'。'},
-    {k:['survey','condition','defect','leak','crack','diagnos','勘察','缺陷','滲漏','裂'],
-     en:'Our Registered Professional Surveyors carry out full condition surveys and defect diagnostics \u2014 from single premises to multi-block estates. You\u2019ll get a report that tells you what can wait and what can\u2019t. Email '+EMAIL+' with the building address to get started.',
-     zh:'我們的註冊專業測量師提供全面樓宇狀況勘察及缺陷診斷 \u2014 由單一處所到多座屋苑均可。報告會清楚指出哪些問題可以等、哪些不能等。請電郵樓宇地址至 '+EMAIL+' 開始安排。'},
-    {k:['a&a','alteration','addition','renovat','hotel','fit out','fitout','改建','加建','翻新','裝修','酒店'],
-     en:'We provide full A&A (alterations & additions) consultancy \u2014 design, statutory submissions and project management. We\u2019ve upgraded a five-star hotel without costing it a single room-night, so live premises don\u2019t scare us. Tell us about your plans at '+EMAIL+'.',
-     zh:'我們提供全面改建及加建（A&A）顧問服務 \u2014 包括設計、法定入則及項目管理。我們曾在五星級酒店照常營業下完成提升工程，營運中的處所絕對難不倒我們。歡迎電郵 '+EMAIL+' 商談。'},
-    {k:['structural','structure','rse','calculation','engineer','結構','計算'],
-     en:'Our in-house Registered Structural Engineer team handles structural calculations, inspections, assessments and technical reports for statutory approval \u2014 built to pass checking the first time.',
-     zh:'我們的駐司註冊結構工程師團隊負責結構計算、檢測、評估及法定審批技術報告 \u2014 以一次過通過審查為標準。'},
-    {k:['ap ','authorized person','authorised','submission','buildings department','bd ','statutory','入則','認可人士','屋宇署','法定'],
-     en:'We have an Authorized Person (A.P.) in-house, registered with the Buildings Department. We handle statutory submissions, independent checking, certification and repair supervision \u2014 and we carry the statutory responsibility ourselves.',
-     zh:'我們的認可人士（A.P.）為屋宇署註冊，可處理法定入則、獨立審查、核證及修葺工程監督 \u2014 法定責任由我們一力承擔。'},
-    {k:['bhu','basic housing','subdivided','simplified','簡樸房','劏房','分間單位','認證','寬限期','登記'],
-     en:'Yes \u2014 Basic Housing Unit (BHU) certification is one of our current focus services. The Ordinance took effect on 1 March 2026: existing units should complete grace-period registration before 28 February 2027, then have 36 months to carry out works and obtain certification. Certification needs a report from a specified professional \u2014 ours is in-house, so assessment, certification, rectification design and submissions all stay with one team. Email '+EMAIL+' with the address and number of units.',
-     zh:'有的 \u2014 簡樸房認證是我們現時的重點服務之一。《簡樸房條例》已於2026年3月1日生效：現存單位應於2027年2月28日前完成寬限期登記，其後有36個月進行改造及取得認證。認證須由指明專業人士核證，而我們的指明專業人士就在公司之內，評估、核證、改造設計及入則全由同一團隊處理。請將樓宇地址及單位數目電郵至 '+EMAIL+'。'},
-    {k:['licen','restaurant','food factory','guesthouse','club','school','entertainment','牌照','食肆','食物製造','賓館','會社','學校','娛樂場所','領牌'],
-     en:'Yes \u2014 licensing consultancy is one of our core services: general and light refreshment restaurant licences, food factory, guesthouse, club certificates of compliance, school registration and places of public entertainment, plus the associated BD and FSD submissions. Tip: let us check the premises before you sign the lease. Email '+EMAIL+' to start.',
-     zh:'有的 \u2014 牌照顧問是我們的核心服務之一：普通食肆及小食食肆牌照、食物製造廠、賓館、會社合格證明書、學校註冊及公眾娛樂場所牌照，連同相關屋宇署及消防處入則。建議：簽租約前先讓我們審視處所。歡迎電郵 '+EMAIL+' 查詢。'},
-    {k:['what service','your service','which service','what do you do','help','can you','服務','範疇','做咩','做什麼'],
-     en:'Four things, all under one roof:\n1. Authorized Person (A.P.) statutory services\n2. Condition surveys & diagnostics (incl. MBIS)\n3. Structural engineering (RSE)\n4. A&A design & project management\n5. Licensing consultancy (restaurants, guesthouses, clubs, schools)\n6. Basic Housing Unit (BHU) certification for subdivided units\n\nWhich one is closest to what you need?',
-     zh:'四大服務，同屬一司：\n1. 認可人士（A.P.）法定服務\n2. 樓宇狀況勘察及診斷（包括強制驗樓）\n3. 結構工程（RSE）\n4. 改建加建設計及項目管理\n5. 牌照顧問（食肆、賓館、會社、學校）\n6. 簡樸房認證核證（分間單位）\n\n哪一項最接近您的需要？'},
-    {k:['your office','office address','where is your','address','location','find you','地址','地點','邊度','喺邊','辦公室'],
-     en:'Our office:\nRoom 709, 7/F, Wing On Plaza,\n62 Mody Road, Tsim Sha Tsui East,\nKowloon, Hong Kong\n\nVisits by appointment \u2014 drop us a line first at '+EMAIL+'.',
-     zh:'辦公室地址：\n香港九龍尖沙咀東部\n麼地道62號永安廣場7樓709室\n\n到訪請先預約 \u2014 歡迎電郵 '+EMAIL+'。'},
-    {k:['contact','email','reach','instagram','whatsapp','phone','call','聯絡','電郵','電話','ig'],
-     en:'The fastest way to reach us is email: '+MAILTO+'\nWe reply within two working days.\n\nYou can also follow our work on Instagram: '+IG,
-     zh:'最快的聯絡方法是電郵：'+MAILTO+'\n我們會於兩個工作天內回覆。\n\n亦歡迎於 Instagram 關注我們的項目：'+IG},
-    {k:['team','qualification','who','registered','surveyor','資格','團隊','邊個','測量師'],
-     en:'Four professional registrations under one roof: an Authorized Person (A.P.), a Registered Structural Engineer (R.S.E.), a Registered Inspector (R.I.) \u2014 all Buildings Department registered \u2014 plus Registered Professional Surveyors (R.P.S.). Every project is led directly by our registered professionals.',
-     zh:'四項專業註冊資格同屬一司：屋宇署註冊的認可人士（A.P.）、註冊結構工程師（R.S.E.）及註冊檢驗人員（R.I.），以及註冊專業測量師。每個項目均由註冊專業人士親自主理。'},
-    {k:['hello','hi ','hey','你好','哈囉','早晨'],
-     en:'Hello! I can answer general questions about our services, fees, MBIS, surveys and how to reach us. What would you like to know?',
-     zh:'您好！我可以解答有關服務、收費、強制驗樓、勘察及聯絡方法的一般查詢。請問想了解甚麼？'},
-    {k:['thank','thanks','唔該','多謝','謝謝','多谢','谢谢','唔该'],
-     en:'You\u2019re welcome! If anything else comes up, I\u2019m here \u2014 or email us directly at '+EMAIL+'.',
-     zh:'不客氣！如有其他問題歡迎隨時再問 \u2014 亦可直接電郵 '+EMAIL+'。'}
-  ];
-  var FALLBACK={
-    en:'Good question \u2014 that one deserves a proper answer from the team rather than a canned reply. Email us at '+MAILTO+' and you\u2019ll hear back within two working days. Or try asking me about services, fees, surveys, MBIS or our address.',
-    zh:'好問題 \u2014 這個值得由團隊親自回覆，而不是罐頭答案。請電郵至 '+MAILTO+'，兩個工作天內必有回音。您也可以問我服務、收費、勘察、強制驗樓或地址等問題。'};
-  var CHIPS=[
-    {en:'What do you do?',zh:'你們提供甚麼服務？'},
-    {en:'How much does it cost?',zh:'收費如何？'},
-    {en:'MBIS notice received',zh:'收到強制驗樓通知'},
-    {en:'Where are you?',zh:'辦公室在哪裡？'}
-  ];
-
-  var opened=false, greeted=false;
-  window.chatToggle=function(){
-    opened=!opened;
-    document.getElementById('chat-panel').classList.toggle('open',opened);
-    if(opened&&!greeted){greeted=true;botSay(isZH()
-      ?'您好！歡迎查詢 AAEL 躍昇建築事務顧問。我可以解答服務、收費及聯絡等一般問題。'
-      :'Hi! Welcome to AAEL. Ask me anything general \u2014 services, fees, MBIS, or how to reach the team.');}
-    if(opened)renderChips();
-    if(opened)document.getElementById('chat-input').focus();
-  };
-  function el(t,c,h){var e=document.createElement(t);e.className=c;e.innerHTML=h;return e;}
-  function scroll(){var b=document.getElementById('chat-body');b.scrollTop=b.scrollHeight;}
-  function botSay(html){
-    if(window.aaeIsCN && window.aaeIsCN()) html = window.aaeConv(html);
-    var b=document.getElementById('chat-body');
-    var tp=el('div','typing','<i></i><i></i><i></i>');
-    b.appendChild(tp);scroll();
-    setTimeout(function(){tp.remove();b.appendChild(el('div','msg bot',html));scroll();},520);
-  }
-  function meSay(t){var b=document.getElementById('chat-body');var d=el('div','msg me','');d.textContent=t;b.appendChild(d);scroll();}
-  var KB=[{"s":"guide-bhu-timeline","k":["時間表","幾時","死線","期限","登記期","寬限期","36個月","2027","2030","路線圖","deadline","timeline","when","grace period","register by","when do i","how long","registration period","expire","簡樸房","截止","甚麼時候","什麼時候","邊日","登記","何時","时间表","几时","死线","登记期","宽限期","36个月","路线图","简朴房","甚么时候","什么时候","边日","登记","何时"],"zh":"條例已於2026年3月1日生效。關鍵日期：<b>2027年2月28日前</b>完成寬限期登記，其後有36個月改造及申請認證，<b>2030年2月28日</b>寬限期全面結束。登記期不設延展，錯過即失去寬限期保障。","en":"The Ordinance took effect 1 March 2026. Key dates: complete grace-period registration <b>before 28 Feb 2027</b>, then 36 months for works and certification, with the grace period ending <b>28 Feb 2030</b>. The registration deadline does not extend.","tz":"簡樸房登記與認證時間表","te":"BHU Registration and Certification"},{"s":"guide-bhu-standards","k":["最低標準","八項","8項","面積","樓底","2.3米","8平方米","窗","通風","廁所","防火","standards","minimum","floor area","ceiling height","ventilation","requirement","what standard","criteria","compliant","8 sq","2.3","簡樸房標準","合唔合格","達標","最低标准","八项","8项","面积","楼底","通风","厕所","简朴房标准","达标"],"zh":"八項要求：最低內部樓面面積8平方米、樓底2.3米、獨立水錶及電錶、獨立廁所並與煮食分隔、窗戶或機械通風、防火及走火通道、結構安全、已遵辦法定命令。大部分單位只在一兩項未達標。","en":"Eight requirements: 8 m² minimum internal floor area, 2.3 m ceiling height, separate water and electricity meters, independent toilet separated from cooking, window or mechanical ventilation, fire safety and escape, structural integrity, and outstanding orders cleared.","tz":"簡樸房八項居住環境最低標準","te":"The Eight Minimum Standards for Basic Housing Units"},{"s":"guide-bhu-meters","k":["水錶","電錶","分錶","獨立錶","水務署","中電","港燈","meter","metering","utility","water meter","electricity","separate meter","water supplies","clp","sub-meter","submeter","水表","电表","分表","独立表","水务署","中电","港灯"],"zh":"必須是<b>水務署提供的獨立水錶</b>及<b>電力公司提供的獨立電錶</b>。由電工在單位內加裝的分錶並不符合要求。此項涉及正式申請程序，需時由數星期至數月，是最常拖慢整個認證進度的一環，宜最早處理。","en":"You need an individual water meter provided by the Water Supplies Department and an individual electricity meter from the power company. Electrician-installed sub-meters do not qualify. Lead times run from weeks to months — this is the most common cause of delay.","tz":"簡樸房獨立水錶電錶","te":"Separate Water and Electricity Meters for Basic Housing"},{"s":"guide-specified-professional","k":["指明專業人士","邊個簽","誰簽","簽署","簽名","核證報告","資格","查證","specified professional","who signs","who can certify","qualification","who can sign","certification report","sign the report","certifier","rps","r.p.s","誰可以簽","邊個可以簽","簽核證","誰簽署","核證報告由誰","指明专业人士","边个签","谁签","签署","签名","核证报告","资格","查证","谁可以签","边个可以签","签核证","谁签署","核证报告由谁"],"zh":"核證報告須由<b>指明專業人士</b>簽署，包括註冊建築師、註冊專業工程師，以及<b>註冊專業測量師（建築測量組別 R.P.S.）</b>。本公司駐司持有 R.P.S. 資格，可直接簽發；資格可於屋宇署名冊及測量師註冊管理局公開查證。","en":"The certification report must be signed by a specified professional — a Registered Architect, Registered Professional Engineer, or Registered Professional Surveyor (Building Surveying, R.P.S.). We hold R.P.S. in-house, and registrations can be verified publicly.","tz":"簡樸房核證報告由誰簽署？「指明專業人士」資格、查證與","te":"Who Signs the BHU Certification Report? The Specified"},{"s":"guide-bhu-rejection","k":["被拒","唔批","不批","拒絕","批唔到","失敗","公用部分","refused","rejected","decline","fail","why refused","turned down","application fail","blocked","簡樸房被拒","唔批准","拒绝","失败","简朴房被拒"],"zh":"單位合格不等於申請批得到。常見被拒原因包括：<b>大廈公用部分存在危險狀況</b>（結構裂縫、嚴重排水渠問題、僭建阻塞逃生通道）、未遵辦的法定命令、樓宇類別不合資格、業權同意文件不足。這些裝修解決不了，須及早查核。","en":"A compliant unit is not an approved application. Common refusals: dangerous conditions in the building's common parts, outstanding statutory orders, ineligible building type, and insufficient ownership consents — none of which renovation fixes.","tz":"簡樸房認證申請為何會被拒絕？單位合格不等於批得到","te":"Why BHU Certification Applications Are Refused"},{"s":"guide-bhu-enforcement","k":["罰則","罰款","檢控","執法","犯法","違例出租","名單","公開","penalty","fine","enforcement","prosecute","register","offence","prosecution","public register","illegal letting","罚则","罚款","检控","执法","违例出租","名单","公开"],"zh":"登記期結束後（2027年3月起）開始執法。未登記或未認證而出租屬刑事罪行，罰則分簡易程序及公訴程序兩級，並<b>可就罪行持續的每一日另處罰款</b>——即係拖得愈久數字愈大。當局亦會公開已認證單位名單，屆時未認證等於難以招租。","en":"Enforcement begins after the registration period closes. Letting without registration or certification is a criminal offence, with penalties at two levels plus <b>a further fine for each day the offence continues</b>. A public register of certified units is also planned.","tz":"違例出租的後果","te":"Enforcement, Penalties and the Public Register"},{"s":"guide-bhu-renewal","k":["續期","五年","5年","到期","屆滿","renew","renewal","expiry","five year","valid","five-year","re-certif","续期","届满"],"zh":"認證有效期<b>五年</b>，續期須在屆滿前<b>三至六個月</b>提出，並再次由指明專業人士核證。首批認證最快2030年第四季開始續期。我們設有到期提醒服務，會在屆滿前十二個月主動聯絡——即使當初認證並非由我們簽發。","en":"Certification lasts <b>five years</b>, and renewal must be applied for <b>three to six months before expiry</b>, with fresh certification. We run a reminder service and will contact you twelve months ahead — even if we did not issue the original.","tz":"簡樸房認證五年續期","te":"The Five-Year Renewal"},{"s":"guide-mbis","k":["強制驗樓","mbis","法定通知","訂明檢驗","訂明修葺","註冊檢驗人員","mandatory building inspection","mbis notice","statutory notice","prescribed inspection","registered inspector","强制验楼","订明检验","订明修葺","注册检验人员"],"zh":"收到強制驗樓通知後分兩階段：<b>訂明檢驗</b>（由註冊檢驗人員檢查並向屋宇署提交報告）及<b>訂明修葺</b>（如檢驗發現須修葺）。若檢驗結果顯示無須修葺，程序即完成——收到通知不代表一定要大修。不遵辦屬刑事罪行。","en":"Two stages: prescribed inspection by a Registered Inspector with a report to the Buildings Department, then prescribed repair only if needed. A notice does not automatically mean major works. Non-compliance is an offence.","tz":"強制驗樓計劃（MBIS）","te":"Mandatory Building Inspection Scheme"},{"s":"guide-mwis","k":["驗窗","mwis","窗戶","窗","租戶","合資格人士","window inspection","window","qualified person","tenant access","验窗","窗户","租户","合资格人士"],"zh":"強制驗窗計劃涵蓋<b>公用部分及各單位內</b>的窗戶，與強制驗樓不同（後者集中於外牆及公用部分）。單位內窗戶的檢驗及修葺責任一般屬業主，但租戶須配合安排入屋——這是最常見的爭議，建議收到通知後盡早以書面通知租戶。","en":"Window inspection covers windows in both common parts and inside individual units, unlike building inspection. Responsibility generally rests with the owner, but tenants must allow access — the usual friction point.","tz":"強制驗窗計劃（MWIS）","te":"Mandatory Window Inspection Scheme"},{"s":"guide-survey-report","k":["報告","點睇","怎麼看","解讀","勘察報告","驗樓報告","檢驗範圍","限制","read report","survey report","how to read","understand the report","scope and limitation","grading","报告","点睇","怎么看","解读","勘察报告","验楼报告","检验范围"],"zh":"最值得先讀的不是結論，而是<b>「檢驗範圍」與「限制」</b>兩節——它們決定報告能為你做甚麼。好的報告會為缺陷分級（須即時處理／短期／可納入日後計劃／只需監察），讓一堆問題變成可分年度執行的預算計劃。","en":"Read the scope and limitations sections first — they define what the report can do for you. A good report grades defects by urgency, turning a list of problems into a programme you can budget over years.","tz":"驗樓報告怎麼看","te":"How to Read a Survey Report"},{"s":"guide-spalling","k":["石屎剝落","剝落","混凝土","鋼筋","鏽","生鏽","碳化","spalling","concrete","rebar","corrosion","spall","concrete repair","rust","carbonation","chloride","石屎剥落","剥落","钢筋","锈","生锈"],"zh":"剝落是結果，<b>鋼筋鏽蝕才是原因</b>。成因主要有碳化、氯離子侵蝕、保護層不足或滲水。正確修葺須鑿至結實混凝土並鑿到鋼筋背面、除鏽處理、分層修補、加防護塗層。單純表面填平通常兩三年內再次爆開。","en":"Spalling is the symptom; reinforcement corrosion is the cause. Proper repair means breaking out behind the bar, treating the steel, reinstating in layers and protecting the surface. Surface patching typically fails within a few years.","tz":"石屎剝落","te":"Concrete Spalling"},{"s":"guide-handover-inspection","k":["收樓","新樓","驗樓收樓","交樓","保養期","執修","handover","new flat","defects liability","defect list","snagging","developer","收楼","新楼","验楼收楼","交楼","保养期","执修"],"zh":"關鍵是<b>驗完先簽</b>。缺陷保養期由收樓起計且有時限，期內提出的缺陷由發展商負責執修，過期就變成業主自己付費。應逐項檢查結構、防水去水、門窗、電力機電及飾面，並拍照連同位置以書面提交。","en":"Inspect before you sign. The defects liability period runs from handover; items raised inside it are the developer's responsibility, after it they are yours. Check structure, waterproofing, doors and windows, services and finishes, and submit in writing with photographs.","tz":"新樓收樓驗樓","te":"New Flat Handover Inspection"},{"s":"guide-pre-purchase","k":["買樓","二手樓","買樓前","睇樓","臨約","按揭","買家","pre-purchase","buying","mortgage","before buying","due diligence","conveyanc","buyer","viewing","买楼","二手楼","买楼前","睇楼","临约","买家"],"zh":"簽臨時買賣合約前應查五類：<b>僭建、結構改動、滲漏、法定命令、公用部分及大廈狀況</b>。留意「照現狀出售」不能免除屋宇署對物業採取行動——命令跟隨物業，過戶後由新業主承擔，並影響按揭及日後轉售。","en":"Five checks before the provisional agreement: unauthorised works, structural alterations, seepage, statutory orders, and the condition of common parts. \"Sold as seen\" does not stop the Buildings Department acting — orders transfer with the property.","tz":"二手樓買樓前檢驗","te":"Pre-purchase Inspection"},{"s":"guide-leakage","k":["漏水","滲水","滲漏","天花","樓上","打針","水漬","責任","leak","seepage","water","water seepage","dripping","damp","ceiling leak","joint office","渗水","渗漏","楼上","打针","水渍","责任"],"zh":"漏水糾紛難處理，多數不是技術複雜，而是<b>缺乏證據</b>。來源可能是樓上防水層、供排水管、公用喉管（責任屬法團）、外牆或冷氣排水——來源不同，責任方就不同。專業勘察用濕度測試、紅外線熱成像、色水測試等找出源頭，報告可用於協商及追討。","en":"Seepage disputes drag on for lack of evidence, not technical difficulty. The source may be the flat above, pipework, common pipes (the corporation's responsibility), external walls or condensate. Investigation methods include moisture metering, thermography and dye testing.","tz":"樓上漏水","te":"Water Seepage from Above"},{"s":"guide-bd-order","k":["屋宇署命令","命令","通知書","清拆令","修葺令","勘測令","order","notice","removal order","bd order","repair order","investigation order","comply","通知书","勘测令"],"zh":"命令不會因擱置而消失，反而累積後果：不遵辦屬刑事罪行、命令會在土地註冊處註冊影響買賣及按揭、署方可代為執行並向業主追討費用（通常更貴）。正確次序是先委任合適專業人士評估，再決定清拆或循法定途徑規範化。","en":"Orders do not go away. Non-compliance is an offence, the order is registered against title affecting sale and mortgage, and the Department may carry out the works and recover the cost. Appoint a professional to assess before doing anything.","tz":"收到屋宇署命令或通知書怎麼辦？業主應對指南","te":"What to Do When You Receive a Buildings Department Order"},{"s":"guide-ubw","k":["僭建","違例建築","ubw","unauthorized","unauthorised","加建","圍封","規範化","unauthorised building works","illegal structure","regularis","regulariz","违例建筑","围封","规范化"],"zh":"僭建不一定只有拆除一途，可分三類：<b>執法優次較低</b>（不等於合法）、<b>可循法定途徑規範化</b>（須通過結構安全、消防走火、地契及樓面面積三關）、<b>必須清拆</b>。切勿未經評估自行動工——有機會破壞可規範化的機會。","en":"Not all unauthorised works must come down. Three categories: lower enforcement priority (not the same as lawful), capable of regularisation, or must be removed. Do not start work before assessment.","tz":"僭建物一定要拆嗎？違例建築工程的三條出路","te":"Do Unauthorised Building Works Always Have to Come Down?"},{"s":"guide-rooftop-ubw","k":["天台","平台","天台屋","後巷","天井","rooftop","podium","roof","roof structure","rear lane","light well","后巷"],"zh":"天台及平台僭建屬執法優先類別，因為同時觸及走火通道、結構荷載及防水三個最敏感問題，可規範化空間明顯較小。特別注意：<b>位於天台、平台、後巷、天井的構築物不符合簡樸房認證申請資格</b>——不是改到合標準就可以。","en":"Rooftop and podium structures are enforcement priorities: escape routes, structural loading and waterproofing all at once. Note they are also <b>not eligible for BHU certification at all</b>.","tz":"天台屋與平台僭建","te":"Rooftop and Podium Structures"},{"s":"guide-minor-works","k":["小型工程","入則","a&a","改建","加建","第一級","第三級","minor works","submission","alteration","class i","class iii","full submission","which route","入则","第一级","第三级"],"zh":"同一項工程走小型工程制度可能兩星期完成申報，走正式入則則需時數月。分別不在工程大小，而在<b>它屬於法例訂明的哪一類</b>。小型工程分三級，第I級須事前申報並由專業人員負責。選錯路線，工程即成違例建築工程。","en":"The same job can be a two-week minor works filing or a submission taking months. The difference is legal classification, not size. Minor works run in three classes. Choosing wrongly makes the work unauthorised.","tz":"小型工程還是改建加建？開工前分清法定路線","te":"Minor Works or A&amp;A? Getting the Statutory Route Right"},{"s":"guide-structural-wall","k":["拆牆","主力牆","結構牆","裝修","開牆","敲牆","structural wall","remove wall","load bearing","load-bearing","knock down","demolish wall","partition","拆墙","主力墙","结构墙","装修","开墙","敲墙"],"zh":"「敲落去實心就係主力牆」並不可靠。唯一可靠方法是<b>查閱批准圖則並由註冊結構工程師確認</b>。拆錯牆後果包括結構風險、收到清拆令須還原、影響按揭及轉售、保險未必受保。建議在簽裝修合約時就把此項寫入條款。","en":"Tapping proves nothing. The only reliable method is checking the approved plans with a Registered Structural Engineer. Getting it wrong risks structural damage, removal orders, mortgage and insurance problems.","tz":"裝修拆牆之前","te":"Before You Remove a Wall"},{"s":"guide-oc-tender","k":["法團","業主立案法團","大維修","招標","標書","監督","顧問","owners corporation","tender","major repair","tendering","supervision","committee","法团","业主立案法团","大维修","招标","标书","监督","顾问"],"zh":"大維修爭議少源於技術，多源於<b>程序</b>。關鍵原則是顧問與承建商角色必須分開——承建商利益在工程量，顧問利益應在代業主把關；同一方既定範圍又施工又驗收，制衡就消失。應先勘察後定範圍，再公開招標。","en":"Disputes start with procedure, not engineering. Consultant and contractor must stay separate: the contractor's interest is volume, the consultant's should be protecting owners. Survey first, then define scope, then tender.","tz":"業主立案法團大維修","te":"Major Repairs for Owners' Corporations"},{"s":"guide-dmc","k":["公契","管理費","dmc","份數","管理處","業權","deed of mutual covenant","management fee","deed of mutual","common parts","shares","manager","管理费","份数","管理处","业权"],"zh":"幾乎每宗大廈管理糾紛都回到同一份文件：<b>公契</b>。它訂明哪些屬公用部分、管理份數、費用攤分方式及維修責任分界。責任界線不清時，一份確定損壞源頭的獨立技術報告，往往比爭辯條文更有效——因為它把法律問題還原為事實問題。","en":"Almost every dispute traces back to the deed of mutual covenant. Where the responsibility line is unclear, an independent technical report establishing the source is often more effective than arguing the wording.","tz":"公契與管理費","te":"Deeds of Mutual Covenant and Management Fees"},{"s":"guide-subsidy","k":["資助","津貼","市建局","資助計劃","subsidy","grant","funding","ura","urban renewal","financial assistance","资助","津贴","资助计划"],"zh":"最常見的失誤不是不合資格，而是<b>時機錯了</b>——絕大部分計劃只資助「將要進行」的工程，而非已完成的。正確次序是：評估 → <b>先查閱可申請計劃</b> → 按要求備妥文件 → 申請 → 招標 → 施工。把查閱放到最後就太遲。","en":"The usual failure is timing, not eligibility: subsidies attach to works about to be carried out, not works already done. Check the schemes before tendering, not after completion.","tz":"樓宇維修資助","te":"Building Repair Subsidy Schemes"},{"s":"guide-fsd-direction","k":["消防","消防安全指示","消防處","走火通道","防火門","灑水","fire safety","fsd","direction","escape route","fire safety direction","fire service","sprinkler","hydrant","upgrade","消防处","防火门","洒水"],"zh":"消防安全指示要求較舊樓宇提升消防裝置及樓宇構造至現行標準。這類工程多數涉及<b>公用部分</b>，須全體業主分攤——實務上最常逾期的原因不是技術做不到，而是決策機制跟不上。收到指示後應同時啟動法團決策程序及委聘顧問擬定範圍。","en":"Directions require older buildings to upgrade fire service installations and construction. These works mostly concern common parts, and they overrun on decision-making rather than construction.","tz":"收到消防安全指示","te":"Fire Safety Directions"},{"s":"guide-restaurant-licence","k":["食肆","餐廳","牌照","開餐廳","租約","排煙","隔油池","牌照顧問","restaurant","licence","license","lease","restaurant licence","food licence","premises","before signing lease","exhaust","餐厅","开餐厅","租约","排烟","牌照顾问"],"zh":"牌照申請被拒或拖延，多數不是文件問題，而是<b>處所本身在建築及消防上不符要求</b>——而這些簽租約前就查得到。五項必查：樓宇用途及圖則、消防及走火通道、通風排煙路線、渠務隔油池、現有僭建及命令。","en":"Applications stall because the premises cannot meet building and fire requirements — all checkable before signing. Five checks: permitted use, escape routes, exhaust routing, drainage, and existing breaches.","tz":"開餐廳簽租約前","te":"Before You Sign the Lease"},{"s":"guide-industrial","k":["工廈","工業大廈","用途","改裝","佔用許可證","入伙紙","industrial","permitted use","conversion","occupation permit","industrial building","warehouse","工厦","工业大厦","改装","占用许可证","入伙纸"],"zh":"工廈准許用途由<b>佔用許可證</b>（入伙紙）及地契訂明，租約寫甚麼都改變不了。「同層都有人做緊」只代表未被執法，不代表合法。不符用途可招致執法、牌照被拒、保險索償被拒。簽租約前應查核用途、命令、現有間隔是否經批准、消防能否符合擬議用途。","en":"Permitted use is fixed by the occupation permit and lease, not the tenancy. \"Others are doing it\" means it has not been enforced, not that it is lawful. Check before signing.","tz":"工廈租用及改裝","te":"Industrial Buildings"},{"s":"certification-partners","k":["同業","合作","代辦","裝修公司","轉介","b2b","partner","trade","refer","white label","subcontract","work together","同业","代办","装修公司","转介"],"zh":"我們為代辦、裝修公司及物業代理提供<b>指明專業人士核證服務</b>。同業合作項目中我們不承接裝修施工，因此不會與您競爭；亦可處理阻礙完工的法定命令及結構問題。另提供可批性預審及五年續期核證。","en":"We provide specified-professional certification for agents, contractors and property professionals. On partner projects we do not take on construction, so we are not competing with you.","tz":"為裝修公司、代辦及物業代理提供簡樸房核證服務","te":"Certification Services for Contractors, Agents and"},{"s":"guide-buildings-ordinance","k":["建築物條例","cap123","第123章","認可人士","批准","建築工程","建築物条例","法定框架","buildings ordinance","approval","authorized person","building works","legal framework","咩係建築物條例","甚麼是建築物條例","什么是建筑物条例"],"zh":"《建築物條例》（第123章）是規管私人樓宇建造、使用及維修安全的主要法例。核心原則：<b>建築工程或街道工程未經屋宇署批准，不得展開</b>——這也是僭建的法律根源。條例要求委任認可人士，但沒有規定必須分開委聘不同公司。","en":"The Buildings Ordinance (Cap. 123) is the principal law governing construction, use and safety maintenance of private buildings. Core principle: <b>no building or street works may start without Buildings Department approval</b> — the legal basis of unauthorised building works.","tz":"《建築物條例》CAP123 概覽","te":"The Buildings Ordinance (Cap 123)"},{"s":"guide-bd-codes-of-practice","k":["作業備考","code of practice","消防安全守則","拆卸工程守則","外部維修通道","升降機作業備考","樓宇保養手冊","小型工程指引","屋宇署守則","邊份守則","咩係作業備考","作业备考","消防安全守则"],"zh":"屋宇署發出多份《作業備考》，其中六份與業主最相關：消防安全守則、拆卸工程守則、外部維修通道（外牆大維修適用）、升降機建築工程守則、樓宇保養手冊，以及小型工程指引。","en":"The Buildings Department issues many Codes of Practice; six matter most to owners: Fire Safety, Demolition, External Maintenance Access, Lifts &amp; Escalators building works, the Building Maintenance Guidebook, and Minor Works guidelines.","tz":"屋宇署作業備考六份指引","te":"BD Codes of Practice"},{"s":"guide-fsd-licensing","k":["消防處","消防安全","fsi","消防裝置","fs251","走火通道","註冊消防裝置承辦商","fire services department","fire safety","fire service installation","牌照消防要求","消防证明书","消防装置","消防处","开食肆消防"],"zh":"食肆、賓館、學校等牌照申請，發牌前都須先過消防處一關。消防裝置須由<b>註冊消防裝置承辦商（FSIC）</b>安裝並簽發FS251證明書；走火通道被阻塞是最常見嘅牌照延誤原因。","en":"Restaurant, guesthouse and school licences all require Fire Services Department clearance before issue. Installations must be certified by a <b>registered FSI Contractor (FS 251)</b>; blocked escape routes are the most common cause of licensing delay.","tz":"消防處牌照消防安全要求","te":"Fire Services Department Licensing"},{"s":"guide-wsd-plumbing","k":["水務署","水喉匠","註冊水喉匠","喉管許可","水務設施條例","水錶申請","licensed plumber","waterworks ordinance","獨立水錶","簡樸房水錶","分錶唔合規","水喉工程","水务署","注册水喉匠","独立水表","水表申请"],"zh":"喉管工程（安裝、更改食水或消防喉管）法律規定必須由<b>註冊水喉匠</b>進行並取得水務署書面許可。簡樸房獨立水錶申請需時數星期至數月，是認證流程中最常拖慢進度的一環。","en":"Plumbing work must by law be carried out by a <b>licensed plumber</b> with written WSD permission. Applying for a BHU individual water meter takes weeks to months — usually the slowest step in certification.","tz":"水務署水喉匠與水錶申請","te":"Water Supplies Department Plumbing"},{"s":"guide-swd-rche-licensing","k":["社會福利署","安老院","殘疾人士院舍","rche","安老院條例","院舍牌照","院舍樓層限制","開安老院","安老院要求","social welfare department","residential care home","养老院","残疾人士院舍","护老院牌照"],"zh":"安老院及殘疾人士院舍的牌照要求比一般處所嚴格——樓層高度受限制（考慮火警疏散困難），並涵蓋樓面面積、走火通道等詳細建築及消防要求，須參照社會福利署《作業備考》。","en":"Residential care home licensing is stricter than ordinary premises — height is restricted (evacuation difficulty in a fire), with detailed floor area and escape route requirements under SWD's Code of Practice.","tz":"社會福利署院舍建築要求","te":"Social Welfare Department Care Homes"},{"s":"guide-hyd-hoarding-permit","k":["路政署","圍板","有蓋行人道","門架","挖掘許可證","xp","highways department","hoarding permit","excavation permit","佔用路面","公共道路施工","路政署許可","围板许可","挖掘许可证","占用路面"],"zh":"地盤圍板、有蓋行人道佔用公共道路，須向路政署申請許可；設計須由認可人士或結構工程師核證。<b>佔用行車路面須提前至少兩個月申請</b>，這一步經常被工程排期忽略。","en":"Hoarding or covered walkways on public roads need Highways Department approval, certified by an Authorized Person or structural engineer. <b>Occupying part of the carriageway needs at least two months' lead time</b> — often missed in programming.","tz":"路政署圍板與挖掘許可證","te":"Highways Department Hoarding Permits"},{"s":"guide-td-parking-tia","k":["運輸署","泊車位","上落貨區","交通影響評估","tia","泊車標準","transport department","parking authority","traffic impact assessment","运输署","泊车位标准","交通影响评估"],"zh":"運輸署是《香港規劃標準與準則》下的「泊車主管當局」，樓宇圖則的泊車位、上落貨區設計須符合其標準。較大型發展項目可能需要獨立的<b>交通影響評估（TIA）</b>。","en":"Transport Department acts as the Parking Authority under HKPSG, reviewing car parking and loading bay design in building plans. Larger developments may require an independent <b>Traffic Impact Assessment (TIA)</b>.","tz":"運輸署泊車標準與交通評估","te":"Transport Department Parking Standards"}];
-  function norm(s){ return (' '+s+' ').toLowerCase().replace(/[\s，。、？！：；（）()·,.?!]+/g,' '); }
-  /* score: longer keyword matches count for more, so specific beats generic */
-  function scoreKB(q){
-    var s=norm(q), out=[];
-    for(var i=0;i<KB.length;i++){
-      var sc=0, e=KB[i];
-      for(var j=0;j<e.k.length;j++){
-        var kw=e.k[j].toLowerCase();
-        if(s.indexOf(kw)>-1) sc += kw.length>=4 ? 3 : (kw.length>=2 ? 2 : 1);
-      }
-      if(sc>0) out.push({e:e,sc:sc});
-    }
-    out.sort(function(a,b){return b.sc-a.sc;});
-    return out;
-  }
-  function artLink(e){
-    var zh=isZH(), label=zh?e.tz:e.te;
-    return '<a class="kb-link" href="/'+e.s+'.html">'+(zh?'詳細解說：':'Full guide: ')+label+' \u2192</a>';
-  }
-  /* only these legacy intents outrank the knowledge base */
-  var TRANSACTIONAL=[
-    ['fee','quote','cost','price','charge','how much','proposal','收費','報價','費用','幾錢','價錢','收费','报价','费用','价钱'],
-    ['what service','your service','which service','what do you','help','can you','服務範疇','範疇','做咩','有咩服務','服务范畴','范畴','有咩服务'],
-    ['your office','office address','where is your','address','location','find you','地址','辦公室','喺邊','办公室'],
-    ['contact','email','reach','instagram','whatsapp','phone','聯絡','電郵','搵你','联络','电邮'],
-    ['hello','hi ','hey','你好','哈囉','早晨','您好'],
-    ['thank','thanks','唔該','多謝','謝謝','多谢','谢谢','唔该']
-  ];
-  function transactionalHit(q){
-    var s=norm(q);
-    for(var t=0;t<TRANSACTIONAL.length;t++){
-      for(var j=0;j<TRANSACTIONAL[t].length;j++){
-        if(s.indexOf(TRANSACTIONAL[t][j])>-1){
-          /* map back to the matching legacy intent by shared keyword */
-          for(var i=0;i<INTENTS.length;i++){
-            if(INTENTS[i].k.indexOf(TRANSACTIONAL[t][j])>-1) return INTENTS[i];
-          }
-        }
-      }
-    }
-    return null;
-  }
-  function answer(q){
-    var zh=isZH();
-    /* 1. transactional questions answer directly */
-    var t=transactionalHit(q);
-    if(t) return zh?t.zh:t.en;
-    /* 2. knowledge base — substantive answer plus the full guide */
-    var hits=scoreKB(q);
-    if(hits.length){
-      var top=hits[0].e;
-      var out=(zh?top.zh:top.en)+'<div class="kb-more">'+artLink(top);
-      if(hits.length>1 && hits[1].sc>=hits[0].sc*0.5) out+='<br>'+artLink(hits[1].e);
-      out+='</div>';
-      return out;
-    }
-    /* 3. remaining legacy intents */
-    var s=norm(q);
-    for(var i=0;i<INTENTS.length;i++){
-      for(var j=0;j<INTENTS[i].k.length;j++){
-        if(s.indexOf(INTENTS[i].k[j])>-1) return zh?INTENTS[i].zh:INTENTS[i].en;
-      }
-    }
-    return zh?FALLBACK.zh:FALLBACK.en;
-  }
-  window.chatSend=function(txt){
-    var inp=document.getElementById('chat-input');
-    var q=(typeof txt==='string')?txt:inp.value.trim();
-    if(!q)return;
-    if(typeof txt!=='string')inp.value='';
-    meSay(q);
-    setTimeout(function(){botSay(answer(q));},120);
-  };
-  function renderChips(){
-    var c=document.getElementById('chat-chips');c.innerHTML='';
-    CHIPS.forEach(function(ch){
-      var q=isZH()?ch.zh:ch.en;
-      var b=el('button','chipq','');b.textContent=q;
-      b.onclick=function(){chatSend(q);};
-      c.appendChild(b);
-    });
-    document.getElementById('chat-input').placeholder=isZH()?'輸入您的問題…':'Type your question\u2026';
-  }
-  document.getElementById('chat-input').addEventListener('keydown',function(e){if(e.key==='Enter')chatSend();});
-  var _setLang=window.setLang;
-  window.setLang=function(l){_setLang(l);renderChips();if(l==='cn'&&window.aaeConv){toSimplified();}};
-  renderChips();
-})();
-</script>
 
 
 <script>
@@ -2705,13 +2452,6 @@
     ob.observe(wrap);
   });
 
-  /* chat FAB pulse shortly after load */
-  if(!reduce){
-    setTimeout(function(){
-      var f = document.getElementById('chat-fab');
-      if(f){ f.classList.add('pulse'); setTimeout(function(){f.classList.remove('pulse');}, 6000); }
-    }, 2500);
-  }
 })();
 </script>
 
@@ -2916,7 +2656,7 @@
     /* also treat anything inside a field as a field */
     return !!(t.closest && t.closest('input,textarea,select,[contenteditable="true"]'));
   }
-  function inContact(t){ return t && t.closest && t.closest('.c-item,.contact-grid,.form-card,#chat-panel'); }
+  function inContact(t){ return t && t.closest && t.closest('.c-item,.contact-grid,.form-card'); }
   document.addEventListener('contextmenu',function(e){
     if(inField(e.target)||inContact(e.target)) return;
     e.preventDefault();
