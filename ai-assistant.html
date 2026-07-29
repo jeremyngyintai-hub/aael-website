@@ -372,6 +372,7 @@ async function send(){
     var d;
     try{ d=JSON.parse(raw); }
     catch(_){
+      console.error('AAEL AI Pro: non-JSON response from /api/chat (status '+r.status+'):', raw.slice(0,300));
       wait.querySelector('.bub').innerHTML =
         '<span style="color:var(--warn)">'+esc(L.errClient[currentLang])+'</span>';
       hist.pop(); return;

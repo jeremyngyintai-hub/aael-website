@@ -2801,6 +2801,7 @@
       var d;
       try{ d = JSON.parse(raw); }
       catch(_){
+        console.error('AAEL AI Pro: non-JSON response from /api/chat (status '+r.status+'):', raw.slice(0,300));
         botRow.querySelector('.ai-bub').innerHTML = T('暫時無法連接，請前往 AAEL AI Pro 完整頁面查詢。');
         return;
       }

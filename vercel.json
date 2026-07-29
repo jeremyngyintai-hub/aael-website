@@ -75,5 +75,10 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/chat.mjs": {
+      "maxDuration": 60
+    }
+  }
 }
