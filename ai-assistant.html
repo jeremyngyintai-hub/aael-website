@@ -1,24 +1,45 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
 <title>AAEL AI Pro · 樓宇查詢即時解答</title>
 <meta name="description" content="AAEL AI Pro，即時解答簡樸房認證、強制驗樓、屋宇署命令、僭建等香港樓宇查詢，並連結至相關知識庫文章。一般資訊參考，不構成專業意見。">
 <link rel="canonical" href="https://aael.online/ai-assistant.html">
 <link rel="icon" href="/favicon.png">
 <style>
-:root{--bg:#0A0C11;--panel:#12151C;--panel2:#171B24;--line:rgba(255,255,255,.10);
---txt:#EDEDEA;--dim:#9AA0AC;--acc:#CE8F5A;--acc2:#E8B183;--warn:#E0765A;--ok:#7FB069;
---disp:'Archivo',system-ui,'Noto Sans TC',sans-serif;--body:system-ui,'Noto Sans TC',sans-serif;
---mono:'IBM Plex Mono',ui-monospace,monospace}
+:root{
+  /* light theme (default, matches homepage) */
+  --bg:#F7F5F0;--bg-2:#FFFFFF;
+  --panel:#FFFFFF;--panel2:#F0EDE8;
+  --line:rgba(23,25,30,.12);
+  --txt:#17191E;--dim:#5C606A;
+  --acc:#92491A;--acc2:#B05E28;--acc-deep:#6E3512;
+  --warn:#B23D22;--ok:#3F7A32;
+  --btn-txt:#FFFFFF;--logo-filter:none;
+  --disp:'Archivo',system-ui,'Noto Sans TC',sans-serif;--body:system-ui,'Noto Sans TC',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+body.dark{
+  --bg:#0A0C11;--bg-2:#0F121A;
+  --panel:#12151C;--panel2:#171B24;
+  --line:rgba(255,255,255,.10);
+  --txt:#EDEDEA;--dim:#9AA0AC;
+  --acc:#CE8F5A;--acc2:#E8B183;--acc-deep:#92491A;
+  --warn:#E0765A;--ok:#7FB069;
+  --btn-txt:#0A0C11;--logo-filter:brightness(1.55) saturate(.92);
+}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--txt);font-family:var(--body);line-height:1.65;
-display:flex;flex-direction:column;height:100dvh}
+display:flex;flex-direction:column;height:100dvh;transition:background .25s,color .25s}
 
-/* ---- header：跟隨網站品牌，簡化版 ---- */
+/* ---- header：跟隨網站品牌 ---- */
 header{border-bottom:1px solid var(--line);padding:12px 18px;display:flex;
-align-items:center;gap:12px;background:var(--panel);flex-shrink:0}
+flex-wrap:wrap;align-items:center;gap:12px;background:var(--panel);flex-shrink:0}
+.back-link{display:flex;align-items:center;gap:6px;text-decoration:none;color:var(--dim);
+font-size:.82rem;font-weight:600;padding:6px 10px 6px 4px;border-radius:8px;transition:color .2s}
+.back-link:hover{color:var(--acc2)}
 header a.home{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--txt)}
 header .mark{width:26px;height:26px;flex-shrink:0}
 header .mark svg{width:100%;height:100%;stroke:var(--acc);fill:none;stroke-width:1.4}
@@ -32,10 +53,23 @@ color:var(--acc);border:1px solid var(--acc);border-radius:100px;padding:2px 8px
 padding:6px 11px;font-size:.76rem;cursor:pointer;font-family:var(--body);text-decoration:none;white-space:nowrap}
 .hbtn:hover{border-color:var(--acc);color:var(--acc2)}
 
-/* ---- disclaimer banner：固定顯示，公開版必要 ---- */
-.disclaimer{background:rgba(206,143,90,.08);border-bottom:1px solid var(--line);
+/* ---- lang + theme switches (same pattern as homepage) ---- */
+.switches{display:flex;align-items:center;gap:8px}
+.lang{display:flex;border:1px solid var(--line);border-radius:100px;overflow:hidden}
+.lang button{background:none;border:none;color:var(--dim);font-family:var(--mono);font-size:.68rem;
+font-weight:600;padding:6px 10px;cursor:pointer;transition:all .2s}
+.lang button.on{background:var(--acc);color:var(--btn-txt)}
+.lang button:not(.on):hover{color:var(--acc2)}
+.theme-btn{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:none;
+color:var(--txt);cursor:pointer;font-size:.86rem;display:flex;align-items:center;justify-content:center;
+transition:border-color .2s,box-shadow .2s}
+.theme-btn:hover{border-color:var(--acc)}
+
+/* ---- disclaimer banner ---- */
+.disclaimer{background:rgba(146,73,26,.08);border-bottom:1px solid var(--line);
 padding:9px 18px;text-align:center;font-size:.74rem;color:var(--dim);flex-shrink:0}
 .disclaimer b{color:var(--acc2);font-weight:600}
+body.dark .disclaimer{background:rgba(206,143,90,.08)}
 
 main{flex:1;overflow-y:auto;padding:18px}
 .wrap{max-width:820px;margin:0 auto}
@@ -54,7 +88,7 @@ color:var(--dim);cursor:pointer;background:none;font-family:var(--body)}
 padding-top:8px;min-width:34px;text-transform:uppercase;flex-shrink:0}
 .bub{flex:1;border-radius:12px;padding:13px 16px;font-size:.92rem}
 .me .bub{background:var(--panel2);border:1px solid var(--line)}
-.ai .bub{background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--acc)}
+.ai .bub{background:var(--panel2);border:1px solid var(--line);border-left:2px solid var(--acc)}
 .bub a{color:var(--acc2);text-decoration:underline;text-underline-offset:2px;word-break:break-all}
 .bub a:active{opacity:.6}
 .src{margin-top:10px;padding-top:9px;border-top:1px solid var(--line);
@@ -66,8 +100,9 @@ margin-right:3px;animation:b 1.2s infinite}
 .dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
 @keyframes b{0%,60%,100%{opacity:.25}30%{opacity:1}}
 
-.limitbox{border:1px solid var(--warn);border-radius:12px;padding:16px 18px;background:rgba(224,118,90,.08);
+.limitbox{border:1px solid var(--warn);border-radius:12px;padding:16px 18px;background:rgba(178,61,34,.08);
 font-size:.88rem;color:var(--txt);margin-bottom:16px}
+body.dark .limitbox{background:rgba(224,118,90,.08)}
 .limitbox b{color:var(--warn);display:block;margin-bottom:4px;font-family:var(--disp)}
 .limitbox a{color:var(--acc2)}
 
@@ -78,21 +113,35 @@ background:var(--panel2);color:var(--txt);font-size:.92rem;font-family:var(--bod
 #q:focus{outline:none;border-color:var(--acc)}
 #q:disabled{opacity:.5}
 #send{padding:12px 22px;border:none;border-radius:10px;cursor:pointer;font-weight:700;
-background:linear-gradient(135deg,var(--acc),#92491A);color:#fff;font-size:.88rem;white-space:nowrap}
+background:linear-gradient(135deg,var(--acc),var(--acc-deep));color:var(--btn-txt);font-size:.88rem;white-space:nowrap}
 #send:disabled{opacity:.4;cursor:default}
 .hint{max-width:820px;margin:8px auto 0;font-size:.68rem;color:var(--dim);text-align:center}
 .hint a{color:var(--acc2)}
 
+/* ---- powered-by strip ---- */
+.poweredby{max-width:820px;margin:10px auto 0;display:flex;align-items:center;justify-content:center;
+gap:8px;font-size:.68rem;color:var(--dim)}
+.poweredby img{height:16px;width:auto;filter:var(--logo-filter);opacity:.85}
+.poweredby a{color:var(--dim);text-decoration:none;font-weight:600}
+.poweredby a:hover{color:var(--acc2)}
+
+@media(max-width:640px){
+  .nav-extra{display:none}
+}
 @media(max-width:560px){
   header h1{font-size:.82rem}
   .quota-pill{display:none}
   .intro h2{font-size:1.1rem}
+  .back-link span.lbl{display:none}
 }
 </style>
 </head>
 <body>
 
 <header>
+  <a class="back-link" href="/" aria-label="Back to homepage">
+    <span aria-hidden="true">←</span><span class="lbl" data-l="navBack"></span>
+  </a>
   <a class="home" href="/">
     <span class="mark"><svg viewBox="0 0 24 24"><path d="M12 2l8 4.6v9.9L12 21l-8-4.5V6.6z"/><path d="M12 2v19M4 6.6l8 4.5 8-4.5M4 15.5l8-4.4 8 4.4"/></svg></span>
     <h1>AAEL</h1>
@@ -100,18 +149,24 @@ background:linear-gradient(135deg,var(--acc),#92491A);color:#fff;font-size:.88re
   <span class="tag">AI Pro</span>
   <span class="spacer"></span>
   <span class="quota-pill" id="quotaPill"></span>
-  <a class="hbtn" href="/#knowledge">知識庫</a>
-  <a class="hbtn" href="/#contact">聯絡我們</a>
+  <div class="switches">
+    <div class="lang" role="group" aria-label="Language">
+      <button id="btn-en" class="on" onclick="setLang('en')">EN</button>
+      <button id="btn-zh" onclick="setLang('zh')">繁</button>
+      <button id="btn-cn" onclick="setLang('cn')">简</button>
+    </div>
+    <button class="theme-btn" id="theme-btn" aria-label="Toggle dark mode" onclick="toggleTheme()">☾</button>
+  </div>
+  <a class="hbtn nav-extra" href="/#knowledge" data-l="navKb"></a>
+  <a class="hbtn nav-extra" href="/#contact" data-l="navContact"></a>
 </header>
 
-<div class="disclaimer">
-  本頁內容由 AI 生成，僅供一般參考，<b>不構成專業或法律意見</b>。涉及個別個案，請聯絡我們作實地評估。
-</div>
+<div class="disclaimer" data-l="disclaimer"></div>
 
 <main id="main"><div class="wrap">
   <div class="intro" id="introBlock">
-    <h2>有樓宇相關問題？即時問。</h2>
-    <p>簡樸房認證、強制驗樓、屋宇署命令、僭建、樓宇維修⋯⋯輸入您的問題，AI 會參考本網站的知識庫文章即時回答，並附上延伸閱讀連結。</p>
+    <h2 data-l="introH2"></h2>
+    <p data-l="introP"></p>
   </div>
   <div class="chips" id="chips"></div>
   <div id="log"></div>
@@ -119,24 +174,93 @@ background:linear-gradient(135deg,var(--acc),#92491A);color:#fff;font-size:.88re
 
 <footer id="foot">
   <div class="inrow">
-    <textarea id="q" rows="1" placeholder="輸入您的問題…（Enter 送出，Shift+Enter 換行）"></textarea>
-    <button id="send" onclick="send()">送出</button>
+    <textarea id="q" rows="1"></textarea>
+    <button id="send" onclick="send()" data-l="sendBtn"></button>
   </div>
-  <div class="hint">回應由 AI 產生，僅供一般參考 · 個別個案請 <a href="/#contact">聯絡我們</a></div>
+  <div class="hint"><span data-l="hint"></span><a href="/#contact" data-l="hintLink"></a></div>
+  <div class="poweredby">
+    <img src="/logo-mark.png" alt="AAEL" width="16" height="18">
+    <span data-l="poweredBy"></span>
+  </div>
 </footer>
 
 <script>
+/* ---------- 完整雙／三語字串庫 ---------- */
+const L = {
+  navBack:    {en:'Home',                 zh:'返回主頁',                cn:'返回主页'},
+  navKb:      {en:'Knowledge Base',       zh:'知識庫',                  cn:'知识库'},
+  navContact: {en:'Contact Us',           zh:'聯絡我們',                cn:'联络我们'},
+  disclaimer: {
+    en:'This page is AI-generated for general reference only, and does not <b>constitute professional or legal advice</b>. For case-specific matters, please contact us for an on-site assessment.',
+    zh:'本頁內容由 AI 生成，僅供一般參考，<b>不構成專業或法律意見</b>。涉及個別個案，請聯絡我們作實地評估。',
+    cn:'本页内容由 AI 生成，仅供一般参考，<b>不构成专业或法律意见</b>。涉及个别个案，请联络我们作实地评估。',
+  },
+  introH2: {
+    en:'Have a building question? Ask now.',
+    zh:'有樓宇相關問題？即時問。',
+    cn:'有楼宇相关问题？即时问。',
+  },
+  introP: {
+    en:'BHU certification, mandatory building inspections, Buildings Department orders, unauthorised works, building maintenance and more \u2014 type your question and get an instant answer grounded in this site\u2019s knowledge base, with the full article linked.',
+    zh:'簡樸房認證、強制驗樓、屋宇署命令、僭建、樓宇維修⋯⋯輸入您的問題，AI 會參考本網站的知識庫文章即時回答，並附上延伸閱讀連結。',
+    cn:'简朴房认证、强制验楼、屋宇署命令、僭建、楼宇维修⋯⋯输入您的问题，AI 会参考本网站的知识库文章即时回答，并附上延伸阅读链接。',
+  },
+  placeholder: {
+    en:'Type your question\u2026 (Enter to send, Shift+Enter for new line)',
+    zh:'輸入您的問題…（Enter 送出，Shift+Enter 換行）',
+    cn:'输入您的问题…（Enter 送出，Shift+Enter 换行）',
+  },
+  sendBtn:  {en:'Send', zh:'送出', cn:'送出'},
+  hint:     {en:'Responses are AI-generated, for general reference only \u00b7 For case-specific matters, ',
+             zh:'回應由 AI 產生，僅供一般參考 · 個別個案請 ',
+             cn:'回应由 AI 生成，仅供一般参考 · 个别个案请 '},
+  hintLink: {en:'contact us', zh:'聯絡我們', cn:'联络我们'},
+  poweredBy:{en:'Powered by Ascend Architecture &amp; Engineering Limited',
+             zh:'技術由 躍昇建築事務顧問有限公司 提供',
+             cn:'技术由 跃升建筑事务顾问有限公司 提供'},
+  who_user: {en:'You', zh:'你', cn:'你'},
+  who_ai:   {en:'AI',  zh:'AI', cn:'AI'},
+  errClient:{en:'Temporarily unable to connect. Please try again shortly, or email aaelhk.info@gmail.com directly.',
+             zh:'暫時無法連接，請稍後再試，或直接電郵 aaelhk.info@gmail.com。',
+             cn:'暂时无法连接，请稍后再试，或直接电邮 aaelhk.info@gmail.com。'},
+  errGeneric:{en:'Something went wrong. Please try again shortly.',
+             zh:'發生錯誤，請稍後再試。',
+             cn:'发生错误，请稍后再试。'},
+  limitTitle:{en:'Today\u2019s query limit reached', zh:'今日查詢名額已滿', cn:'今日查询名额已满'},
+  limitBody: {en:'Please try again tomorrow, or email us directly at ',
+             zh:'請明天再試，或直接電郵 ',
+             cn:'请明天再试，或直接电邮 '},
+  disableMsg:{en:'Today\u2019s query limit reached',
+             zh:'今日查詢名額已滿，請明天再試',
+             cn:'今日查询名额已满，请明天再试'},
+  srcPrefix: {en:'Full guide: ', zh:'延伸閱讀：', cn:'延伸阅读：'},
+};
+const QUOTA_TEXT = {
+  en:function(o){return o.left+' of '+o.limit+' queries left today';},
+  zh:function(o){return '今日尚餘 '+o.left+' / '+o.limit+' 次';},
+  cn:function(o){return '今日尚余 '+o.left+' / '+o.limit+' 次';},
+};
+
 const SAMPLES = [
-  "收到強制驗樓通知書，我要做啲咩？",
-  "簡樸房登記幾時截止？",
-  "我間屋想拆一幅牆，要唔要入則？",
-  "天台屋可唔可以申請簡樸房認證？",
-  "樓上漏水，責任係邊個？",
-  "違例出租劏房罰幾多錢？",
-  "我想買二手樓，應該檢查啲咩？",
-  "What is the deadline for BHU registration?",
+  {zh:'收到強制驗樓通知書，我要做啲咩？', cn:'收到强制验楼通知书，我要做啲咩？',
+   en:'I received a mandatory building inspection notice \u2014 what should I do?'},
+  {zh:'簡樸房登記幾時截止？', cn:'简朴房登记几时截止？',
+   en:'When is the deadline for BHU registration?'},
+  {zh:'我間屋想拆一幅牆，要唔要入則？', cn:'我间屋想拆一幅墙，要唔要入则？',
+   en:'I want to remove a wall in my flat \u2014 do I need a submission?'},
+  {zh:'天台屋可唔可以申請簡樸房認證？', cn:'天台屋可唔可以申请简朴房认证？',
+   en:'Can a rooftop structure be certified as a Basic Housing Unit?'},
+  {zh:'樓上漏水，責任係邊個？', cn:'楼上漏水，责任系边个？',
+   en:'There\u2019s a leak from the flat upstairs \u2014 who\u2019s responsible?'},
+  {zh:'違例出租劏房罰幾多錢？', cn:'违例出租劏房罚几多钱？',
+   en:'What\u2019s the penalty for letting an unregistered subdivided unit?'},
+  {zh:'我想買二手樓，應該檢查啲咩？', cn:'我想买二手楼，应该检查啲咩？',
+   en:'I\u2019m buying a second-hand flat \u2014 what should I check?'},
 ];
+
+let currentLang = 'en';
 let hist = [];
+let lastQuota = null;
 
 function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function md(s){
@@ -155,20 +279,58 @@ function md(s){
   return out.replace(/\n/g,'<br>');
 }
 
+/* ---------- 語言切換：套用去所有 data-l 靜態元素 + 動態內容 ---------- */
+function applyStaticLang(){
+  document.querySelectorAll('[data-l]').forEach(function(el){
+    var key = el.dataset.l;
+    if(!L[key]) return;
+    el.innerHTML = L[key][currentLang];
+  });
+  document.getElementById('q').placeholder = L.placeholder[currentLang];
+}
+function setLang(l){
+  currentLang = l;
+  ['en','zh','cn'].forEach(function(k){
+    var el = document.getElementById('btn-'+k);
+    if(el) el.classList.toggle('on', k===l);
+  });
+  document.documentElement.lang = l==='cn' ? 'zh-Hans' : (l==='zh' ? 'zh-Hant' : 'en');
+  applyStaticLang();
+  renderChips();
+  if(lastQuota) updateQuota(lastQuota);
+  try{ localStorage.setItem('aae-lang', l); }catch(e){}
+}
+
+/* ---------- 主題（跟隨網站：預設淺色，記住訪客選擇） ---------- */
+function applyTheme(t){
+  document.body.classList.toggle('dark', t==='dark');
+  document.getElementById('theme-btn').textContent = t==='dark' ? '☀' : '☾';
+  document.documentElement.style.backgroundColor = t==='dark' ? '#0A0C11' : '#F7F5F0';
+  document.body.style.backgroundColor = 'transparent';
+  var meta = document.querySelector('meta[name="color-scheme"]');
+  if(meta) meta.setAttribute('content', t==='dark' ? 'dark' : 'light');
+}
+function toggleTheme(){
+  var next = document.body.classList.contains('dark') ? 'light' : 'dark';
+  applyTheme(next);
+  try{ localStorage.setItem('aae-theme', next); }catch(e){}
+}
+
 function renderChips(){
-  const c=document.getElementById('chips'); c.innerHTML='';
-  SAMPLES.forEach(s=>{
-    const b=document.createElement('button'); b.className='chip'; b.textContent=s;
-    b.onclick=()=>{document.getElementById('q').value=s;send();};
+  var c=document.getElementById('chips'); c.innerHTML='';
+  SAMPLES.forEach(function(s){
+    var q = s[currentLang] || s.zh;
+    var b=document.createElement('button'); b.className='chip'; b.textContent=q;
+    b.onclick=function(){document.getElementById('q').value=q;send();};
     c.appendChild(b);
   });
 }
-renderChips();
 
 function add(role,html){
-  const d=document.createElement('div');
+  var d=document.createElement('div');
   d.className='msg '+(role==='user'?'me':'ai');
-  d.innerHTML='<div class="who">'+(role==='user'?'你':'AI')+'</div><div class="bub">'+html+'</div>';
+  var who = role==='user' ? L.who_user[currentLang] : L.who_ai[currentLang];
+  d.innerHTML='<div class="who">'+who+'</div><div class="bub">'+html+'</div>';
   document.getElementById('log').appendChild(d);
   document.getElementById('main').scrollTop=1e9;
   return d;
@@ -176,59 +338,63 @@ function add(role,html){
 
 function updateQuota(q){
   if(!q) return;
-  const pill = document.getElementById('quotaPill');
-  const left = Math.max(0, q.limit - q.used);
-  pill.innerHTML = '今日尚餘 <b>'+left+'</b> / '+q.limit+' 次';
+  lastQuota = q;
+  var pill = document.getElementById('quotaPill');
+  var left = Math.max(0, q.limit - q.used);
+  var text = QUOTA_TEXT[currentLang]({left:left, limit:q.limit});
+  pill.innerHTML = text.replace(String(left), '<b>'+left+'</b>');
 }
 
-function disableInput(msg){
+function disableInput(){
   document.getElementById('q').disabled = true;
-  document.getElementById('q').placeholder = msg || '今日查詢名額已滿';
+  document.getElementById('q').placeholder = L.disableMsg[currentLang];
   document.getElementById('send').disabled = true;
 }
 
-let dailyLimitHit = false;
+var dailyLimitHit = false;
 async function send(){
   if(dailyLimitHit) return;
-  const el=document.getElementById('q'); const q=el.value.trim(); if(!q) return;
+  var el=document.getElementById('q'); var q=el.value.trim(); if(!q) return;
   el.value=''; el.style.height='auto';
   document.getElementById('send').disabled=true;
   add('user',esc(q));
   hist.push({role:'user',content:q});
-  const wait=add('assistant','<span class="dots"><span></span><span></span><span></span></span>');
+  var wait=add('assistant','<span class="dots"><span></span><span></span><span></span></span>');
   try{
-    const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+    var r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({messages:hist})});
-    const raw=await r.text();
-    let d;
+    var raw=await r.text();
+    var d;
     try{ d=JSON.parse(raw); }
     catch(_){
       wait.querySelector('.bub').innerHTML =
-        '<span style="color:var(--warn)">暫時無法連接，請稍後再試，或直接電郵 aaelhk.info@gmail.com。</span>';
+        '<span style="color:var(--warn)">'+esc(L.errClient[currentLang])+'</span>';
       hist.pop(); return;
     }
     if(r.status===429 && d.dailyLimitReached){
       wait.remove(); hist.pop();
-      const box=document.createElement('div');
+      var box=document.createElement('div');
       box.className='limitbox';
-      box.innerHTML='<b>今日查詢名額已滿</b>'+esc(d.error).replace('請直接電郵 aaelhk.info@gmail.com','請直接電郵 <a href="mailto:aaelhk.info@gmail.com">aaelhk.info@gmail.com</a>');
+      box.innerHTML='<b>'+esc(L.limitTitle[currentLang])+'</b>'
+        + esc(L.limitBody[currentLang])
+        + '<a href="mailto:aaelhk.info@gmail.com">aaelhk.info@gmail.com</a>';
       document.getElementById('log').appendChild(box);
       document.getElementById('main').scrollTop=1e9;
       dailyLimitHit = true;
-      disableInput('今日查詢名額已滿，請明天再試');
+      disableInput();
       return;
     }
     if(!r.ok){
-      wait.querySelector('.bub').innerHTML='<span style="color:var(--warn)">'+esc(d.error||'發生錯誤，請稍後再試。')+'</span>';
+      wait.querySelector('.bub').innerHTML='<span style="color:var(--warn)">'+esc(L.errGeneric[currentLang])+'</span>';
       hist.pop(); return;
     }
     hist.push({role:'assistant',content:d.reply});
     updateQuota(d.quota);
-    const src=(d.sources||[]).map(s=>'<a href="https://aael.online/'+s.slug+'.html" target="_blank" rel="noopener">'+esc(s.title)+'</a>').join('　');
-    const srcHtml = src ? '<div class="src">延伸閱讀：'+src+'</div>' : '';
+    var src=(d.sources||[]).map(function(s){return '<a href="https://aael.online/'+s.slug+'.html" target="_blank" rel="noopener">'+esc(s.title)+'</a>';}).join('\u3000');
+    var srcHtml = src ? '<div class="src">'+esc(L.srcPrefix[currentLang])+src+'</div>' : '';
     wait.querySelector('.bub').innerHTML=md(d.reply)+srcHtml;
   }catch(e){
-    wait.querySelector('.bub').innerHTML='<span style="color:var(--warn)">連線失敗，請稍後再試。</span>';
+    wait.querySelector('.bub').innerHTML='<span style="color:var(--warn)">'+esc(L.errGeneric[currentLang])+'</span>';
     hist.pop();
   }finally{
     if(!dailyLimitHit){
@@ -239,9 +405,20 @@ async function send(){
   }
 }
 
-const qEl=document.getElementById('q');
-qEl.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
-qEl.addEventListener('input',()=>{qEl.style.height='auto';qEl.style.height=Math.min(qEl.scrollHeight,110)+'px';});
+var qEl=document.getElementById('q');
+qEl.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
+qEl.addEventListener('input',function(){qEl.style.height='auto';qEl.style.height=Math.min(qEl.scrollHeight,110)+'px';});
+
+/* ---------- init：跟隨網站設定（記住語言／主題） ---------- */
+(function init(){
+  var savedTheme = null;
+  try{ savedTheme = localStorage.getItem('aae-theme'); }catch(e){}
+  applyTheme(savedTheme === 'dark' ? 'dark' : 'light');
+
+  var savedLang = null;
+  try{ savedLang = localStorage.getItem('aae-lang'); }catch(e){}
+  setLang(savedLang || 'en');
+})();
 </script>
 </body>
 </html>
