@@ -1825,7 +1825,7 @@
       <span class="sec-note"><span class="en">Written by our team</span><span class="zh">團隊撰寫</span></span>
     </div>
     <p class="sec-intro rv"><span class="en">Plain-language guides to the rules owners actually run into — written by the people who file the submissions, not copied from a circular.</span><span class="zh">以業主看得懂的語言，解說實際會遇到的規例——由親手處理入則的團隊撰寫，而非照抄通告。</span></p>
-    <div class="kb-grid rv">
+    <div class="kb-grid">
       <a class="kb" href="/guide-bhu-timeline.html">
         <span class="k"><span class="en">BHU · Timeline</span><span class="zh">簡樸房 · 時間表</span></span>
         <h3><span class="en">Registration and certification: the four-year roadmap</span><span class="zh">簡樸房登記與認證時間表：業主四年路線圖</span></h3>
@@ -2475,11 +2475,11 @@
   }
 
   /* staggered card reveals for grid groups */
-  ['.svc-grid','.exp-grid','.steps','.quotes'].forEach(function(sel){
+  ['.svc-grid','.exp-grid','.steps','.quotes','.kb-grid'].forEach(function(sel){
     var wrap = document.querySelector(sel);
     if(!wrap) return;
     wrap.classList.remove('rv','in');
-    var kids = Array.prototype.slice.call(wrap.children).filter(function(k){return k.classList.contains('svc')||k.classList.contains('exp')||k.classList.contains('step')||k.classList.contains('quote');});
+    var kids = Array.prototype.slice.call(wrap.children).filter(function(k){return k.classList.contains('svc')||k.classList.contains('exp')||k.classList.contains('step')||k.classList.contains('quote')||k.classList.contains('kb');});
     kids.forEach(function(k){ k.classList.add('rv'); k.classList.remove('in'); });
     var ob = new IntersectionObserver(function(es){
       es.forEach(function(e){
@@ -2489,7 +2489,7 @@
           setTimeout(function(){ k.classList.add('in'); }, reduce ? 0 : i*110);
         });
       });
-    },{threshold:.12});
+    },{threshold:0});
     ob.observe(wrap);
   });
 
