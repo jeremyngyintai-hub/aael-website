@@ -56,6 +56,12 @@ const PRECACHE_URLS = [
   "/guide-td-parking-tia.html",
   "/guide-ubw.html",
   "/guide-wsd-plumbing.html",
+  "/guide-cisp-ordinance.html",
+  "/guide-sfbc-2025.html",
+  "/guide-extension-of-time.html",
+  "/guide-retention-final-account.html",
+  "/guide-dispute-resolution.html",
+  "/guide-project-management-roles.html",
   "/certification-partners.html",
 ];
 
