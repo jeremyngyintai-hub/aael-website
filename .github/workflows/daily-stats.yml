@@ -1,0 +1,16 @@
+name: 每日網站統計摘要
+
+on:
+  schedule:
+    - cron: '59 15 * * *'   # UTC 時間；即係香港時間（UTC+8）每晚 23:59，接近夜晚12點截數
+  workflow_dispatch:        # 方便手動測試
+
+jobs:
+  daily-stats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 觸發每日統計摘要
+        env:
+          DAILY_STATS_SECRET: ${{ secrets.DAILY_STATS_SECRET }}
+        run: |
+          curl -sf "https://aael.online/api/daily-stats?secret=${DAILY_STATS_SECRET}"
