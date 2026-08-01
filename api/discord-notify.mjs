@@ -18,8 +18,8 @@
  * @param {number} [opts.color]    - embed 左邊色條，十進制顏色值（預設用 AAEL 銅色）
  * @param {string} [opts.url]      - 標題可點擊嘅連結
  */
-export async function notifyDiscord({ title, description, fields = [], color = 0xce8f5a, url }) {
-  const webhook = process.env.DISCORD_WEBHOOK_URL;
+export async function notifyDiscord({ title, description, fields = [], color = 0xce8f5a, url, webhookUrl }) {
+  const webhook = webhookUrl || process.env.DISCORD_WEBHOOK_URL;
   if (!webhook) {
     console.warn('DISCORD_WEBHOOK_URL 未設定，跳過 Discord 通知');
     return { skipped: true };
