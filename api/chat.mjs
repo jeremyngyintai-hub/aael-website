@@ -21,7 +21,9 @@ let _fallbackCount = 0;
 let _fallbackDay = '';
 
 function todayKey() {
-  return new Date().toISOString().slice(0, 10); // YYYY-MM-DD (UTC)
+  // 香港時間（UTC+8，全年冇夏令時間調整）嘅日期，令「今日」喺香港夜晚12點截數，
+  // 而唔係原本用 UTC 日期會變成香港朝早8點先截數。
+  return new Date(Date.now() + 8 * 3600 * 1000).toISOString().slice(0, 10);
 }
 
 async function checkAndIncrementDailyCount() {
