@@ -1,0 +1,8 @@
+{
+  "name": "aael-website",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "discord-interactions": "^4.4.0"
+  }
+}
