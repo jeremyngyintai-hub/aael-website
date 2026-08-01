@@ -7,7 +7,9 @@
 //   UPSTASH_REDIS_REST_TOKEN
 
 function todayKey() {
-  return new Date().toISOString().slice(0, 10); // YYYY-MM-DD (UTC)
+  // 香港時間（UTC+8）嘅日期，同 chat.mjs 用返一致嘅計算方式，
+  // 確保兩個計數器都喺香港夜晚12點一齊截數，唔會錯開。
+  return new Date(Date.now() + 8 * 3600 * 1000).toISOString().slice(0, 10);
 }
 
 export default async function handler(req, res) {
