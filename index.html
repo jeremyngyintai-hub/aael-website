@@ -2372,13 +2372,12 @@
     }
     var btn=document.getElementById('f-send');
     btn.disabled=true;btn.textContent=zh()?'送出中…':'Sending\u2026';
-    fetch('https://formsubmit.co/ajax/aaelhk.info@gmail.com',{
+    fetch('/api/inquiry',{
       method:'POST',
       headers:{'Content-Type':'application/json','Accept':'application/json'},
       body:JSON.stringify({
-        _subject:'New inquiry via aael.online',
-        _template:'table',
-        Name:name,Contact:contact,'Building address':addr||'(not given)',Inquiry:msg
+        formType:'inquiry',
+        name:name,contact:contact,address:addr,message:msg
       })
     }).then(function(r){if(!r.ok)throw 0;return r.json();})
     .then(function(){
@@ -2772,17 +2771,15 @@
       say(isZH()?'請填寫姓名、聯絡方式及樓宇地址。':'Please complete name, contact and building address.','err'); return;
     }
     btn.disabled=true; say(isZH()?'傳送中…':'Sending…','ok');
-    fetch('https://formsubmit.co/ajax/aaelhk.info@gmail.com',{
+    fetch('/api/inquiry',{
       method:'POST',
       headers:{'Content-Type':'application/json','Accept':'application/json'},
       body:JSON.stringify({
-        _subject:'【認證到期提醒登記】'+addr,
-        '登記類別':'簡樸房認證到期提醒',
-        '姓名／公司':name,'聯絡方式':contact,'樓宇地址':addr,
-        '單位數目':document.getElementById('r-units').value.trim(),
-        '認證屆滿日期':document.getElementById('r-expiry').value,
-        '認證簽發方':document.getElementById('r-issuer').value,
-        '登記時間':new Date().toLocaleString('zh-HK')
+        formType:'bhu-renewal',
+        name:name,contact:contact,address:addr,
+        units:document.getElementById('r-units').value.trim(),
+        expiry:document.getElementById('r-expiry').value,
+        issuer:document.getElementById('r-issuer').value
       })
     }).then(function(r){return r.json();})
     .then(function(){ f.reset(); btn.disabled=false;
