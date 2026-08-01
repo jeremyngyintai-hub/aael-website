@@ -64,6 +64,8 @@ export default async function handler(req, res) {
     title: `📊 AAEL 網站每日摘要 — ${date}`,
     color: 0xce8f5a,
     fields,
+    // 用專屬 #📊-daily-stats 頻道嘅 webhook；未設定嘅話 fallback 用返共用嗰個
+    webhookUrl: process.env.DISCORD_STATS_WEBHOOK_URL,
   });
 
   res.status(200).json({ ok: true, date, pageviews, chatUsage });
