@@ -1,1 +1,49 @@
+name: 通知 Discord — 網站有新更新
 
+# 每次有人 push 去 main branch，就自動推送一則訊息去 Discord。
+# 完全免費（GitHub Actions 對呢類輕量工作流冇額外收費），
+# 唔需要 Vercel Pro Plan，亦唔經任何 serverless function。
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:   # 等你可以喺 GitHub 網頁度手動撳掣測試，唔使真係 push 先觸發
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 推送訊息去 Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=%s "${{ github.sha }}" 2>/dev/null || echo "${{ github.event.head_commit.message }}")
+          AUTHOR="${{ github.event.head_commit.author.name || github.actor }}"
+          SHA_SHORT=$(echo "${{ github.sha }}" | cut -c1-7)
+          COMPARE_URL="${{ github.event.compare || github.server_url }}/${{ github.repository }}"
+
+          # 用 jq 安全咁組裝 JSON，避免 commit message 入面有特殊字符（引號、換行）搞亂個請求
+          PAYLOAD=$(jq -n \
+            --arg title "🔔 aael-website 有新更新" \
+            --arg desc "**$COMMIT_MSG**" \
+            --arg author "$AUTHOR" \
+            --arg sha "$SHA_SHORT" \
+            --arg url "$COMPARE_URL" \
+            '{
+              username: "AAEL Bot",
+              embeds: [{
+                title: $title,
+                description: $desc,
+                url: $url,
+                color: 3411546,
+                fields: [
+                  { name: "提交人", value: $author, inline: true },
+                  { name: "Commit", value: $sha, inline: true }
+                ]
+              }]
+            }')
+
+          curl -sf -X POST "$DISCORD_WEBHOOK_URL" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD"
