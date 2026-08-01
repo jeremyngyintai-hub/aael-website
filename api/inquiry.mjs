@@ -91,7 +91,13 @@ export default async function handler(req, res) {
   }
 
   // (b) 推送去 Discord（PDPO：務必用私人頻道）
-  await notifyDiscord({ title: discordTitle, color: 0x92491a, fields: discordFields });
+  await notifyDiscord({
+    title: discordTitle,
+    color: 0x92491a,
+    fields: discordFields,
+    // 用專屬 #📝-form-submissions 頻道嘅 webhook；未設定嘅話 fallback 用返共用嗰個
+    webhookUrl: process.env.DISCORD_FORM_WEBHOOK_URL,
+  });
 
   if (!formSubmitOk) {
     // FormSubmit 失敗，但 Discord 已經收到，仍然話俾前端知有問題，等前端顯示 fallback（mailto）
