@@ -15,7 +15,9 @@
 import { notifyDiscord } from './discord-notify.mjs';
 
 function todayKey() {
-  return new Date().toISOString().slice(0, 10);
+  // 香港時間（UTC+8），同 chat.mjs／track-pageview.mjs 保持一致，
+  // 確保讀返嚟嘅係同一個「香港日」嘅數據。
+  return new Date(Date.now() + 8 * 3600 * 1000).toISOString().slice(0, 10);
 }
 
 async function readCount(url, token, key) {
