@@ -34,6 +34,7 @@ export default async function handler(req, res) {
     }
     formSubmitPayload = {
       _subject: '【認證到期提醒登記】' + address,
+      _url: 'https://aael.online/',
       登記類別: '簡樸房認證到期提醒',
       '姓名／公司': name,
       聯絡方式: contact,
@@ -61,6 +62,7 @@ export default async function handler(req, res) {
     }
     formSubmitPayload = {
       _subject: 'New inquiry via aael.online',
+      _url: 'https://aael.online/',
       _template: 'table',
       Name: name,
       Contact: contact,
@@ -81,10 +83,18 @@ export default async function handler(req, res) {
   try {
     const r = await fetch('https://formsubmit.co/ajax/aaelhk.info@gmail.com', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Referer: 'https://aael.online/', // FormSubmit 靠呢個識別已啟用嘅表格；伺服器對伺服器請求原本冇呢個標頭，手動加返
+      },
       body: JSON.stringify(formSubmitPayload),
     });
     formSubmitOk = r.ok;
+    if (!formSubmitOk) {
+      const errText = await r.text().catch(() => '');
+      console.error('FormSubmit 回應唔正常', r.status, errText.slice(0, 300));
+    }
   } catch (err) {
     console.error('FormSubmit 轉發失敗', err);
     formSubmitOk = false;
