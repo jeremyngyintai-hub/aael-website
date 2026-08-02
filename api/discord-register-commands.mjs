@@ -144,7 +144,14 @@ export default async function handler(req, res) {
       default_member_permissions: '8',
       options: [
         { name: 'channel', description: '發去邊個頻道', type: 7, required: true, channel_types: [0] },
-        { name: 'message', description: '公告內容', type: 3, required: true },
+        { name: 'message', description: '公告內容（打 \\n 換行；用 preset 就唔使填）', type: 3, required: false },
+        {
+          name: 'preset',
+          description: '現成公告範本',
+          type: 3,
+          required: false,
+          choices: [{ name: '指令一覽 — 全部 21 個指令嘅排版公告', value: 'commands' }],
+        },
       ],
     },
     {

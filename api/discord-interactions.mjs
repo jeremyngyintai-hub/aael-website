@@ -744,10 +744,83 @@ export default async function handler(req, res) {
       }
 
       case 'broadcast': {
+        const preset = getOption(options, 'preset');
+        if (preset === 'commands') {
+          const channelId0 = getOption(options, 'channel');
+          const botToken0 = process.env.DISCORD_BOT_TOKEN;
+          const embed = {
+            title: '🤖 AAEL Bot 指令一覽',
+            color: 0xce8f5a,
+            description: '所有人都用得嘅指令直接打就得；標咗 🔒 嘅要相應權限先見到。',
+            fields: [
+              {
+                name: '📚 知識庫 & AI',
+                value: [
+                  '`/kb 關鍵字` — 搜尋知識庫文章',
+                  '`/article slug` — 用 slug 攞文章連結',
+                  '`/ask 問題` — 問 AAEL AI 助理（需要幾秒）',
+                  '`/websearch 問題` — AI 網上搜尋任何題目',
+                  '`/competitor-news` — 市場／對手最新動態',
+                ].join('\n'),
+                inline: false,
+              },
+              {
+                name: '📋 資訊',
+                value: [
+                  '`/deadline` — 簡樸房寬限期倒數',
+                  '`/contact` — 公司聯絡資料',
+                  '`/help` — 指令清單',
+                ].join('\n'),
+                inline: false,
+              },
+              {
+                name: '🔒 客戶跟進（管理員）',
+                value: [
+                  '`/pending` — 未跟進清單',
+                  '`/done 編號`／`/undone 編號` — 標記／還原完成',
+                  '`/note 編號 內容` — 加跟進備註',
+                  '`/whois 編號` — 完整記錄連備註',
+                  '`/lookup 關鍵字` — 搜記錄',
+                  '`/export` — 匯出 CSV（Excel 開得）',
+                  '`/wipe 關鍵字` — 刪記錄（兩步確認）',
+                ].join('\n'),
+                inline: false,
+              },
+              {
+                name: '🔒 數據 & 管理',
+                value: [
+                  '`/stats`／`/stats days:7` — 即時數據／多日趨勢',
+                  '`/status` — API 設定狀態',
+                  '`/purge 數量` — 刪除頻道訊息',
+                  '`/broadcast` — Bot 身份出公告',
+                  '`/slowmode 秒數` — 頻道慢速模式',
+                ].join('\n'),
+                inline: false,
+              },
+            ],
+            footer: { text: 'AAEL — aael.online' },
+            timestamp: new Date().toISOString(),
+          };
+          const r0 = await fetch(`https://discord.com/api/v10/channels/${channelId0}/messages`, {
+            method: 'POST',
+            headers: { Authorization: `Bot ${botToken0}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ embeds: [embed] }),
+          });
+          res.status(200).json(
+            reply(
+              r0.ok
+                ? `📣 指令一覽公告已發送去 <#${channelId0}>。建議去嗰邊將佢釘選（Pin），方便隨時查。`
+                : `發送失敗（HTTP ${r0.status}）${r0.status === 403 ? '——Bot 喺嗰個頻道冇「發送訊息」權限。' : ''}`,
+              { ephemeral: true }
+            )
+          );
+          return;
+        }
         const channelId = getOption(options, 'channel');
-        const message = String(getOption(options, 'message') || '').trim().slice(0, 1800);
+        // 支援多行：slash command 輸入框係單行，打「\\n」會自動轉做真換行
+        const message = String(getOption(options, 'message') || '').replace(/\\n/g, '\n').trim().slice(0, 1800);
         if (!channelId || !message) {
-          res.status(200).json(reply('用法：`/broadcast channel:#頻道 message:內容`。', { ephemeral: true }));
+          res.status(200).json(reply('用法：`/broadcast channel:#頻道 message:內容`（打 `\\n` 可以換行），或者 `/broadcast channel:#頻道 preset:指令一覽`。', { ephemeral: true }));
           return;
         }
         const botToken = process.env.DISCORD_BOT_TOKEN;
