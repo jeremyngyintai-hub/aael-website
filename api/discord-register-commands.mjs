@@ -81,6 +81,10 @@ export default async function handler(req, res) {
     },
     { name: 'help', description: '列出所有可用指令' },
     { name: 'contact', description: '顯示 AAEL 聯絡資料' },
+    {
+      name: 'competitor-news',
+      description: '用 AI 網上搜尋，睇下簡樸房市場／競爭對手最近有咩動態',
+    },
   ];
 
   try {

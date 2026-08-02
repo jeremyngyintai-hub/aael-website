@@ -18,10 +18,12 @@
 //   package.json 需要：{ "dependencies": { "discord-interactions": "^4.4.0" } }
 
 import { verifyKey, InteractionType, InteractionResponseType } from 'discord-interactions';
+import { waitUntil } from '@vercel/functions';
 import { KB } from '../lib/kb.mjs';
 
 const SITE_URL = process.env.AAEL_SITE_URL || 'https://aael.online';
 const PUBLIC_KEY = process.env.DISCORD_PUBLIC_KEY;
+const APP_ID = process.env.DISCORD_APP_ID;
 
 // Vercel serverless function 預設會自動解析 body（JSON），
 // 但簽名驗證需要「未經解析嘅原始 bytes」，所以呢度關閉自動解析，自己讀 raw body。
@@ -96,6 +98,64 @@ async function lookupRecords(query) {
   return results.slice(0, 5);
 }
 
+/* ---------- /competitor-news：用 Gemini + Google 搜尋 找返市場最新動態 ---------- */
+async function searchCompetitorNews() {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) return { ok: false, text: '伺服器未設定 GEMINI_API_KEY，搵唔到可用嘅搜尋功能。' };
+
+  const model = process.env.AAEL_MODEL || 'gemini-flash-latest';
+  const prompt = `你係香港「簡樸房」（Basic Housing Unit／劏房規管）認證市場嘅商業分析員。
+請用 Google 搜尋，搵返最近呢一兩個月，香港簡樸房／劏房認證相關嘅市場動態，
+特別留意 bhueasy.hk 呢類同業競爭對手嘅最新消息（例如新服務、定價變動、宣傳推廣、
+政府政策更新對佢哋嘅影響等）。
+
+請用繁體中文，以精簡列點形式回覆（最多 5 點，每點一兩句），如果搵唔到最近嘅相關消息，
+老實講「未搵到最近相關嘅新消息」，唔好靠估作出內容。`;
+
+  try {
+    const r = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
+      {
+        method: 'POST',
+        headers: { 'x-goog-api-key': apiKey, 'content-type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          tools: [{ google_search: {} }],
+          generationConfig: { maxOutputTokens: 1024, temperature: 0.3 },
+        }),
+      }
+    );
+    const data = await r.json();
+    if (!r.ok) {
+      return { ok: false, text: `搜尋失敗：${data?.error?.message || r.status}` };
+    }
+    const text = (data.candidates?.[0]?.content?.parts || [])
+      .map((p) => p.text)
+      .filter(Boolean)
+      .join('\n')
+      .trim();
+
+    const chunks = data.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
+    const sources = chunks
+      .map((c) => c.web?.uri)
+      .filter(Boolean)
+      .slice(0, 5);
+
+    return { ok: true, text: text || '未搵到相關內容。', sources };
+  } catch (err) {
+    return { ok: false, text: `搜尋出錯：${String(err)}` };
+  }
+}
+
+/* ---------- 更新返個 deferred interaction 嘅最終回覆 ---------- */
+async function patchDeferredReply(interactionToken, content) {
+  if (!APP_ID) return;
+  await fetch(`https://discord.com/api/v10/webhooks/${APP_ID}/${interactionToken}/messages/@original`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content: content.slice(0, 1990) }),
+  }).catch((err) => console.error('更新 Discord 回覆失敗', err));
+}
 
 function reply(content, { ephemeral = false, embeds } = {}) {
   return {
@@ -211,6 +271,7 @@ export default async function handler(req, res) {
               '`/article slug` — 用 slug 直接攞文章連結',
               '`/deadline` — 簡樸房寬限期登記倒數',
               '`/lookup 關鍵字` — 搜返已儲存嘅查詢／BHU登記記錄（管理員限定，只有你自己見到）',
+              '`/competitor-news` — 用 AI 網上搜尋，睇下市場/競爭對手最近動態（需要幾秒鐘）',
               '`/status` — 查網站 API 設定狀態（管理員限定，只有你自己見到）',
               '`/contact` — 顯示公司聯絡資料',
             ].join('\n')
@@ -245,6 +306,27 @@ export default async function handler(req, res) {
               `🌐 ${SITE_URL}`,
             ].join('\n')
           )
+        );
+        return;
+      }
+
+      case 'competitor-news': {
+        // Discord 要求 3 秒內回應，搜尋+整理內容通常會超過呢個時限，
+        // 所以先回一個「處理緊」嘅 deferred 回應，實際搜尋放喺 waitUntil
+        // 入面喺背景做，做完先用 PATCH 更新返個訊息內容。
+        res.status(200).json({ type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE });
+
+        waitUntil(
+          (async () => {
+            const result = await searchCompetitorNews();
+            const sourcesText = result.sources?.length
+              ? '\n\n**參考來源：**\n' + result.sources.map((s) => `<${s}>`).join('\n')
+              : '';
+            await patchDeferredReply(
+              body.token,
+              `🔎 **市場/競爭對手最新動態**\n\n${result.text}${sourcesText}`
+            );
+          })()
         );
         return;
       }
