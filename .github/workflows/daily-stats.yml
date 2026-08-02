@@ -1,8 +1,12 @@
 name: 每日網站統計摘要
 
+# 每日香港時間夜晚 11:55（UTC 15:55）自動觸發，
+# call 網站嘅 /api/daily-stats，將今日網頁瀏覽量同 AI Pro 使用量推去 Discord。
+# 完全免費，同「push 通知」嗰個 workflow 一樣機制，唔使 Vercel Cron（要 Pro Plan）。
+
 on:
   schedule:
-    - cron: '59 15 * * *'   # UTC 時間；即係香港時間（UTC+8）每晚 23:59，接近夜晚12點截數
+    - cron: '30 15 * * *'   # UTC 時間；即係香港時間（UTC+8）每晚 23:30——刻意留 30 分鐘緩衝，因為 GitHub Actions 排程可以遲成半個鐘，遲過午夜就會總結錯日子
   workflow_dispatch:        # 方便手動測試
 
 jobs:
