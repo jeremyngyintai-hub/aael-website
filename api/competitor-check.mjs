@@ -21,7 +21,7 @@
 //   COMPETITOR_CHECK_SECRET
 
 import crypto from 'node:crypto';
-import { notifyDiscord } from './discord-notify.mjs';
+import { notifyDiscord } from '../lib/discord-notify.mjs';
 
 const TARGET_URL = 'https://bhueasy.hk';
 const HASH_KEY = 'aael:competitor:bhueasy:hash';

@@ -9,8 +9,8 @@
 // 若未設定 Upstash，限流會退化為「進程內計數」——僅在同一個未被回收的
 // serverless 實例內有效，重啟後歸零。這不是真正的限流，只適合完全信任
 // 的低流量情境。正式公開建議設定 Upstash（見安裝說明）。
-import { KB } from './kb.mjs';
-import { notifyDiscord } from './discord-notify.mjs';
+import { KB } from '../lib/kb.mjs';
+import { notifyDiscord } from '../lib/discord-notify.mjs';
 
 const MODEL = process.env.AAEL_MODEL || 'claude-sonnet-5';
 const MAX_Q = 500;            // 單次提問字數上限

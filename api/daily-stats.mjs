@@ -12,7 +12,7 @@
 // 安全：加咗一個簡單密碼防止其他人亂 call 呢條網址（唔係好敏感，
 //       但都係好習慣）。
 
-import { notifyDiscord } from './discord-notify.mjs';
+import { notifyDiscord } from '../lib/discord-notify.mjs';
 
 function todayKey() {
   // 香港時間（UTC+8），同 chat.mjs／track-pageview.mjs 保持一致，

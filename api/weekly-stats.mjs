@@ -10,7 +10,7 @@
 //   DISCORD_STATS_WEBHOOK_URL
 //   WEEKLY_STATS_SECRET（自己諗一串字防止亂 call）
 
-import { notifyDiscord } from './discord-notify.mjs';
+import { notifyDiscord } from '../lib/discord-notify.mjs';
 
 function hkDate(offsetDays = 0) {
   return new Date(Date.now() + 8 * 3600 * 1000 - offsetDays * 86400000).toISOString().slice(0, 10);

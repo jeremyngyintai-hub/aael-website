@@ -13,7 +13,7 @@
 //    DISCORD_FORM_WEBHOOK_URL 環境變數，並將下面 notifyDiscord 嗰處
 //    改為讀呢個新變數 —— 預設為咗簡單，同其他通知共用同一個 webhook）
 
-import { notifyDiscord } from './discord-notify.mjs';
+import { notifyDiscord } from '../lib/discord-notify.mjs';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {

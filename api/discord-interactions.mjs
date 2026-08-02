@@ -18,7 +18,7 @@
 //   package.json 需要：{ "dependencies": { "discord-interactions": "^4.4.0" } }
 
 import { verifyKey, InteractionType, InteractionResponseType } from 'discord-interactions';
-import { KB } from './kb.mjs';
+import { KB } from '../lib/kb.mjs';
 
 const SITE_URL = process.env.AAEL_SITE_URL || 'https://aael.online';
 const PUBLIC_KEY = process.env.DISCORD_PUBLIC_KEY;
