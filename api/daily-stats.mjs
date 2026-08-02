@@ -15,9 +15,11 @@
 import { notifyDiscord } from '../lib/discord-notify.mjs';
 
 function todayKey() {
-  // 香港時間（UTC+8），同 chat.mjs／track-pageview.mjs 保持一致，
-  // 確保讀返嚟嘅係同一個「香港日」嘅數據。
-  return new Date(Date.now() + 8 * 3600 * 1000).toISOString().slice(0, 10);
+  // 香港時間（UTC+8），同 chat.mjs／track-pageview.mjs 保持一致。
+  // 額外減 45 分鐘：GitHub Actions 排程經常延遲幾分鐘至半個鐘，如果 23:59 嘅
+  // 排程拖到過咗香港午夜先執行，唔減呢 45 分鐘就會讀咗「新嘅一日」（全部係零），
+  // 成日嘅摘要就白白走失。減咗之後，00:00–00:44 之間先執行都仲係總結緊啱啱完嗰日。
+  return new Date(Date.now() + 8 * 3600 * 1000 - 45 * 60000).toISOString().slice(0, 10);
 }
 
 async function readCount(url, token, key) {

@@ -15,14 +15,40 @@
 
 import { notifyDiscord } from '../lib/discord-notify.mjs';
 
+// 簡單防濫用：呢個 endpoint 冇登入，任何人都可以 POST。加兩重輕量防護：
+//   (a) Origin 檢查——正常瀏覽器提交會帶 Origin header，唔係嚟自 aael.online
+//       嘅就拒絕（冇 Origin 嘅照放行，避免誤傷舊瀏覽器／特殊環境）
+//   (b) 欄位長度上限——Discord embed field 上限 1024 字元，超長輸入會令
+//       通知推送失敗（Discord 回 400），順便防止有人塞垃圾撐爆 Upstash
+const ALLOWED_ORIGINS = ['https://aael.online', 'https://www.aael.online'];
+
+function cap(v, n) {
+  return String(v || '').slice(0, n);
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
   }
 
+  const origin = req.headers.origin;
+  if (origin && !ALLOWED_ORIGINS.includes(origin)) {
+    res.status(403).json({ error: 'Forbidden' });
+    return;
+  }
+
   const body = req.body || {};
   const { formType } = body;
+
+  // 統一裁長度：姓名／聯絡 200，地址 300，內容 1500（Discord 顯示會再裁到 900）
+  body.name = cap(body.name, 200);
+  body.contact = cap(body.contact, 200);
+  body.address = cap(body.address, 300);
+  body.message = cap(body.message, 1500);
+  body.units = cap(body.units, 50);
+  body.expiry = cap(body.expiry, 20);
+  body.issuer = cap(body.issuer, 100);
 
   let discordFields, discordTitle;
 
