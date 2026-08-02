@@ -1,0 +1,19 @@
+name: 法定死線自動廣播
+
+# 每日香港時間朝早 10:00（UTC 02:00）觸發，
+# check 簡樸房相關法定死線，喺 90／30／7 日前自動廣播提示。
+
+on:
+  schedule:
+    - cron: '0 2 * * *'   # UTC 時間；即係香港時間（UTC+8）每朝 10:00
+  workflow_dispatch:
+
+jobs:
+  deadline-broadcast:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 觸發法定死線廣播檢查
+        env:
+          DEADLINE_BROADCAST_SECRET: ${{ secrets.DEADLINE_BROADCAST_SECRET }}
+        run: |
+          curl -sf "https://aael.online/api/deadline-broadcast?secret=${DEADLINE_BROADCAST_SECRET}"

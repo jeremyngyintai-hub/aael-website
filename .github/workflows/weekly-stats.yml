@@ -1,0 +1,18 @@
+name: 每週網站統計摘要
+
+# 逢星期一香港時間朝早 9:00（UTC 01:00）觸發，總結上星期表現。
+
+on:
+  schedule:
+    - cron: '0 1 * * 1'   # UTC 時間，逢星期一；即係香港時間（UTC+8）星期一朝早 9:00
+  workflow_dispatch:
+
+jobs:
+  weekly-stats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 觸發每週統計摘要
+        env:
+          WEEKLY_STATS_SECRET: ${{ secrets.WEEKLY_STATS_SECRET }}
+        run: |
+          curl -sf "https://aael.online/api/weekly-stats?secret=${WEEKLY_STATS_SECRET}"

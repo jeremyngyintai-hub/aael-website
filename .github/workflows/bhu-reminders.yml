@@ -1,0 +1,19 @@
+name: BHU 認證到期提醒檢查
+
+# 每日香港時間朝早 9:00（UTC 01:00）自動觸發，
+# check 所有已登記嘅認證到期記錄，喺 90／30／7 日前自動提醒。
+
+on:
+  schedule:
+    - cron: '0 1 * * *'   # UTC 時間；即係香港時間（UTC+8）每朝 9:00
+  workflow_dispatch:
+
+jobs:
+  bhu-reminders:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 觸發 BHU 到期提醒檢查
+        env:
+          BHU_REMINDERS_SECRET: ${{ secrets.BHU_REMINDERS_SECRET }}
+        run: |
+          curl -sf "https://aael.online/api/bhu-reminders?secret=${BHU_REMINDERS_SECRET}"

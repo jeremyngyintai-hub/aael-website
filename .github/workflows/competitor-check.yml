@@ -1,0 +1,19 @@
+name: 競爭對手網站監察
+
+# 每日香港時間朝早 10:30（UTC 02:30）觸發，check bhueasy.hk 有冇內容變動。
+# ⚠️ 見 api/competitor-check.mjs 頂部註解，呢個係粗略監察，可能有假警報。
+
+on:
+  schedule:
+    - cron: '30 2 * * *'   # UTC 時間；即係香港時間（UTC+8）每朝 10:30
+  workflow_dispatch:
+
+jobs:
+  competitor-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 觸發競爭對手監察
+        env:
+          COMPETITOR_CHECK_SECRET: ${{ secrets.COMPETITOR_CHECK_SECRET }}
+        run: |
+          curl -sf "https://aael.online/api/competitor-check?secret=${COMPETITOR_CHECK_SECRET}"
