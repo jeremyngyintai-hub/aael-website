@@ -2354,6 +2354,10 @@
     document.getElementById('f-contact').placeholder=zh()?'方便我們回覆您':'So we can get back to you';
     document.getElementById('f-address').placeholder=zh()?'選填，有助我們初步評估':'Optional, helps us assess early';
     document.getElementById('f-msg').placeholder=zh()?'例如：收到強制驗樓通知／需要改建入則／樓宇滲漏勘察…':'e.g. MBIS notice received / A&A submission / leakage survey\u2026';
+    /* 同步 phOrig，令繁→簡轉換用最新嘅 placeholder 做底，唔會喺 EN→簡體 切換時殘留英文 */
+    ['f-name','f-contact','f-address','f-msg'].forEach(function(id){
+      var el=document.getElementById(id); if(el) el.dataset.phOrig=el.placeholder;
+    });
   }
   ph();
   var _s=window.setLang;window.setLang=function(l){_s(l);ph();if(l==='cn'&&window.aaeIsCN&&window.aaeIsCN()){toSimplified();}};
@@ -2381,7 +2385,12 @@
         Name:name,Contact:contact,'Building address':addr||'(not given)',Inquiry:msg
       })
     }).then(function(r){if(!r.ok)throw 0;return r.json();})
-    .then(function(){
+    .then(function(d){
+      /* FormSubmit 嘅 AJAX endpoint 有時會回 HTTP 200 但 JSON 入面 success 係 "false"
+         （例如表格未啟用／被防濫用機制擋）——唔驗呢個欄位就會「前端顯示成功但電郵冇發出」。
+         用「明確 false 先當失敗」嘅保守寫法：就算 FormSubmit 日後改回應格式漏咗呢個欄位，
+         都唔會誤將成功提交當成失敗。 */
+      if(d && (d.success===false||d.success==='false')) throw 0;
       form.style.display='none';
       document.getElementById('inq-ok').style.display='block';
       /* Discord 通知：獨立、非阻塞，就算失敗都唔影響用戶見到嘅結果 */
@@ -2725,7 +2734,10 @@
   document.addEventListener('keydown',function(e){
     if(inField(e.target)) return;
     var k=(e.key||'').toLowerCase();
-    if((e.ctrlKey||e.metaKey) && ['c','a','s','u','p'].indexOf(k)>-1){ e.preventDefault(); return false; }
+    /* 聯絡資料區容許鍵盤複製（同 contextmenu/copy 一致）；Ctrl+P 列印唔再攔——
+       擋列印對真客戶嘅滋擾大過對防抄嘅作用 */
+    if((e.ctrlKey||e.metaKey) && k==='c' && inContact(e.target)) return;
+    if((e.ctrlKey||e.metaKey) && ['c','a','s','u'].indexOf(k)>-1){ e.preventDefault(); return false; }
     if(e.key==='F12'){ e.preventDefault(); return false; }
     if((e.ctrlKey||e.metaKey)&&e.shiftKey&&['i','j','c'].indexOf(k)>-1){ e.preventDefault(); return false; }
   });
@@ -2794,8 +2806,10 @@
         '登記時間':new Date().toLocaleString('zh-HK')
       })
     }).then(function(r){if(!r.ok)throw 0;return r.json();})
-    .then(function(){ f.reset(); btn.disabled=false;
-      say(isZH()?'已收到，多謝。我們會在屆滿前十二個月與您聯絡。':'Received, thank you. We will contact you twelve months before expiry.','ok');
+    .then(function(d){
+      if(d && (d.success===false||d.success==='false')) throw 0;
+      f.reset(); btn.disabled=false;
+      say(isZH()?'已收到，多謝。我們會在認證屆滿前約三個月開始與您聯絡跟進續期。':'Received, thank you. We will contact you about three months before expiry to arrange renewal.','ok');
       /* Discord 通知：獨立、非阻塞，就算失敗都唔影響用戶見到嘅結果 */
       fetch('/api/inquiry',{
         method:'POST',
@@ -2876,7 +2890,11 @@
       }
       // kb.mjs 只儲存繁體標題（無簡體變體），而模型回覆本身亦未必100%跟隨輸入的字體——
       // 兩者都經 T() 做一次保險轉換，確保簡體模式下顯示的內容真正一致。
-      var src = (d.sources||[]).map(function(s){
+      var src = (d.sources||[]).filter(function(s){
+        /* 後端 chat.mjs 已經會喺回覆尾自動補上延伸閱讀連結——呢度過濾走
+           已經出現喺回覆入面嘅文章，避免同一條連結顯示兩次 */
+        return (d.reply||'').indexOf(s.slug+'.html')===-1;
+      }).map(function(s){
         return '<a href="https://aael.online/'+s.slug+'.html" target="_blank" rel="noopener">'+esc(T(s.title))+'</a>';
       }).join('\u3000');
       var linkLabel = isZH() ? T('延伸閱讀：') : 'Full guide: ';
