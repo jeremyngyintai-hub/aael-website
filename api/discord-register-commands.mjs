@@ -81,7 +81,7 @@ export default async function handler(req, res) {
     },
     {
       name: 'ask',
-      description: '問 AAEL AI 助理（用網站知識庫回答，同 AI Pro 同一個腦）',
+      description: '問 AAEL AI Pro（用網站知識庫回答，同網站同一個腦）',
       options: [
         {
           name: 'query',

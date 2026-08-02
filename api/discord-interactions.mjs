@@ -213,7 +213,7 @@ async function purgeMessages(channelId, amount, userId) {
   return { ok: true, deleted, skippedOld };
 }
 
-/* ---------- /ask：喺 Discord 直接問 AAEL AI 助理 ----------
+/* ---------- /ask：喺 Discord 直接問 AAEL AI Pro ----------
    直接 call 返網站自己嘅 /api/chat endpoint，完整重用嗰邊嘅檢索、
    系統指令、供應商轉接同延伸閱讀連結邏輯——零重複程式碼。
    注意：呢啲查詢會計入 AAEL_DAILY_LIMIT（同網站訪客共用每日名額），
@@ -357,7 +357,7 @@ export default async function handler(req, res) {
               '**AAEL Bot 可用指令**',
               '`/kb 關鍵字` — 搜尋知識庫文章',
               '`/article slug` — 用 slug 直接攞文章連結',
-              '`/ask 問題` — 問 AAEL AI 助理（同網站 AI Pro 同一個腦，需要幾秒鐘）',
+              '`/ask 問題` — 問 AAEL AI Pro（同網站同一個腦，需要幾秒鐘）',
               '`/deadline` — 簡樸房寬限期登記倒數',
               '`/stats` — 即時查今日網站數據（管理員限定，只有你自己見到）',
               '`/pending` — 未跟進查詢清單（管理員限定，只有你自己見到）',
@@ -758,7 +758,7 @@ export default async function handler(req, res) {
                 value: [
                   '`/kb 關鍵字` — 搜尋知識庫文章',
                   '`/article slug` — 用 slug 攞文章連結',
-                  '`/ask 問題` — 問 AAEL AI 助理（需要幾秒）',
+                  '`/ask 問題` — 問 AAEL AI Pro（需要幾秒）',
                   '`/websearch 問題` — AI 網上搜尋任何題目',
                   '`/competitor-news` — 市場／對手最新動態',
                 ].join('\n'),
