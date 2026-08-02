@@ -91,18 +91,60 @@ export default async function handler(req, res) {
   }
 
   // (b) 推送去 Discord（PDPO：務必用私人頻道）
-  await notifyDiscord({
-    title: discordTitle,
-    color: 0x92491a,
-    fields: discordFields,
-    // 用專屬 #📝-form-submissions 頻道嘅 webhook；未設定嘅話 fallback 用返共用嗰個
-    webhookUrl: process.env.DISCORD_FORM_WEBHOOK_URL,
-  });
+  // 一般查詢 同 BHU續期提醒登記 分開兩個頻道，用唔同 webhook：
+  const webhookUrl =
+    formType === 'bhu-renewal'
+      ? process.env.DISCORD_BHU_WEBHOOK_URL || process.env.DISCORD_FORM_WEBHOOK_URL
+      : process.env.DISCORD_FORM_WEBHOOK_URL;
+
+  await notifyDiscord({ title: discordTitle, color: 0x92491a, fields: discordFields, webhookUrl });
 
   if (!formSubmitOk) {
     // FormSubmit 失敗，但 Discord 已經收到，仍然話俾前端知有問題，等前端顯示 fallback（mailto）
     res.status(502).json({ ok: false, error: 'FormSubmit 轉發失敗，但已記錄至 Discord' });
     return;
+  }
+
+  // (c) 存落 Upstash，等 /lookup 指令可以之後搜返嚟；
+  //     BHU 續期記錄仲會俾 bhu-reminders.mjs 排程用嚟自動提醒到期。
+  const upstashUrl = process.env.UPSTASH_REDIS_REST_URL;
+  const upstashToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (upstashUrl && upstashToken) {
+    try {
+      const headers = { Authorization: `Bearer ${upstashToken}` };
+      const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      const prefix = formType === 'bhu-renewal' ? 'bhu' : 'inquiry';
+      const record = JSON.stringify(
+        formType === 'bhu-renewal'
+          ? {
+              type: 'bhu-renewal',
+              name: body.name,
+              contact: body.contact,
+              address: body.address,
+              units: body.units || '',
+              expiry: body.expiry || '',
+              issuer: body.issuer || '',
+              registeredAt: new Date().toISOString(),
+            }
+          : {
+              type: 'inquiry',
+              name: body.name,
+              contact: body.contact,
+              address: body.address || '',
+              message: body.message,
+              registeredAt: new Date().toISOString(),
+            }
+      );
+      await fetch(`${upstashUrl}/set/aael:${prefix}:${id}`, {
+        method: 'POST',
+        headers: { ...headers, 'Content-Type': 'text/plain' },
+        body: record,
+      });
+      await fetch(`${upstashUrl}/sadd/aael:${prefix}:index/${id}`, { headers });
+    } catch (err) {
+      console.error('表格記錄儲存失敗', err);
+      // 靜默失敗：儲存唔到都唔應該影響用戶提交表格嘅結果
+    }
   }
 
   res.status(200).json({ ok: true });

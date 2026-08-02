@@ -4,16 +4,19 @@
 //   AAEL_MODEL（可選）
 //   UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN（可選，設定後啟用每日總量限流）
 //   AAEL_DAILY_LIMIT（可選，預設 80，全站每日總對話次數上限）
+//   DISCORD_ALERTS_WEBHOOK_URL / DISCORD_WEBHOOK_URL（可選，額度預警推送去邊）
 //
 // 若未設定 Upstash，限流會退化為「進程內計數」——僅在同一個未被回收的
 // serverless 實例內有效，重啟後歸零。這不是真正的限流，只適合完全信任
 // 的低流量情境。正式公開建議設定 Upstash（見安裝說明）。
 import { KB } from './kb.mjs';
+import { notifyDiscord } from './discord-notify.mjs';
 
 const MODEL = process.env.AAEL_MODEL || 'claude-sonnet-5';
 const MAX_Q = 500;            // 單次提問字數上限
 const MAX_TURNS = 12;         // 對話輪數上限
 const DAILY_LIMIT = parseInt(process.env.AAEL_DAILY_LIMIT || '80', 10);
+const WARN_THRESHOLD = Math.ceil(DAILY_LIMIT * 0.8); // 額度用到 80% 時預警一次
 
 /* ---------- 每日總量限流 ---------- */
 // 進程內 fallback（僅在 Upstash 未設定時使用；serverless 冷啟動會重置，非真正限流）
@@ -42,6 +45,15 @@ async function checkAndIncrementDailyCount() {
       // 首次建立這個 key，設定 25 小時後過期（略多於一日，避免時區邊界漏計）
       await fetch(`${url}/expire/${key}/90000`, {
         headers: { Authorization: `Bearer ${token}` },
+      }).catch(() => {});
+    }
+    // 用量剛好踩到 80% 門檻嗰一刻（因為 count 逐次 +1，呢個條件一日內只會啱啱好觸發一次）
+    if (count === WARN_THRESHOLD) {
+      notifyDiscord({
+        title: '⚠️ AI Pro 每日額度已用 80%',
+        color: 0xf39c12,
+        description: `今日已使用 ${count} / ${DAILY_LIMIT} 次查詢，接近每日上限。`,
+        webhookUrl: process.env.DISCORD_ALERTS_WEBHOOK_URL || process.env.DISCORD_WEBHOOK_URL,
       }).catch(() => {});
     }
     return { count, limited: count > DAILY_LIMIT, real: true };
@@ -81,6 +93,18 @@ function retrieve(query, n = 2) {
     return { a, s };
   }).filter(x => x.s > 0).sort((x, y) => y.s - x.s);
   return scored.slice(0, n).map(x => x.a);
+}
+
+/* ---------- 記錄搵唔到相關文章嘅問題，等日後了解內容缺口 ---------- */
+async function logZeroHit(question) {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token || !question.trim()) return;
+  const key = `aael:zerohit:${todayKey()}`;
+  const headers = { Authorization: `Bearer ${token}` };
+  await fetch(`${url}/rpush/${key}/${encodeURIComponent(question.trim().slice(0, 200))}`, { headers });
+  await fetch(`${url}/ltrim/${key}/-50/-1`, { headers }).catch(() => {}); // 只保留最新 50 條，避免無限累積
+  await fetch(`${url}/expire/${key}/172800`, { headers }).catch(() => {});
 }
 
 const SYSTEM = `你是「躍昇建築事務顧問有限公司」（Ascend Architecture & Engineering Limited，簡稱 AAEL）網站的資訊助理。AAEL 是香港建築顧問公司，公司內部持有四項專業註冊：認可人士（A.P.）、註冊結構工程師（R.S.E.）、註冊專業測量師（R.P.S.）及註冊檢驗人員（R.I.）。
@@ -259,6 +283,9 @@ export default async function handler(req, res) {
   if (!question.trim()) return res.status(400).json({ error: '問題是空白的' });
 
   const hits = retrieve(question, 2);
+  if (hits.length === 0) {
+    logZeroHit(question).catch(() => {});
+  }
   const context = hits.length
     ? `【參考資料 — AAEL 已發表文章】\n\n` +
       hits.map(a => `<article slug="${a.slug}" title="${a.title}">\n${a.text}\n</article>`).join('\n\n')

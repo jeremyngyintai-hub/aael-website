@@ -61,7 +61,25 @@ export default async function handler(req, res) {
       ],
     },
     { name: 'deadline', description: '查簡樸房寬限期登記截止仲有幾多日' },
-    { name: 'status', description: '查網站 API 設定狀態（只有你自己見到）' },
+    {
+      name: 'status',
+      description: '查網站 API 設定狀態（只有你自己見到）',
+      default_member_permissions: '8', // 8 = ADMINISTRATOR，限管理員先見到／用得到呢個指令
+    },
+    {
+      name: 'lookup',
+      description: '搜返已儲存嘅查詢／BHU登記記錄（管理員限定）',
+      default_member_permissions: '8',
+      options: [
+        {
+          name: 'query',
+          description: '姓名、聯絡方式或地址嘅關鍵字',
+          type: 3,
+          required: true,
+        },
+      ],
+    },
+    { name: 'help', description: '列出所有可用指令' },
     { name: 'contact', description: '顯示 AAEL 聯絡資料' },
   ];
 

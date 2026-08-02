@@ -33,6 +33,58 @@ async function readCount(url, token, key) {
   }
 }
 
+async function readList(url, token, key) {
+  if (!url || !token) return [];
+  try {
+    const r = await fetch(`${url}/lrange/${key}/0/-1`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await r.json();
+    return (data.result || []).map((q) => decodeURIComponent(q));
+  } catch {
+    return [];
+  }
+}
+
+function pastDates(n) {
+  // 過去 n 日嘅香港日期字串（唔包括今日）
+  const out = [];
+  for (let i = 1; i <= n; i++) {
+    out.push(new Date(Date.now() + 8 * 3600 * 1000 - i * 86400000).toISOString().slice(0, 10));
+  }
+  return out;
+}
+
+async function checkAnomaly(url, token, todayCount) {
+  if (!url || !token || todayCount === null) return null;
+  const dates = pastDates(7);
+  const counts = await Promise.all(dates.map((d) => readCount(url, token, `aael:pageviews:${d}`)));
+  const valid = counts.filter((c) => c !== null && c > 0);
+  if (valid.length < 3) return null; // 數據太少，唔夠判斷
+  const avg = valid.reduce((a, b) => a + b, 0) / valid.length;
+  if (avg > 0 && todayCount > avg * 3 && todayCount - avg > 20) {
+    return { avg: Math.round(avg), today: todayCount };
+  }
+  return null;
+}
+async function readTopPages(url, token, key, limit = 5) {
+  if (!url || !token) return [];
+  try {
+    const r = await fetch(`${url}/zrevrange/${key}/0/${limit - 1}/withscores`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const data = await r.json();
+    const flat = data.result || []; // [page1, score1, page2, score2, ...]
+    const pages = [];
+    for (let i = 0; i < flat.length; i += 2) {
+      pages.push({ page: decodeURIComponent(flat[i]), count: parseInt(flat[i + 1], 10) });
+    }
+    return pages;
+  } catch {
+    return [];
+  }
+}
+
 export default async function handler(req, res) {
   const secret = process.env.DAILY_STATS_SECRET;
   if (secret && req.query.secret !== secret) {
@@ -46,11 +98,14 @@ export default async function handler(req, res) {
 
   const pageviews = await readCount(url, token, `aael:pageviews:${date}`);
   const chatUsage = await readCount(url, token, `aael:chat:${date}`);
+  const topPages = await readTopPages(url, token, `aael:pageviews:top:${date}`);
+  const zeroHits = await readList(url, token, `aael:zerohit:${date}`);
+  const anomaly = await checkAnomaly(url, token, pageviews);
 
   const fields = [
     {
-      name: '📄 網頁瀏覽量（首頁）',
-      value: pageviews === null ? '未能讀取' : `${pageviews} 次`,
+      name: '📄 網頁瀏覽量（全站）',
+      value: pageviews === null ? '未能讀取' : `${pageviews} 次${anomaly ? ' ⚠️' : ''}`,
       inline: true,
     },
     {
@@ -59,6 +114,29 @@ export default async function handler(req, res) {
       inline: true,
     },
   ];
+
+  if (topPages.length) {
+    const medals = ['🥇', '🥈', '🥉', '4.', '5.'];
+    const lines = topPages.map((p, i) => `${medals[i] || i + 1 + '.'} ${p.page || '首頁'} — ${p.count} 次`);
+    fields.push({ name: '🔥 今日熱門頁面', value: lines.join('\n'), inline: false });
+  }
+
+  if (anomaly) {
+    fields.push({
+      name: '⚠️ 異常流量',
+      value: `今日 ${anomaly.today} 次，遠高於過去 7 日平均（${anomaly.avg} 次）——建議留意是否爬蟲或異常流量。`,
+      inline: false,
+    });
+  }
+
+  if (zeroHits.length) {
+    const sample = zeroHits.slice(-8); // 最多顯示 8 條，避免訊息過長
+    fields.push({
+      name: `❓ AI Pro 搵唔到相關文章嘅問題（共 ${zeroHits.length} 條）`,
+      value: sample.map((q) => `• ${q}`).join('\n').slice(0, 1000),
+      inline: false,
+    });
+  }
 
   await notifyDiscord({
     title: `📊 AAEL 網站每日摘要 — ${date}`,

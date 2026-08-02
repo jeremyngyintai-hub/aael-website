@@ -67,7 +67,36 @@ function bhuDeadline() {
   return { days, deadline };
 }
 
-/* ---------- Discord 訊息組裝小工具 ---------- */
+/* ---------- /lookup 搜返已儲存嘅查詢／BHU登記記錄 ---------- */
+async function lookupRecords(query) {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return [];
+  const headers = { Authorization: `Bearer ${token}` };
+  const q = query.trim().toLowerCase();
+  const results = [];
+
+  for (const prefix of ['inquiry', 'bhu']) {
+    try {
+      const idxRes = await fetch(`${url}/smembers/aael:${prefix}:index`, { headers });
+      const idxData = await idxRes.json();
+      const ids = (idxData.result || []).slice(-200); // 限制數量，避免逐個 GET 太耐
+      for (const id of ids) {
+        const r = await fetch(`${url}/get/aael:${prefix}:${id}`, { headers });
+        const d = await r.json();
+        if (!d.result) continue;
+        const rec = JSON.parse(d.result);
+        const hay = `${rec.name || ''} ${rec.contact || ''} ${rec.address || ''}`.toLowerCase();
+        if (hay.includes(q)) results.push(rec);
+      }
+    } catch {
+      // 個別 prefix 讀取失敗唔應該令成個搜尋崩潰
+    }
+  }
+  return results.slice(0, 5);
+}
+
+
 function reply(content, { ephemeral = false, embeds } = {}) {
   return {
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
@@ -151,6 +180,42 @@ export default async function handler(req, res) {
             ? `距離簡樸房寬限期登記截止（${deadline.toLocaleDateString('zh-HK')}）仲有 **${days}** 日。`
             : `簡樸房寬限期登記已經喺 ${deadline.toLocaleDateString('zh-HK')} 截止。`;
         res.status(200).json(reply(msg));
+        return;
+      }
+
+      case 'lookup': {
+        const query = getOption(options, 'query') || '';
+        const results = await lookupRecords(query);
+        if (!results.length) {
+          res.status(200).json(reply(`搵唔到同「${query}」相關嘅記錄。`, { ephemeral: true }));
+          return;
+        }
+        const lines = results.map((r, i) => {
+          const kind = r.type === 'bhu-renewal' ? 'BHU續期登記' : '一般查詢';
+          const detail =
+            r.type === 'bhu-renewal'
+              ? `到期：${r.expiry || '未填'}`
+              : `內容：${(r.message || '').slice(0, 60)}`;
+          return `**${i + 1}. [${kind}] ${r.name}**\n聯絡：${r.contact}｜地址：${r.address || '（未填）'}\n${detail}\n登記於：${(r.registeredAt || '').slice(0, 10)}`;
+        });
+        res.status(200).json(reply(lines.join('\n\n'), { ephemeral: true }));
+        return;
+      }
+
+      case 'help': {
+        res.status(200).json(
+          reply(
+            [
+              '**AAEL Bot 可用指令**',
+              '`/kb 關鍵字` — 搜尋知識庫文章',
+              '`/article slug` — 用 slug 直接攞文章連結',
+              '`/deadline` — 簡樸房寬限期登記倒數',
+              '`/lookup 關鍵字` — 搜返已儲存嘅查詢／BHU登記記錄（管理員限定，只有你自己見到）',
+              '`/status` — 查網站 API 設定狀態（管理員限定，只有你自己見到）',
+              '`/contact` — 顯示公司聯絡資料',
+            ].join('\n')
+          )
+        );
         return;
       }
 
