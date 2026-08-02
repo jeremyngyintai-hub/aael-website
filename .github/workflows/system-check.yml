@@ -1,0 +1,19 @@
+name: 系統健康 + SSL 憑證檢查（合併）
+
+# 每 6 小時觸發一次，平時完全冇聲氣；一旦網站或 SSL 憑證出事，先會推送警報。
+# （合併咗原本 health-check.yml 同 ssl-check.yml 兩個 workflow）
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  system-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 觸發系統健康 + SSL 檢查
+        env:
+          HEALTH_CHECK_SECRET: ${{ secrets.HEALTH_CHECK_SECRET }}
+        run: |
+          curl -sf "https://aael.online/api/system-check?secret=${HEALTH_CHECK_SECRET}"

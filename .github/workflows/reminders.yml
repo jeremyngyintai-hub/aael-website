@@ -1,0 +1,20 @@
+name: 死線廣播 + BHU 到期提醒（合併）
+
+# 每日香港時間朝早 9:00（UTC 01:00）觸發，
+# check 法定死線同 BHU 續期登記，需要提醒就自動推送。
+# （合併咗原本 deadline-broadcast.yml 同 bhu-reminders.yml 兩個 workflow）
+
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  reminders:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 觸發死線廣播 + BHU 到期提醒檢查
+        env:
+          BHU_REMINDERS_SECRET: ${{ secrets.BHU_REMINDERS_SECRET }}
+        run: |
+          curl -sf "https://aael.online/api/reminders?secret=${BHU_REMINDERS_SECRET}"
