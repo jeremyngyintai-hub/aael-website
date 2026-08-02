@@ -42,8 +42,9 @@ async function checkAndIncrementDailyCount() {
     const data = await r.json();
     const count = data.result;
     if (count === 1) {
-      // 首次建立這個 key，設定 25 小時後過期（略多於一日，避免時區邊界漏計）
-      await fetch(`${url}/expire/${key}/90000`, {
+      // 首次建立這個 key，設定 9 日後過期——要俾 weekly-stats.mjs 逢星期一讀返過去 7 日數據，
+      // 所以唔可以好似以前噉 25 小時就過期（嗰陣週報頭幾日永遠讀到 0）。
+      await fetch(`${url}/expire/${key}/777600`, {
         headers: { Authorization: `Bearer ${token}` },
       }).catch(() => {});
     }
@@ -104,7 +105,7 @@ async function logZeroHit(question) {
   const headers = { Authorization: `Bearer ${token}` };
   await fetch(`${url}/rpush/${key}/${encodeURIComponent(question.trim().slice(0, 200))}`, { headers });
   await fetch(`${url}/ltrim/${key}/-50/-1`, { headers }).catch(() => {}); // 只保留最新 50 條，避免無限累積
-  await fetch(`${url}/expire/${key}/172800`, { headers }).catch(() => {});
+  await fetch(`${url}/expire/${key}/777600`, { headers }).catch(() => {});
 }
 
 const SYSTEM = `你是「躍昇建築事務顧問有限公司」（Ascend Architecture & Engineering Limited，簡稱 AAEL）網站的資訊助理。AAEL 是香港建築顧問公司，公司內部持有四項專業註冊：認可人士（A.P.）、註冊結構工程師（R.S.E.）、註冊專業測量師（R.P.S.）及註冊檢驗人員（R.I.）。

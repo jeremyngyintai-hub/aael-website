@@ -69,33 +69,113 @@ function bhuDeadline() {
   return { days, deadline };
 }
 
-/* ---------- /lookup 搜返已儲存嘅查詢／BHU登記記錄 ---------- */
-async function lookupRecords(query) {
+/* ---------- Upstash 共用讀取輔助 ---------- */
+function upstashConfig() {
   const url = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) return [];
-  const headers = { Authorization: `Bearer ${token}` };
-  const q = query.trim().toLowerCase();
-  const results = [];
+  if (!url || !token) return null;
+  return { url, headers: { Authorization: `Bearer ${token}` } };
+}
+
+function hkToday() {
+  // 香港時間（UTC+8）日期，同 chat.mjs／track-pageview.mjs／daily-stats.mjs 保持一致
+  return new Date(Date.now() + 8 * 3600 * 1000).toISOString().slice(0, 10);
+}
+
+async function readCount(cfg, key) {
+  try {
+    const r = await fetch(`${cfg.url}/get/${key}`, { headers: cfg.headers });
+    const d = await r.json();
+    return d.result ? parseInt(d.result, 10) : 0;
+  } catch {
+    return 0;
+  }
+}
+
+async function readList(cfg, key) {
+  try {
+    const r = await fetch(`${cfg.url}/lrange/${key}/0/-1`, { headers: cfg.headers });
+    const d = await r.json();
+    return (d.result || []).map((q) => decodeURIComponent(q));
+  } catch {
+    return [];
+  }
+}
+
+async function readTopPages(cfg, key, limit = 5) {
+  try {
+    const r = await fetch(`${cfg.url}/zrevrange/${key}/0/${limit - 1}/withscores`, { headers: cfg.headers });
+    const d = await r.json();
+    const flat = d.result || []; // [page1, score1, page2, score2, ...]
+    const pages = [];
+    for (let i = 0; i < flat.length; i += 2) {
+      pages.push({ page: decodeURIComponent(flat[i]), count: parseInt(flat[i + 1], 10) });
+    }
+    return pages;
+  } catch {
+    return [];
+  }
+}
+
+/* ---------- 載入所有已儲存嘅查詢／BHU登記記錄（/lookup /pending /done 共用） ---------- */
+async function loadAllRecords() {
+  const cfg = upstashConfig();
+  if (!cfg) return [];
+  const out = [];
 
   for (const prefix of ['inquiry', 'bhu']) {
     try {
-      const idxRes = await fetch(`${url}/smembers/aael:${prefix}:index`, { headers });
+      const idxRes = await fetch(`${cfg.url}/smembers/aael:${prefix}:index`, { headers: cfg.headers });
       const idxData = await idxRes.json();
       const ids = (idxData.result || []).slice(-200); // 限制數量，避免逐個 GET 太耐
       for (const id of ids) {
-        const r = await fetch(`${url}/get/aael:${prefix}:${id}`, { headers });
+        const r = await fetch(`${cfg.url}/get/aael:${prefix}:${id}`, { headers: cfg.headers });
         const d = await r.json();
         if (!d.result) continue;
-        const rec = JSON.parse(d.result);
-        const hay = `${rec.name || ''} ${rec.contact || ''} ${rec.address || ''}`.toLowerCase();
-        if (hay.includes(q)) results.push(rec);
+        try {
+          out.push({ prefix, id, rec: JSON.parse(d.result) });
+        } catch {
+          // 個別記錄格式壞咗就跳過
+        }
       }
     } catch {
       // 個別 prefix 讀取失敗唔應該令成個搜尋崩潰
     }
   }
-  return results.slice(0, 5);
+  return out;
+}
+
+async function saveRecord(prefix, id, rec) {
+  const cfg = upstashConfig();
+  if (!cfg) return false;
+  const r = await fetch(`${cfg.url}/set/aael:${prefix}:${id}`, {
+    method: 'POST',
+    headers: { ...cfg.headers, 'Content-Type': 'text/plain' },
+    body: JSON.stringify(rec),
+  });
+  return r.ok;
+}
+
+// 記錄嘅短編號：id 格式係 `${timestamp}-${六位隨機字串}`，攞後面嗰段做人手輸入用嘅短編號
+function shortId(id) {
+  const parts = String(id).split('-');
+  return parts[parts.length - 1] || id;
+}
+
+function statusEmoji(rec) {
+  return rec.status === 'done' ? '✅' : '🔄';
+}
+
+/* ---------- /lookup 搜返已儲存嘅查詢／BHU登記記錄 ---------- */
+async function lookupRecords(query) {
+  const q = query.trim().toLowerCase();
+  const all = await loadAllRecords();
+  return all
+    .filter(({ rec }) => {
+      const hay = `${rec.name || ''} ${rec.contact || ''} ${rec.address || ''}`.toLowerCase();
+      return hay.includes(q);
+    })
+    .slice(0, 5);
 }
 
 /* ---------- /competitor-news：用 Gemini + Google 搜尋 找返市場最新動態 ---------- */
@@ -144,6 +224,28 @@ async function searchCompetitorNews() {
     return { ok: true, text: text || '未搵到相關內容。', sources };
   } catch (err) {
     return { ok: false, text: `搜尋出錯：${String(err)}` };
+  }
+}
+
+/* ---------- /ask：喺 Discord 直接問 AAEL AI 助理 ----------
+   直接 call 返網站自己嘅 /api/chat endpoint，完整重用嗰邊嘅檢索、
+   系統指令、供應商轉接同延伸閱讀連結邏輯——零重複程式碼。
+   注意：呢啲查詢會計入 AAEL_DAILY_LIMIT（同網站訪客共用每日名額），
+   啱啱好順便當內部測試真實體驗。 */
+async function askAI(question) {
+  try {
+    const r = await fetch(`${SITE_URL}/api/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: [{ role: 'user', content: question }] }),
+    });
+    const data = await r.json();
+    if (!r.ok) {
+      return { ok: false, text: data?.error || `AI 服務回傳 ${r.status}` };
+    }
+    return { ok: true, text: data.reply || '未能產生回答。', quota: data.quota };
+  } catch (err) {
+    return { ok: false, text: `連接 AI 服務出錯：${String(err)}` };
   }
 }
 
@@ -250,13 +352,13 @@ export default async function handler(req, res) {
           res.status(200).json(reply(`搵唔到同「${query}」相關嘅記錄。`, { ephemeral: true }));
           return;
         }
-        const lines = results.map((r, i) => {
+        const lines = results.map(({ id, rec: r }, i) => {
           const kind = r.type === 'bhu-renewal' ? 'BHU續期登記' : '一般查詢';
           const detail =
             r.type === 'bhu-renewal'
               ? `到期：${r.expiry || '未填'}`
               : `內容：${(r.message || '').slice(0, 60)}`;
-          return `**${i + 1}. [${kind}] ${r.name}**\n聯絡：${r.contact}｜地址：${r.address || '（未填）'}\n${detail}\n登記於：${(r.registeredAt || '').slice(0, 10)}`;
+          return `**${i + 1}. ${statusEmoji(r)} [${kind}] ${r.name}**（編號 \`${shortId(id)}\`）\n聯絡：${r.contact}｜地址：${r.address || '（未填）'}\n${detail}\n登記於：${(r.registeredAt || '').slice(0, 10)}${r.status === 'done' ? `｜完成於：${(r.doneAt || '').slice(0, 10)}` : ''}`;
         });
         res.status(200).json(reply(lines.join('\n\n'), { ephemeral: true }));
         return;
@@ -269,7 +371,11 @@ export default async function handler(req, res) {
               '**AAEL Bot 可用指令**',
               '`/kb 關鍵字` — 搜尋知識庫文章',
               '`/article slug` — 用 slug 直接攞文章連結',
+              '`/ask 問題` — 問 AAEL AI 助理（同網站 AI Pro 同一個腦，需要幾秒鐘）',
               '`/deadline` — 簡樸房寬限期登記倒數',
+              '`/stats` — 即時查今日網站數據（管理員限定，只有你自己見到）',
+              '`/pending` — 未跟進查詢清單（管理員限定，只有你自己見到）',
+              '`/done 編號` — 將查詢標記為已完成（管理員限定）',
               '`/lookup 關鍵字` — 搜返已儲存嘅查詢／BHU登記記錄（管理員限定，只有你自己見到）',
               '`/competitor-news` — 用 AI 網上搜尋，睇下市場/競爭對手最近動態（需要幾秒鐘）',
               '`/status` — 查網站 API 設定狀態（管理員限定，只有你自己見到）',
@@ -305,6 +411,113 @@ export default async function handler(req, res) {
               '📧 aaelhk.info@gmail.com',
               `🌐 ${SITE_URL}`,
             ].join('\n')
+          )
+        );
+        return;
+      }
+
+      case 'stats': {
+        const cfg = upstashConfig();
+        if (!cfg) {
+          res.status(200).json(reply('未設定 Upstash 環境變數，讀唔到統計數據。', { ephemeral: true }));
+          return;
+        }
+        const date = hkToday();
+        const [pageviews, chatUsage, topPages, zeroHits] = await Promise.all([
+          readCount(cfg, `aael:pageviews:${date}`),
+          readCount(cfg, `aael:chat:${date}`),
+          readTopPages(cfg, `aael:pageviews:top:${date}`),
+          readList(cfg, `aael:zerohit:${date}`),
+        ]);
+        const lines = [
+          `**📊 今日即時數據 — ${date}（香港時間）**`,
+          `📄 網頁瀏覽量：**${pageviews}** 次`,
+          `🤖 AI Pro 查詢：**${chatUsage}** 次`,
+        ];
+        if (topPages.length) {
+          const medals = ['🥇', '🥈', '🥉', '4.', '5.'];
+          lines.push('', '🔥 **今日熱門頁面**');
+          topPages.forEach((p, i) => lines.push(`${medals[i] || `${i + 1}.`} ${p.page || '首頁'} — ${p.count} 次`));
+        }
+        if (zeroHits.length) {
+          lines.push('', `❓ AI Pro 零命中問題：${zeroHits.length} 條（最新：${zeroHits[zeroHits.length - 1].slice(0, 60)}）`);
+        }
+        res.status(200).json(reply(lines.join('\n'), { ephemeral: true }));
+        return;
+      }
+
+      case 'ask': {
+        const question = String(getOption(options, 'query') || '').trim().slice(0, 500);
+        if (!question) {
+          res.status(200).json(reply('請輸入問題，例如 `/ask 簡樸房要幾時前登記？`', { ephemeral: true }));
+          return;
+        }
+        // AI 回答通常超過 Discord 3 秒時限，用 deferred + waitUntil（同 /competitor-news 一樣套路）
+        res.status(200).json({ type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE });
+
+        waitUntil(
+          (async () => {
+            const result = await askAI(question);
+            const quotaNote = result.quota ? `\n\n_（今日 AI 名額已用 ${result.quota.used}/${result.quota.limit}）_` : '';
+            await patchDeferredReply(
+              body.token,
+              `**❓ ${question}**\n\n${result.text}${quotaNote}`
+            );
+          })()
+        );
+        return;
+      }
+
+      case 'pending': {
+        const all = await loadAllRecords();
+        const pending = all
+          .filter(({ rec }) => rec.status !== 'done')
+          .sort((a, b) => String(b.rec.registeredAt || '').localeCompare(String(a.rec.registeredAt || '')))
+          .slice(0, 10);
+        if (!pending.length) {
+          res.status(200).json(reply('🎉 冇未跟進嘅記錄，全部搞掂晒。', { ephemeral: true }));
+          return;
+        }
+        const lines = pending.map(({ id, rec: r }, i) => {
+          const kind = r.type === 'bhu-renewal' ? 'BHU續期' : '查詢';
+          const detail = r.type === 'bhu-renewal' ? `到期：${r.expiry || '未填'}` : (r.message || '').slice(0, 50);
+          return `**${i + 1}. 🔄 [${kind}] ${r.name}**（編號 \`${shortId(id)}\`）\n${r.contact}｜${(r.registeredAt || '').slice(0, 10)}｜${detail}`;
+        });
+        lines.push('', '完成跟進後用 `/done 編號` 標記（編號係上面 `xxxxxx` 嗰段）。');
+        res.status(200).json(reply(lines.join('\n'), { ephemeral: true }));
+        return;
+      }
+
+      case 'done': {
+        const idInput = String(getOption(options, 'id') || '').trim().toLowerCase();
+        if (!idInput) {
+          res.status(200).json(reply('請提供記錄編號，例如 `/done a1b2c3`（用 `/pending` 睇編號）。', { ephemeral: true }));
+          return;
+        }
+        const all = await loadAllRecords();
+        const matches = all.filter(({ id }) => shortId(id).toLowerCase() === idInput || id === idInput);
+        if (!matches.length) {
+          res.status(200).json(reply(`搵唔到編號 \`${idInput}\` 嘅記錄，用 \`/pending\` 或 \`/lookup\` 確認返個編號。`, { ephemeral: true }));
+          return;
+        }
+        if (matches.length > 1) {
+          res.status(200).json(reply(`編號 \`${idInput}\` 對應多過一條記錄（罕見情況），請改用 \`/lookup\` 搵返完整資料再聯絡開發者處理。`, { ephemeral: true }));
+          return;
+        }
+        const { prefix, id, rec } = matches[0];
+        if (rec.status === 'done') {
+          res.status(200).json(reply(`✅ 呢條記錄（${rec.name}）之前已經標記咗完成（${(rec.doneAt || '').slice(0, 10)}）。`, { ephemeral: true }));
+          return;
+        }
+        rec.status = 'done';
+        rec.doneAt = new Date().toISOString();
+        const saved = await saveRecord(prefix, id, rec);
+        res.status(200).json(
+          reply(
+            saved
+              ? `✅ 已將 **${rec.name}**（${rec.type === 'bhu-renewal' ? 'BHU續期登記' : '一般查詢'}）標記為完成。`
+              : `儲存失敗，請遲啲再試。`,
+            { ephemeral: true }
           )
         );
         return;

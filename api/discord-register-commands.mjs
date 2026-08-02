@@ -79,6 +79,41 @@ export default async function handler(req, res) {
         },
       ],
     },
+    {
+      name: 'ask',
+      description: '問 AAEL AI 助理（用網站知識庫回答，同 AI Pro 同一個腦）',
+      options: [
+        {
+          name: 'query',
+          description: '你嘅問題，例如「簡樸房要幾時前登記？」',
+          type: 3,
+          required: true,
+        },
+      ],
+    },
+    {
+      name: 'stats',
+      description: '即時查今日網站數據：瀏覽量、AI用量、熱門頁面（管理員限定）',
+      default_member_permissions: '8',
+    },
+    {
+      name: 'pending',
+      description: '列出未跟進嘅查詢／BHU登記（管理員限定）',
+      default_member_permissions: '8',
+    },
+    {
+      name: 'done',
+      description: '將一條查詢記錄標記為已完成（管理員限定）',
+      default_member_permissions: '8',
+      options: [
+        {
+          name: 'id',
+          description: '記錄短編號（用 /pending 或 /lookup 睇）',
+          type: 3,
+          required: true,
+        },
+      ],
+    },
     { name: 'help', description: '列出所有可用指令' },
     { name: 'contact', description: '顯示 AAEL 聯絡資料' },
     {

@@ -26,6 +26,16 @@ async function readCount(url, token, key) {
   }
 }
 
+async function readList(url, token, key) {
+  try {
+    const r = await fetch(`${url}/lrange/${key}/0/-1`, { headers: { Authorization: `Bearer ${token}` } });
+    const data = await r.json();
+    return (data.result || []).map((q) => decodeURIComponent(q));
+  } catch {
+    return [];
+  }
+}
+
 export default async function handler(req, res) {
   const secret = process.env.WEEKLY_STATS_SECRET;
   if (secret && req.query.secret !== secret) {
@@ -55,11 +65,27 @@ export default async function handler(req, res) {
     .map((d, i) => `${d.slice(5)}　📄${pageviewsByDay[i]}　🤖${chatByDay[i]}`)
     .join('\n');
 
+  // 一週零命中問題整理：AI Pro 搵唔到相關文章嘅問題，就係你下一篇文章嘅選題依據。
+  // （依賴 chat.mjs 將 aael:zerohit:{date} 嘅過期時間設做 9 日——2026-08 已修正，
+  //   之前得 2 日過期，所以週報淨係見到最近兩日嘅零命中。）
+  const zeroByDay = await Promise.all(dates.map((d) => readList(url, token, `aael:zerohit:${d}`)));
+  const allZero = zeroByDay.flat();
+  const uniqueZero = [...new Set(allZero)];
+
   const fields = [
     { name: '📄 總瀏覽量（7 日）', value: `${totalPageviews} 次（日均 ${avgPageviews}）`, inline: true },
     { name: '🤖 AI Pro 總查詢（7 日）', value: `${totalChat} 次（日均 ${avgChat}）`, inline: true },
     { name: '逐日明細', value: dayLines, inline: false },
   ];
+
+  if (allZero.length) {
+    const sample = uniqueZero.slice(-10); // 最多顯示 10 條，避免訊息過長
+    fields.push({
+      name: `📝 本週 AI Pro 搵唔到文章嘅問題（共 ${allZero.length} 條，去重後 ${uniqueZero.length} 條）→ 文章選題參考`,
+      value: sample.map((q) => `• ${q}`).join('\n').slice(0, 1000),
+      inline: false,
+    });
+  }
 
   await notifyDiscord({
     title: `📅 AAEL 網站每週摘要 — ${dates[0]} 至 ${dates[6]}`,
