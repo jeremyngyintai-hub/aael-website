@@ -78,6 +78,9 @@
   "functions": {
     "api/chat.mjs": {
       "maxDuration": 60
+    },
+    "api/discord-interactions.mjs": {
+      "maxDuration": 30
     }
   }
 }
