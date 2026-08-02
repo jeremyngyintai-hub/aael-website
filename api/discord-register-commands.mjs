@@ -145,6 +145,7 @@ export default async function handler(req, res) {
       options: [
         { name: 'channel', description: '發去邊個頻道', type: 7, required: true, channel_types: [0] },
         { name: 'message', description: '公告內容（打 \\n 換行；用 preset 就唔使填）', type: 3, required: false },
+        { name: 'title', description: '填咗就會出 embed 格式（銅色邊條＋標題）', type: 3, required: false },
         {
           name: 'preset',
           description: '現成公告範本',

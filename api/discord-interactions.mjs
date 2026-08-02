@@ -824,10 +824,23 @@ export default async function handler(req, res) {
           return;
         }
         const botToken = process.env.DISCORD_BOT_TOKEN;
+        // 有填 title 就出 embed（AAEL 銅色邊條 + 標題 + 時間戳）；冇就出普通訊息
+        const embedTitle = String(getOption(options, 'title') || '').trim().slice(0, 250);
+        const payload = embedTitle
+          ? {
+              embeds: [{
+                title: embedTitle,
+                description: message,
+                color: 0xce8f5a,
+                footer: { text: 'AAEL — aael.online' },
+                timestamp: new Date().toISOString(),
+              }],
+            }
+          : { content: message };
         const r = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
           method: 'POST',
           headers: { Authorization: `Bot ${botToken}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content: message }),
+          body: JSON.stringify(payload),
         });
         res.status(200).json(
           reply(
