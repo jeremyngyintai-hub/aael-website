@@ -227,6 +227,64 @@ async function searchCompetitorNews() {
   }
 }
 
+/* ---------- /purge：刪除頻道最近嘅訊息 ----------
+   用 Discord REST API（bot token）做：先攞返最近嘅訊息，再 bulk-delete。
+   注意 Discord 嘅硬性限制：bulk-delete 只可以刪「14 日內」嘅訊息，
+   多過 14 日嘅會自動跳過（會喺結果度話返你知跳咗幾多條）。 */
+async function purgeMessages(channelId, amount, userId) {
+  const botToken = process.env.DISCORD_BOT_TOKEN;
+  if (!botToken) return { ok: false, error: '伺服器未設定 DISCORD_BOT_TOKEN。' };
+  const headers = { Authorization: `Bot ${botToken}`, 'Content-Type': 'application/json' };
+
+  // 如果指定咗只刪某用戶，就要攞多啲先夠篩；否則攞啱啱好嘅數量
+  const fetchLimit = userId ? 100 : Math.min(amount, 100);
+  const r = await fetch(
+    `https://discord.com/api/v10/channels/${channelId}/messages?limit=${fetchLimit}`,
+    { headers }
+  );
+  if (!r.ok) {
+    return {
+      ok: false,
+      error:
+        r.status === 403
+          ? '讀取訊息失敗（403）——AAEL Bot 嘅身份組需要「管理訊息 Manage Messages」同「讀取訊息記錄 Read Message History」權限，去 Server Settings → Roles 開返。'
+          : `讀取訊息失敗（HTTP ${r.status}）。`,
+    };
+  }
+  let msgs = await r.json();
+  if (userId) msgs = msgs.filter((m) => m.author?.id === userId);
+  msgs = msgs.slice(0, amount);
+  if (!msgs.length) return { ok: true, deleted: 0, skippedOld: 0 };
+
+  // bulk-delete 唔食超過 14 日嘅訊息 ID（成個請求會直接 400），要預先篩走。
+  // 用 13.5 日做界線，預返啲時鐘誤差空間。
+  const cutoff = Date.now() - 13.5 * 24 * 3600 * 1000;
+  const young = msgs.filter((m) => Date.parse(m.timestamp) > cutoff);
+  const skippedOld = msgs.length - young.length;
+
+  let deleted = 0;
+  if (young.length >= 2) {
+    const br = await fetch(
+      `https://discord.com/api/v10/channels/${channelId}/messages/bulk-delete`,
+      { method: 'POST', headers, body: JSON.stringify({ messages: young.map((m) => m.id) }) }
+    );
+    if (br.ok) deleted = young.length;
+    else {
+      const detail = await br.text().catch(() => '');
+      return { ok: false, error: `刪除失敗（HTTP ${br.status}）${br.status === 403 ? '——檢查 Bot 有冇「管理訊息」權限。' : ''} ${detail.slice(0, 150)}` };
+    }
+  } else if (young.length === 1) {
+    // bulk-delete 最少要 2 條，單條要用普通 DELETE
+    const dr = await fetch(
+      `https://discord.com/api/v10/channels/${channelId}/messages/${young[0].id}`,
+      { method: 'DELETE', headers }
+    );
+    if (dr.ok) deleted = 1;
+    else return { ok: false, error: `刪除失敗（HTTP ${dr.status}）。` };
+  }
+  return { ok: true, deleted, skippedOld };
+}
+
 /* ---------- /ask：喺 Discord 直接問 AAEL AI 助理 ----------
    直接 call 返網站自己嘅 /api/chat endpoint，完整重用嗰邊嘅檢索、
    系統指令、供應商轉接同延伸閱讀連結邏輯——零重複程式碼。
@@ -376,6 +434,7 @@ export default async function handler(req, res) {
               '`/stats` — 即時查今日網站數據（管理員限定，只有你自己見到）',
               '`/pending` — 未跟進查詢清單（管理員限定，只有你自己見到）',
               '`/done 編號` — 將查詢標記為已完成（管理員限定）',
+              '`/purge 數量` — 刪除呢個頻道最近嘅訊息，可選只刪某用戶（需要「管理訊息」權限）',
               '`/lookup 關鍵字` — 搜返已儲存嘅查詢／BHU登記記錄（管理員限定，只有你自己見到）',
               '`/competitor-news` — 用 AI 網上搜尋，睇下市場/競爭對手最近動態（需要幾秒鐘）',
               '`/status` — 查網站 API 設定狀態（管理員限定，只有你自己見到）',
@@ -519,6 +578,35 @@ export default async function handler(req, res) {
               : `儲存失敗，請遲啲再試。`,
             { ephemeral: true }
           )
+        );
+        return;
+      }
+
+      case 'purge': {
+        const amount = Math.min(Math.max(parseInt(getOption(options, 'amount'), 10) || 0, 1), 100);
+        const targetUser = getOption(options, 'user'); // user option 嘅 value 就係 user ID 字串
+        // 攞訊息＋刪除有兩三個 API 來回，怕撞 Discord 3 秒時限，用 deferred ephemeral
+        res.status(200).json({
+          type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+          data: { flags: 64 },
+        });
+        waitUntil(
+          (async () => {
+            const result = await purgeMessages(body.channel_id, amount, targetUser);
+            let msg;
+            if (!result.ok) {
+              msg = `❌ ${result.error}`;
+            } else {
+              msg = `🧹 已刪除 **${result.deleted}** 條訊息${targetUser ? `（只限 <@${targetUser}>）` : ''}。`;
+              if (result.skippedOld) {
+                msg += `\n（另有 ${result.skippedOld} 條超過 14 日，Discord 唔容許批量刪除，已跳過——嗰啲要手動逐條刪。）`;
+              }
+              if (result.deleted === 0 && !result.skippedOld) {
+                msg = targetUser ? `最近 100 條訊息入面搵唔到 <@${targetUser}> 嘅訊息。` : '呢個頻道冇訊息可以刪。';
+              }
+            }
+            await patchDeferredReply(body.token, msg);
+          })()
         );
         return;
       }

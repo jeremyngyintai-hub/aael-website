@@ -114,6 +114,27 @@ export default async function handler(req, res) {
         },
       ],
     },
+    {
+      name: 'purge',
+      description: '刪除呢個頻道最近嘅訊息（需要「管理訊息」權限）',
+      default_member_permissions: '8192', // 8192 = MANAGE_MESSAGES，有管理訊息權限先見到／用到
+      options: [
+        {
+          name: 'amount',
+          description: '刪幾多條（1-100）',
+          type: 4, // INTEGER
+          required: true,
+          min_value: 1,
+          max_value: 100,
+        },
+        {
+          name: 'user',
+          description: '只刪呢位用戶嘅訊息（選填）',
+          type: 6, // USER
+          required: false,
+        },
+      ],
+    },
     { name: 'help', description: '列出所有可用指令' },
     { name: 'contact', description: '顯示 AAEL 聯絡資料' },
     {
