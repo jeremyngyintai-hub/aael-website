@@ -2372,17 +2372,24 @@
     }
     var btn=document.getElementById('f-send');
     btn.disabled=true;btn.textContent=zh()?'送出中…':'Sending\u2026';
-    fetch('/api/inquiry',{
+    fetch('https://formsubmit.co/ajax/aaelhk.info@gmail.com',{
       method:'POST',
       headers:{'Content-Type':'application/json','Accept':'application/json'},
       body:JSON.stringify({
-        formType:'inquiry',
-        name:name,contact:contact,address:addr,message:msg
+        _subject:'New inquiry via aael.online',
+        _template:'table',
+        Name:name,Contact:contact,'Building address':addr||'(not given)',Inquiry:msg
       })
     }).then(function(r){if(!r.ok)throw 0;return r.json();})
     .then(function(){
       form.style.display='none';
       document.getElementById('inq-ok').style.display='block';
+      /* Discord 通知：獨立、非阻塞，就算失敗都唔影響用戶見到嘅結果 */
+      fetch('/api/inquiry',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify({formType:'inquiry',name:name,contact:contact,address:addr,message:msg})
+      }).catch(function(){});
     })
     .catch(function(){
       btn.disabled=false;
@@ -2771,19 +2778,31 @@
       say(isZH()?'請填寫姓名、聯絡方式及樓宇地址。':'Please complete name, contact and building address.','err'); return;
     }
     btn.disabled=true; say(isZH()?'傳送中…':'Sending…','ok');
-    fetch('/api/inquiry',{
+    var units=document.getElementById('r-units').value.trim(),
+        expiry=document.getElementById('r-expiry').value,
+        issuer=document.getElementById('r-issuer').value;
+    fetch('https://formsubmit.co/ajax/aaelhk.info@gmail.com',{
       method:'POST',
       headers:{'Content-Type':'application/json','Accept':'application/json'},
       body:JSON.stringify({
-        formType:'bhu-renewal',
-        name:name,contact:contact,address:addr,
-        units:document.getElementById('r-units').value.trim(),
-        expiry:document.getElementById('r-expiry').value,
-        issuer:document.getElementById('r-issuer').value
+        _subject:'【認證到期提醒登記】'+addr,
+        '登記類別':'簡樸房認證到期提醒',
+        '姓名／公司':name,'聯絡方式':contact,'樓宇地址':addr,
+        '單位數目':units,
+        '認證屆滿日期':expiry,
+        '認證簽發方':issuer,
+        '登記時間':new Date().toLocaleString('zh-HK')
       })
-    }).then(function(r){return r.json();})
+    }).then(function(r){if(!r.ok)throw 0;return r.json();})
     .then(function(){ f.reset(); btn.disabled=false;
-      say(isZH()?'已收到，多謝。我們會在屆滿前十二個月與您聯絡。':'Received, thank you. We will contact you twelve months before expiry.','ok'); })
+      say(isZH()?'已收到，多謝。我們會在屆滿前十二個月與您聯絡。':'Received, thank you. We will contact you twelve months before expiry.','ok');
+      /* Discord 通知：獨立、非阻塞，就算失敗都唔影響用戶見到嘅結果 */
+      fetch('/api/inquiry',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify({formType:'bhu-renewal',name:name,contact:contact,address:addr,units:units,expiry:expiry,issuer:issuer})
+      }).catch(function(){});
+    })
     .catch(function(){ btn.disabled=false;
       say(isZH()?'傳送失敗，請直接電郵 aaelhk.info@gmail.com。':'Could not send — please email aaelhk.info@gmail.com.','err'); });
   });
@@ -2981,6 +3000,6 @@ if("serviceWorker" in navigator){
   });
 }
 </script>
-<img src="/api/track-pageview" width="1" height="1" style="display:none" alt="">
+<script>(function(){try{var p=location.pathname.replace(/^\//,'')||'index';new Image().src='/api/track-pageview?page='+encodeURIComponent(p);}catch(e){}})();</script>
 </body>
 </html>
