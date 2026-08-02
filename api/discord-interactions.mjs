@@ -20,6 +20,10 @@
 import { verifyKey, InteractionType, InteractionResponseType } from 'discord-interactions';
 import { waitUntil } from '@vercel/functions';
 import { KB } from '../lib/kb.mjs';
+import {
+  upstashConfig, hkToday, readCount, readList, readTopPages,
+  loadAllRecords, saveRecord, deleteRecord, shortId, recordsToCsv,
+} from '../lib/records.mjs';
 
 const SITE_URL = process.env.AAEL_SITE_URL || 'https://aael.online';
 const PUBLIC_KEY = process.env.DISCORD_PUBLIC_KEY;
@@ -69,99 +73,6 @@ function bhuDeadline() {
   return { days, deadline };
 }
 
-/* ---------- Upstash 共用讀取輔助 ---------- */
-function upstashConfig() {
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-  if (!url || !token) return null;
-  return { url, headers: { Authorization: `Bearer ${token}` } };
-}
-
-function hkToday() {
-  // 香港時間（UTC+8）日期，同 chat.mjs／track-pageview.mjs／daily-stats.mjs 保持一致
-  return new Date(Date.now() + 8 * 3600 * 1000).toISOString().slice(0, 10);
-}
-
-async function readCount(cfg, key) {
-  try {
-    const r = await fetch(`${cfg.url}/get/${key}`, { headers: cfg.headers });
-    const d = await r.json();
-    return d.result ? parseInt(d.result, 10) : 0;
-  } catch {
-    return 0;
-  }
-}
-
-async function readList(cfg, key) {
-  try {
-    const r = await fetch(`${cfg.url}/lrange/${key}/0/-1`, { headers: cfg.headers });
-    const d = await r.json();
-    return (d.result || []).map((q) => decodeURIComponent(q));
-  } catch {
-    return [];
-  }
-}
-
-async function readTopPages(cfg, key, limit = 5) {
-  try {
-    const r = await fetch(`${cfg.url}/zrevrange/${key}/0/${limit - 1}/withscores`, { headers: cfg.headers });
-    const d = await r.json();
-    const flat = d.result || []; // [page1, score1, page2, score2, ...]
-    const pages = [];
-    for (let i = 0; i < flat.length; i += 2) {
-      pages.push({ page: decodeURIComponent(flat[i]), count: parseInt(flat[i + 1], 10) });
-    }
-    return pages;
-  } catch {
-    return [];
-  }
-}
-
-/* ---------- 載入所有已儲存嘅查詢／BHU登記記錄（/lookup /pending /done 共用） ---------- */
-async function loadAllRecords() {
-  const cfg = upstashConfig();
-  if (!cfg) return [];
-  const out = [];
-
-  for (const prefix of ['inquiry', 'bhu']) {
-    try {
-      const idxRes = await fetch(`${cfg.url}/smembers/aael:${prefix}:index`, { headers: cfg.headers });
-      const idxData = await idxRes.json();
-      const ids = (idxData.result || []).slice(-200); // 限制數量，避免逐個 GET 太耐
-      for (const id of ids) {
-        const r = await fetch(`${cfg.url}/get/aael:${prefix}:${id}`, { headers: cfg.headers });
-        const d = await r.json();
-        if (!d.result) continue;
-        try {
-          out.push({ prefix, id, rec: JSON.parse(d.result) });
-        } catch {
-          // 個別記錄格式壞咗就跳過
-        }
-      }
-    } catch {
-      // 個別 prefix 讀取失敗唔應該令成個搜尋崩潰
-    }
-  }
-  return out;
-}
-
-async function saveRecord(prefix, id, rec) {
-  const cfg = upstashConfig();
-  if (!cfg) return false;
-  const r = await fetch(`${cfg.url}/set/aael:${prefix}:${id}`, {
-    method: 'POST',
-    headers: { ...cfg.headers, 'Content-Type': 'text/plain' },
-    body: JSON.stringify(rec),
-  });
-  return r.ok;
-}
-
-// 記錄嘅短編號：id 格式係 `${timestamp}-${六位隨機字串}`，攞後面嗰段做人手輸入用嘅短編號
-function shortId(id) {
-  const parts = String(id).split('-');
-  return parts[parts.length - 1] || id;
-}
-
 function statusEmoji(rec) {
   return rec.status === 'done' ? '✅' : '🔄';
 }
@@ -178,19 +89,18 @@ async function lookupRecords(query) {
     .slice(0, 5);
 }
 
-/* ---------- /competitor-news：用 Gemini + Google 搜尋 找返市場最新動態 ---------- */
-async function searchCompetitorNews() {
+/* ---------- AI 網上搜尋（Gemini + Google Search grounding） ----------
+   通用引擎：/competitor-news 用預設嘅對手監察 prompt，/websearch 就俾你自由問。 */
+async function aiWebSearch(question) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return { ok: false, text: '伺服器未設定 GEMINI_API_KEY，搵唔到可用嘅搜尋功能。' };
 
   const model = process.env.AAEL_MODEL || 'gemini-flash-latest';
-  const prompt = `你係香港「簡樸房」（Basic Housing Unit／劏房規管）認證市場嘅商業分析員。
-請用 Google 搜尋，搵返最近呢一兩個月，香港簡樸房／劏房認證相關嘅市場動態，
-特別留意 bhueasy.hk 呢類同業競爭對手嘅最新消息（例如新服務、定價變動、宣傳推廣、
-政府政策更新對佢哋嘅影響等）。
+  const prompt = `你係香港樓宇事務顧問公司 AAEL 嘅研究助理。請用 Google 搜尋回答以下問題，
+用繁體中文、精簡列點形式回覆（最多 6 點，每點一兩句）。只可以根據搜尋結果作答，
+搵唔到相關資料就老實講「未搵到相關資料」，唔好靠估作出內容。
 
-請用繁體中文，以精簡列點形式回覆（最多 5 點，每點一兩句），如果搵唔到最近嘅相關消息，
-老實講「未搵到最近相關嘅新消息」，唔好靠估作出內容。`;
+問題：${question}`;
 
   try {
     const r = await fetch(
@@ -225,6 +135,24 @@ async function searchCompetitorNews() {
   } catch (err) {
     return { ok: false, text: `搜尋出錯：${String(err)}` };
   }
+}
+
+function searchCompetitorNews() {
+  return aiWebSearch(
+    '最近呢一兩個月，香港簡樸房／劏房認證相關嘅市場動態，特別留意 bhueasy.hk 呢類同業競爭對手嘅最新消息（例如新服務、定價變動、宣傳推廣、政府政策更新對佢哋嘅影響等）。'
+  );
+}
+
+/* ---------- 更新 deferred 回覆 + 附加檔案（multipart） ---------- */
+async function patchDeferredReplyWithFile(interactionToken, content, filename, fileContent, mimeType) {
+  if (!APP_ID) return;
+  const fd = new FormData();
+  fd.append('payload_json', JSON.stringify({ content: content.slice(0, 1990) }));
+  fd.append('files[0]', new Blob([fileContent], { type: mimeType }), filename);
+  await fetch(`https://discord.com/api/v10/webhooks/${APP_ID}/${interactionToken}/messages/@original`, {
+    method: 'PATCH',
+    body: fd, // multipart boundary 由 fetch 自動處理，唔好自己設 Content-Type
+  }).catch((err) => console.error('附加檔案回覆失敗', err));
 }
 
 /* ---------- /purge：刪除頻道最近嘅訊息 ----------
@@ -435,6 +363,14 @@ export default async function handler(req, res) {
               '`/pending` — 未跟進查詢清單（管理員限定，只有你自己見到）',
               '`/done 編號` — 將查詢標記為已完成（管理員限定）',
               '`/purge 數量` — 刪除呢個頻道最近嘅訊息，可選只刪某用戶（需要「管理訊息」權限）',
+              '`/export` — 將全部查詢／BHU記錄匯出做 CSV（Excel 開得，管理員限定）',
+              '`/wipe 關鍵字` — 永久刪除包含關鍵字嘅記錄，兩步確認（管理員限定）',
+              '`/note 編號 內容` — 為記錄加跟進備註（管理員限定）',
+              '`/undone 編號` — 將記錄還原做未跟進（管理員限定）',
+              '`/whois 編號` — 睇一條記錄嘅完整資料連備註（管理員限定）',
+              '`/websearch 問題` — 用 AI 網上搜尋任何題目（需要幾秒鐘）',
+              '`/broadcast 頻道 內容` — 用 Bot 身份出公告（管理員限定）',
+              '`/slowmode 秒數` — 設定頻道慢速模式，0 = 關閉（管理員限定）',
               '`/lookup 關鍵字` — 搜返已儲存嘅查詢／BHU登記記錄（管理員限定，只有你自己見到）',
               '`/competitor-news` — 用 AI 網上搜尋，睇下市場/競爭對手最近動態（需要幾秒鐘）',
               '`/status` — 查網站 API 設定狀態（管理員限定，只有你自己見到）',
@@ -479,6 +415,23 @@ export default async function handler(req, res) {
         const cfg = upstashConfig();
         if (!cfg) {
           res.status(200).json(reply('未設定 Upstash 環境變數，讀唔到統計數據。', { ephemeral: true }));
+          return;
+        }
+        const days = Math.min(Math.max(parseInt(getOption(options, 'days'), 10) || 1, 1), 9);
+        if (days > 1) {
+          // 多日趨勢：由舊到新，包括今日。上限 9 日，因為統計 key 過期時間係 9 日。
+          const dates = Array.from({ length: days }, (_, i) => hkToday(days - 1 - i));
+          const [pv, ch] = await Promise.all([
+            Promise.all(dates.map((d) => readCount(cfg, `aael:pageviews:${d}`))),
+            Promise.all(dates.map((d) => readCount(cfg, `aael:chat:${d}`))),
+          ]);
+          const lines = [
+            `**📊 最近 ${days} 日趨勢（香港時間，舊→新）**`,
+            ...dates.map((d, i) => `${d.slice(5)}　📄${pv[i]}　🤖${ch[i]}`),
+            '',
+            `合計：📄 ${pv.reduce((a, b) => a + b, 0)} 次瀏覽｜🤖 ${ch.reduce((a, b) => a + b, 0)} 次 AI 查詢`,
+          ];
+          res.status(200).json(reply(lines.join('\n'), { ephemeral: true }));
           return;
         }
         const date = hkToday();
@@ -540,7 +493,8 @@ export default async function handler(req, res) {
         const lines = pending.map(({ id, rec: r }, i) => {
           const kind = r.type === 'bhu-renewal' ? 'BHU續期' : '查詢';
           const detail = r.type === 'bhu-renewal' ? `到期：${r.expiry || '未填'}` : (r.message || '').slice(0, 50);
-          return `**${i + 1}. 🔄 [${kind}] ${r.name}**（編號 \`${shortId(id)}\`）\n${r.contact}｜${(r.registeredAt || '').slice(0, 10)}｜${detail}`;
+          const note = r.notes?.length ? `\n　📝 ${r.notes[r.notes.length - 1].text.slice(0, 60)}` : '';
+          return `**${i + 1}. 🔄 [${kind}] ${r.name}**（編號 \`${shortId(id)}\`）\n${r.contact}｜${(r.registeredAt || '').slice(0, 10)}｜${detail}${note}`;
         });
         lines.push('', '完成跟進後用 `/done 編號` 標記（編號係上面 `xxxxxx` 嗰段）。');
         res.status(200).json(reply(lines.join('\n'), { ephemeral: true }));
@@ -582,6 +536,83 @@ export default async function handler(req, res) {
         return;
       }
 
+      case 'export': {
+        // 讀齊全部記錄可能超過 3 秒，用 deferred ephemeral
+        res.status(200).json({
+          type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+          data: { flags: 64 },
+        });
+        waitUntil(
+          (async () => {
+            const all = await loadAllRecords();
+            if (!all.length) {
+              await patchDeferredReply(body.token, '而家冇任何已儲存嘅記錄。');
+              return;
+            }
+            // 新到舊排序，方便喺 Excel 由上而下睇
+            all.sort((a, b) => String(b.rec.registeredAt || '').localeCompare(String(a.rec.registeredAt || '')));
+            const csv = recordsToCsv(all);
+            const dateStr = hkToday();
+            const pendingCount = all.filter(({ rec }) => rec.status !== 'done').length;
+            await patchDeferredReplyWithFile(
+              body.token,
+              `📊 已匯出 **${all.length}** 條記錄（未跟進 ${pendingCount} 條）。\nExcel 直接開就得；提提你：入面有客戶個人資料（PDPO），儲存同傳閱要小心。`,
+              `AAEL_記錄匯出_${dateStr}.csv`,
+              csv,
+              'text/csv; charset=utf-8'
+            );
+          })()
+        );
+        return;
+      }
+
+      case 'wipe': {
+        const keyword = String(getOption(options, 'keyword') || '').trim().toLowerCase();
+        const confirmed = String(getOption(options, 'confirm') || '').trim().toLowerCase() === 'yes';
+        if (!keyword) {
+          res.status(200).json(reply('請提供關鍵字，例如 `/wipe keyword:test`。', { ephemeral: true }));
+          return;
+        }
+        res.status(200).json({
+          type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+          data: { flags: 64 },
+        });
+        waitUntil(
+          (async () => {
+            const all = await loadAllRecords();
+            const matches = all.filter(({ rec }) => {
+              const hay = `${rec.name || ''} ${rec.contact || ''} ${rec.address || ''} ${rec.message || ''}`.toLowerCase();
+              return hay.includes(keyword);
+            });
+            if (!matches.length) {
+              await patchDeferredReply(body.token, `搵唔到包含「${keyword}」嘅記錄。`);
+              return;
+            }
+            if (!confirmed) {
+              // 第一步：只預覽，唔刪。防止手快剷錯真客戶資料。
+              const preview = matches.slice(0, 15).map(({ id, rec }, i) =>
+                `${i + 1}. [${rec.type === 'bhu-renewal' ? 'BHU' : '查詢'}] ${rec.name}｜${rec.contact}（\`${shortId(id)}\`）`
+              );
+              const more = matches.length > 15 ? `\n…以及另外 ${matches.length - 15} 條` : '';
+              await patchDeferredReply(
+                body.token,
+                `⚠️ 將會**永久刪除**以下 **${matches.length}** 條包含「${keyword}」嘅記錄：\n${preview.join('\n')}${more}\n\n確定就再行一次：\`/wipe keyword:${keyword} confirm:yes\`\n（刪咗冇得返轉頭；建議刪之前先 \`/export\` 留底。）`
+              );
+              return;
+            }
+            let deleted = 0;
+            for (const { prefix, id } of matches) {
+              if (await deleteRecord(prefix, id)) deleted++;
+            }
+            await patchDeferredReply(
+              body.token,
+              `🗑️ 已永久刪除 **${deleted}** 條包含「${keyword}」嘅記錄${deleted < matches.length ? `（${matches.length - deleted} 條刪除失敗，可以再試一次）` : ''}。`
+            );
+          })()
+        );
+        return;
+      }
+
       case 'purge': {
         const amount = Math.min(Math.max(parseInt(getOption(options, 'amount'), 10) || 0, 1), 100);
         const targetUser = getOption(options, 'user'); // user option 嘅 value 就係 user ID 字串
@@ -607,6 +638,153 @@ export default async function handler(req, res) {
             }
             await patchDeferredReply(body.token, msg);
           })()
+        );
+        return;
+      }
+
+      case 'note': {
+        const idInput = String(getOption(options, 'id') || '').trim().toLowerCase();
+        const text = String(getOption(options, 'text') || '').trim().slice(0, 300);
+        if (!idInput || !text) {
+          res.status(200).json(reply('用法：`/note id:編號 text:備註內容`（編號用 `/pending` 或 `/lookup` 睇）。', { ephemeral: true }));
+          return;
+        }
+        const all = await loadAllRecords();
+        const matches = all.filter(({ id }) => shortId(id).toLowerCase() === idInput || id === idInput);
+        if (matches.length !== 1) {
+          res.status(200).json(reply(matches.length ? `編號 \`${idInput}\` 對應多過一條記錄，請用 \`/lookup\` 確認。` : `搵唔到編號 \`${idInput}\` 嘅記錄。`, { ephemeral: true }));
+          return;
+        }
+        const { prefix, id, rec } = matches[0];
+        rec.notes = (rec.notes || []).slice(-19); // 最多保留 20 條備註
+        rec.notes.push({ at: new Date().toISOString(), text });
+        const saved = await saveRecord(prefix, id, rec);
+        res.status(200).json(
+          reply(saved ? `📝 已為 **${rec.name}** 加備註：${text}` : '儲存失敗，請遲啲再試。', { ephemeral: true })
+        );
+        return;
+      }
+
+      case 'undone': {
+        const idInput = String(getOption(options, 'id') || '').trim().toLowerCase();
+        if (!idInput) {
+          res.status(200).json(reply('請提供記錄編號，例如 `/undone a1b2c3`。', { ephemeral: true }));
+          return;
+        }
+        const all = await loadAllRecords();
+        const matches = all.filter(({ id }) => shortId(id).toLowerCase() === idInput || id === idInput);
+        if (matches.length !== 1) {
+          res.status(200).json(reply(matches.length ? `編號 \`${idInput}\` 對應多過一條記錄，請用 \`/lookup\` 確認。` : `搵唔到編號 \`${idInput}\` 嘅記錄。`, { ephemeral: true }));
+          return;
+        }
+        const { prefix, id, rec } = matches[0];
+        if (rec.status !== 'done') {
+          res.status(200).json(reply(`呢條記錄（${rec.name}）本身就係未跟進狀態。`, { ephemeral: true }));
+          return;
+        }
+        delete rec.status;
+        delete rec.doneAt;
+        const saved = await saveRecord(prefix, id, rec);
+        res.status(200).json(
+          reply(saved ? `🔄 已將 **${rec.name}** 還原為未跟進。` : '儲存失敗，請遲啲再試。', { ephemeral: true })
+        );
+        return;
+      }
+
+      case 'whois': {
+        const idInput = String(getOption(options, 'id') || '').trim().toLowerCase();
+        if (!idInput) {
+          res.status(200).json(reply('請提供記錄編號，例如 `/whois a1b2c3`。', { ephemeral: true }));
+          return;
+        }
+        const all = await loadAllRecords();
+        const matches = all.filter(({ id }) => shortId(id).toLowerCase() === idInput || id === idInput);
+        if (matches.length !== 1) {
+          res.status(200).json(reply(matches.length ? `編號 \`${idInput}\` 對應多過一條記錄。` : `搵唔到編號 \`${idInput}\` 嘅記錄。`, { ephemeral: true }));
+          return;
+        }
+        const { id, rec } = matches[0];
+        const lines = [
+          `**${statusEmoji(rec)} ${rec.type === 'bhu-renewal' ? 'BHU續期登記' : '一般查詢'} — ${rec.name}**（編號 \`${shortId(id)}\`）`,
+          `聯絡方式：${rec.contact}`,
+          `樓宇地址：${rec.address || '（未填）'}`,
+        ];
+        if (rec.type === 'bhu-renewal') {
+          lines.push(`單位數目：${rec.units || '（未填）'}｜屆滿日期：${rec.expiry || '（未填）'}｜簽發方：${rec.issuer || '（未填）'}`);
+        } else {
+          lines.push(`查詢內容：${(rec.message || '').slice(0, 800)}`);
+        }
+        lines.push(`登記於：${(rec.registeredAt || '').slice(0, 16).replace('T', ' ')}`);
+        if (rec.status === 'done') lines.push(`✅ 完成於：${(rec.doneAt || '').slice(0, 16).replace('T', ' ')}`);
+        if (rec.notes?.length) {
+          lines.push('', '**📝 跟進備註**');
+          rec.notes.slice(-10).forEach((n) => lines.push(`• [${(n.at || '').slice(0, 10)}] ${n.text}`));
+        }
+        res.status(200).json(reply(lines.join('\n'), { ephemeral: true }));
+        return;
+      }
+
+      case 'websearch': {
+        const q = String(getOption(options, 'query') || '').trim().slice(0, 300);
+        if (!q) {
+          res.status(200).json(reply('請輸入問題，例如 `/websearch 屋宇署最近有咩簡樸房公告`。', { ephemeral: true }));
+          return;
+        }
+        res.status(200).json({ type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE });
+        waitUntil(
+          (async () => {
+            const result = await aiWebSearch(q);
+            const sourcesText = result.sources?.length
+              ? '\n\n**參考來源：**\n' + result.sources.map((s) => `<${s}>`).join('\n')
+              : '';
+            await patchDeferredReply(body.token, `🔎 **${q}**\n\n${result.text}${sourcesText}`);
+          })()
+        );
+        return;
+      }
+
+      case 'broadcast': {
+        const channelId = getOption(options, 'channel');
+        const message = String(getOption(options, 'message') || '').trim().slice(0, 1800);
+        if (!channelId || !message) {
+          res.status(200).json(reply('用法：`/broadcast channel:#頻道 message:內容`。', { ephemeral: true }));
+          return;
+        }
+        const botToken = process.env.DISCORD_BOT_TOKEN;
+        const r = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
+          method: 'POST',
+          headers: { Authorization: `Bot ${botToken}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content: message }),
+        });
+        res.status(200).json(
+          reply(
+            r.ok
+              ? `📣 已用 AAEL Bot 身份發送去 <#${channelId}>。`
+              : `發送失敗（HTTP ${r.status}）${r.status === 403 ? '——Bot 喺嗰個頻道冇「發送訊息」權限。' : ''}`,
+            { ephemeral: true }
+          )
+        );
+        return;
+      }
+
+      case 'slowmode': {
+        const seconds = Math.min(Math.max(parseInt(getOption(options, 'seconds'), 10) || 0, 0), 21600);
+        const targetChannel = getOption(options, 'channel') || body.channel_id;
+        const botToken = process.env.DISCORD_BOT_TOKEN;
+        const r = await fetch(`https://discord.com/api/v10/channels/${targetChannel}`, {
+          method: 'PATCH',
+          headers: { Authorization: `Bot ${botToken}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ rate_limit_per_user: seconds }),
+        });
+        res.status(200).json(
+          reply(
+            r.ok
+              ? seconds === 0
+                ? `⏱️ 已關閉 <#${targetChannel}> 嘅慢速模式。`
+                : `⏱️ 已將 <#${targetChannel}> 慢速模式設為每 ${seconds} 秒一條訊息。`
+              : `設定失敗（HTTP ${r.status}）${r.status === 403 ? '——Bot 需要「管理頻道 Manage Channels」權限。' : ''}`,
+            { ephemeral: true }
+          )
         );
         return;
       }

@@ -11,6 +11,7 @@
 //   WEEKLY_STATS_SECRET（自己諗一串字防止亂 call）
 
 import { notifyDiscord } from '../lib/discord-notify.mjs';
+import { loadAllRecords, recordsToCsv } from '../lib/records.mjs';
 
 function hkDate(offsetDays = 0) {
   return new Date(Date.now() + 8 * 3600 * 1000 - offsetDays * 86400000).toISOString().slice(0, 10);
@@ -94,5 +95,37 @@ export default async function handler(req, res) {
     webhookUrl: process.env.DISCORD_WEEKLY_WEBHOOK_URL || process.env.DISCORD_STATS_WEBHOOK_URL,
   });
 
-  res.status(200).json({ ok: true, dates, totalPageviews, totalChat });
+  // ---- 每週客戶記錄自動備份（CSV 附件 → 私人頻道） ----
+  // 客戶記錄而家只存在 Upstash 免費層，冇任何其他備份；每星期自動掟一份
+  // CSV 落私人頻道，防「資料唔見咗」呢種災難。PDPO：檔案有客戶個人資料，
+  // 只可以去私人頻道，唔好再轉發或者上載去 GitHub。
+  let backupCount = 0;
+  try {
+    const backupWebhook =
+      process.env.DISCORD_BACKUP_WEBHOOK_URL ||
+      process.env.DISCORD_BHU_WEBHOOK_URL ||
+      process.env.DISCORD_FORM_WEBHOOK_URL;
+    if (backupWebhook) {
+      const records = await loadAllRecords();
+      backupCount = records.length;
+      if (records.length) {
+        records.sort((a, b) => String(b.rec.registeredAt || '').localeCompare(String(a.rec.registeredAt || '')));
+        const csv = recordsToCsv(records);
+        const fd = new FormData();
+        fd.append(
+          'payload_json',
+          JSON.stringify({
+            username: 'AAEL Bot',
+            content: `📦 每週客戶記錄自動備份 — ${dates[6]}（共 ${records.length} 條）。PDPO：私人頻道限定，請勿轉發。`,
+          })
+        );
+        fd.append('files[0]', new Blob([csv], { type: 'text/csv; charset=utf-8' }), `AAEL_記錄備份_${dates[6]}.csv`);
+        await fetch(backupWebhook, { method: 'POST', body: fd });
+      }
+    }
+  } catch (err) {
+    console.error('每週備份失敗（唔影響統計摘要）', err);
+  }
+
+  res.status(200).json({ ok: true, dates, totalPageviews, totalChat, backupCount });
 }

@@ -93,8 +93,68 @@ export default async function handler(req, res) {
     },
     {
       name: 'stats',
-      description: '即時查今日網站數據：瀏覽量、AI用量、熱門頁面（管理員限定）',
+      description: '即時查網站數據：今日詳情或最近幾日趨勢（管理員限定）',
       default_member_permissions: '8',
+      options: [
+        {
+          name: 'days',
+          description: '睇最近幾多日趨勢（1-9，唔填 = 今日詳情）',
+          type: 4, // INTEGER
+          required: false,
+          min_value: 1,
+          max_value: 9,
+        },
+      ],
+    },
+    {
+      name: 'note',
+      description: '為一條查詢記錄加跟進備註（管理員限定）',
+      default_member_permissions: '8',
+      options: [
+        { name: 'id', description: '記錄短編號（用 /pending 或 /lookup 睇）', type: 3, required: true },
+        { name: 'text', description: '備註內容，例如「已致電，等業主開會決定」', type: 3, required: true },
+      ],
+    },
+    {
+      name: 'undone',
+      description: '將一條記錄由已完成還原做未跟進（管理員限定）',
+      default_member_permissions: '8',
+      options: [
+        { name: 'id', description: '記錄短編號', type: 3, required: true },
+      ],
+    },
+    {
+      name: 'whois',
+      description: '睇一條記錄嘅完整資料連跟進備註（管理員限定）',
+      default_member_permissions: '8',
+      options: [
+        { name: 'id', description: '記錄短編號', type: 3, required: true },
+      ],
+    },
+    {
+      name: 'websearch',
+      description: '用 AI 網上搜尋任何題目，例如政策更新、條例改動',
+      options: [
+        { name: 'query', description: '想搜尋嘅問題', type: 3, required: true },
+      ],
+    },
+    {
+      name: 'broadcast',
+      description: '用 AAEL Bot 身份發公告去指定頻道（管理員限定）',
+      default_member_permissions: '8',
+      options: [
+        { name: 'channel', description: '發去邊個頻道', type: 7, required: true, channel_types: [0] },
+        { name: 'message', description: '公告內容', type: 3, required: true },
+      ],
+    },
+    {
+      name: 'slowmode',
+      description: '設定頻道慢速模式（管理員限定）',
+      default_member_permissions: '8',
+      options: [
+        { name: 'seconds', description: '每條訊息間隔秒數（0 = 關閉，最多 21600）', type: 4, required: true, min_value: 0, max_value: 21600 },
+        { name: 'channel', description: '邊個頻道（唔填 = 而家呢個）', type: 7, required: false, channel_types: [0] },
+      ],
     },
     {
       name: 'pending',
@@ -111,6 +171,31 @@ export default async function handler(req, res) {
           description: '記錄短編號（用 /pending 或 /lookup 睇）',
           type: 3,
           required: true,
+        },
+      ],
+    },
+    {
+      name: 'export',
+      description: '將全部查詢／BHU記錄匯出做 CSV 檔（Excel 直接開得，管理員限定）',
+      default_member_permissions: '8',
+    },
+    {
+      name: 'wipe',
+      description: '永久刪除包含關鍵字嘅記錄——會先預覽，加 confirm:yes 先真係刪（管理員限定）',
+      default_member_permissions: '8',
+      options: [
+        {
+          name: 'keyword',
+          description: '關鍵字，例如 test（會搜姓名／聯絡／地址／內容）',
+          type: 3,
+          required: true,
+        },
+        {
+          name: 'confirm',
+          description: '輸入 yes 先會真係刪除；唔填就只係預覽',
+          type: 3,
+          required: false,
+          choices: [{ name: 'yes — 確認永久刪除', value: 'yes' }],
         },
       ],
     },

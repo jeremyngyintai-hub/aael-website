@@ -14,6 +14,7 @@
 //   DISCORD_FORM_WEBHOOK_URL / DISCORD_BHU_WEBHOOK_URL
 
 import { notifyDiscord } from '../lib/discord-notify.mjs';
+import { shortId } from '../lib/records.mjs';
 
 // 簡單防濫用：呢個 endpoint 冇登入，任何人都可以 POST。加兩重輕量防護：
 //   (a) Origin 檢查——正常瀏覽器提交會帶 Origin header，唔係嚟自 aael.online
@@ -83,6 +84,11 @@ export default async function handler(req, res) {
     discordFields.push({ name: '查詢內容', value: message.slice(0, 900), inline: false });
   }
 
+  // 預先產生記錄 ID，等 Discord 通知可以直接顯示短編號——
+  // 收到通知就可以即刻 /done /note，唔使先行 /pending 搵編號
+  const recordId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  discordFields.push({ name: '編號（/done /note 用）', value: '`' + shortId(recordId) + '`', inline: true });
+
   // (a) 推送去 Discord（PDPO：務必用私人頻道）
   const webhookUrl =
     formType === 'bhu-renewal'
@@ -98,7 +104,7 @@ export default async function handler(req, res) {
   if (upstashUrl && upstashToken) {
     try {
       const headers = { Authorization: `Bearer ${upstashToken}` };
-      const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      const id = recordId;
       const prefix = formType === 'bhu-renewal' ? 'bhu' : 'inquiry';
       const record = JSON.stringify(
         formType === 'bhu-renewal'
